@@ -16,15 +16,15 @@ import androidx.annotation.UiThread
 import com.robotemi.sdk.activitystream.ActivityStreamObject
 import com.robotemi.sdk.activitystream.ActivityStreamPublishMessage
 import com.robotemi.sdk.activitystream.ActivityStreamUtils
-import com.robotemi.sdk.telepresence.CallState
-import com.robotemi.sdk.model.RecentCallModel
 import com.robotemi.sdk.constants.SdkConstants
 import com.robotemi.sdk.listeners.*
 import com.robotemi.sdk.mediabar.AidlMediaBarController
 import com.robotemi.sdk.mediabar.MediaBarData
+import com.robotemi.sdk.model.RecentCallModel
 import com.robotemi.sdk.notification.AlertNotification
 import com.robotemi.sdk.notification.NormalNotification
 import com.robotemi.sdk.notification.NotificationCallback
+import com.robotemi.sdk.telepresence.CallState
 import java.util.*
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -362,7 +362,7 @@ class Robot private constructor(context: Context) {
             if (onUserInteractionChangedListeners.size > 0) {
                 uiHandler.post {
                     for (listener in onUserInteractionChangedListeners) {
-                        listener.onUserInteraction(isInteracting);
+                        listener.onUserInteraction(isInteracting)
                     }
                 }
                 return true
@@ -832,7 +832,7 @@ class Robot private constructor(context: Context) {
 
     @UiThread
     fun removeOnConstraintBeWithStatusChangedListener(listener: OnConstraintBeWithStatusChangedListener) {
-        onConstraintBeWithStatusChangedListeners.remove(listener);
+        onConstraintBeWithStatusChangedListeners.remove(listener)
     }
 
     /*****************************************/
@@ -899,7 +899,10 @@ class Robot private constructor(context: Context) {
             try {
                 return it.startTelepresence(displayName, peerId) ?: ""
             } catch (e: RemoteException) {
-                Log.e(TAG, "startTelepresence(String, String) (displayName=$displayName, peerId=$peerId)")
+                Log.e(
+                    TAG,
+                    "startTelepresence(String, String) (displayName=$displayName, peerId=$peerId)"
+                )
             }
 
         }
@@ -1168,7 +1171,10 @@ class Robot private constructor(context: Context) {
                     Log.e(TAG, "toggleNavigationBillboard() error.")
                 }
             } else {
-                Log.e(TAG, "toggleNavigationBillboard() Billboard can only be toggled in Kiosk Mode")
+                Log.e(
+                    TAG,
+                    "toggleNavigationBillboard() Billboard can only be toggled in Kiosk Mode"
+                )
             }
         }
     }
@@ -1189,7 +1195,7 @@ class Robot private constructor(context: Context) {
                 try {
                     it.shareActivityStreamObject(activityStreamObject)
                 } catch (e: RemoteException) {
-                    Log.e(TAG, "Sdk service is null")
+                    Log.e(TAG, "Sdk service is null") Log . e (TAG, "Sdk service is null")
                 }
             }
         }
@@ -1229,12 +1235,12 @@ class Robot private constructor(context: Context) {
 
     @UiThread
     fun addOnUserInteractionChangedListener(listener: OnUserInteractionChangedListener) {
-        onUserInteractionChangedListeners.add(listener);
+        onUserInteractionChangedListeners.add(listener)
     }
 
     @UiThread
     fun removeOnUserInteractionChangedListener(listener: OnUserInteractionChangedListener) {
-        onUserInteractionChangedListeners.remove(listener);
+        onUserInteractionChangedListeners.remove(listener)
     }
 
     @UiThread
@@ -1245,6 +1251,22 @@ class Robot private constructor(context: Context) {
     @UiThread
     fun removeDetectionStateChangedListener(listener: OnDetectionStateChangedListener) {
         onDetectionStateChangedListeners.remove(listener)
+    }
+
+    fun askQuestion(question: String) {
+        try {
+            sdkService?.askQuestion(question)
+        } catch (e: RemoteException) {
+            Log.e(TAG, "Ask question call failed.")
+        }
+    }
+
+    fun finishConversation() {
+        try {
+            sdkService?.finishConversation()
+        } catch (e: RemoteException) {
+            Log.e(TAG, "Finish conversation call failed.")
+        }
     }
 
     /*****************************************/
