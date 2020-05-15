@@ -38,6 +38,8 @@ import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    public EditText etSpeak, etSaveLocation, etGoTo, etCustom;
+    public EditText etSpeak, etSaveLocation, etGoTo;
     List<String> locations;
     private Robot robot;
 
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements
 
         //demo speak
         robot.speak(TtsRequest.create("Hello, World. This is when onStart functions are called.", true));
+        System.out.println("Where does this println go?");
     }
 
     /**
@@ -176,8 +179,53 @@ public class MainActivity extends AppCompatActivity implements
         hideKeyboard(MainActivity.this);
     }
 
-    public void speakCustom(View view) {
-        robot.speak(TtsRequest.create("Starting custom routine. Beep boop exterminate.", true));
+    //TODO abstract these away neatly
+
+    /**
+     * This custom method implements the "patrol" functionality.
+     *
+     * @param view
+     */
+    public void custom(View view) {
+        TtsRequest tts = TtsRequest.create("Starting custom routine. Beep boop exterminate.", true);
+        robot.speak(tts);
+
+        //this listener does not provide a way to select a specific tts request?
+
+        robot.addTtsListener(new Robot.TtsListener() {
+            @Override
+            public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
+                if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
+                    System.out.println("COMPLETED");
+                    //if(TtsRequest.getStatus()==TtsRequest.Status.COMPLETED);
+
+                }
+            }
+        });
+
+        //robot.speak(TtsRequest.create("I will start my patrol.", false));
+        /*robot.speak(TtsRequest.create("Getting saved locations.", false));
+        //get locations
+        List<String> locations;
+        locations = robot.getLocations();
+        if (locations.isEmpty()) {
+            robot.speak(TtsRequest.create("No locations saved. I will turn on the spot instead", false));
+            robot.turnBy(360);
+        } else {
+            //go to each location in the list n times
+            int n = 2;
+            //patrol loops
+            for (int i = 0; i < 2; i++) {
+                //location loop
+                for (int j = 0; j < locations.size(); j++) {
+                    String l = locations.get(i);
+                    robot.speak(TtsRequest.create("Going to location named " + l + " with index " + j, true));
+                    robot.goTo(l);
+                }
+                robot.speak(TtsRequest.create("I am finished with patrol loop " + i, true));
+            }
+            robot.speak(TtsRequest.create("I am done with my patrol.", true));
+        }*/
     }
 
     /**
@@ -518,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onAsrResult(@NonNull String asrResult){
+    public void onAsrResult(@NonNull String asrResult) {
         Log.d("onAsrResult", "asrResult = " + asrResult);
     }
 
