@@ -91,6 +91,18 @@
                 android:text="@string/speak"
                 android:textSize="18sp" />
 
+        <Button
+            android:id="@+id/btnCustom"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@color/colorAccent"
+            android:onClick="speakCustom"
+            android:text="Custom Function"
+            android:textSize="18sp" />
+
 
     </LinearLayout>
 

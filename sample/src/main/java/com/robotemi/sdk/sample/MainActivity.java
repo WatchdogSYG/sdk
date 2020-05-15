@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements
     // Storage Permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    public EditText etSpeak, etSaveLocation, etGoTo;
+    public EditText etSpeak, etSaveLocation, etGoTo, etCustom;
     List<String> locations;
     private Robot robot;
 
@@ -109,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnConstraintBeWithStatusChangedListener(this);
         robot.addOnDetectionStateChangedListener(this);
         robot.addAsrListener(this);
+
+        //demo speak
+        robot.speak(TtsRequest.create("Hello, World. This is when onStart functions are called.", true));
     }
 
     /**
@@ -128,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements
         robot.removeDetectionStateChangedListener(this);
         robot.removeAsrListener(this);
         robot.stopMovement();
+
+        //demo speak
+        robot.speak(TtsRequest.create("Hello, World. This is when onStop functions are called.", true));
     }
 
     /**
@@ -168,6 +174,10 @@ public class MainActivity extends AppCompatActivity implements
         TtsRequest ttsRequest = TtsRequest.create(etSpeak.getText().toString().trim(), true);
         robot.speak(ttsRequest);
         hideKeyboard(MainActivity.this);
+    }
+
+    public void speakCustom(View view) {
+        robot.speak(TtsRequest.create("Starting custom routine. Beep boop exterminate.", true));
     }
 
     /**
