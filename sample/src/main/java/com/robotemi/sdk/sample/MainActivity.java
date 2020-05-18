@@ -42,8 +42,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
+
+import flinderstemi.util.LocationSequence;
 
 public class MainActivity extends AppCompatActivity implements
         Robot.NlpListener,
@@ -190,15 +191,17 @@ public class MainActivity extends AppCompatActivity implements
     public void custom(View view) {
 
         //this listener does not provide a way to select a specific tts request?
-        List<TtsRequest> a = new ArrayList<TtsRequest>();
-        a.add(TtsRequest.create("Starting custom routine. Beep boop.", true));
-        a.add(TtsRequest.create("I will start my patrol.", true));
-        a.add(TtsRequest.create("TTS Request 2", true));
-        a.add(TtsRequest.create("TTS Request 3", true));
-        a.add(TtsRequest.create("TTS Requests complete.", true));
+        LocationSequence routine = new LocationSequence(robot);
+        System.out.println("Create Routine");
+        synchronized (routine) {
+            new Thread(routine).start();
+            System.out.println("Started");
+            Robot.TtsListener l = new ttsListener(robot, routine);
+            System.out.println("Add new Listener");
+            robot.addTtsListener(l);
+            System.out.println("Added new Listener");
+        }
 
-        Robot.TtsListener l = new ttsListener(a);
-        robot.addTtsListener(l);
 
         //robot.speak(TtsRequest.create("I will start my patrol.", false));
         /*robot.speak(TtsRequest.create("Getting saved locations.", false));
@@ -225,34 +228,26 @@ public class MainActivity extends AppCompatActivity implements
         }*/
     }
 
-    public class ttsListener implements Robot.TtsListener {
-        private List<TtsRequest> list;
-        int index;
+    public static class ttsListener implements Robot.TtsListener {
+        LocationSequence ls;
+        Robot robot;
 
-        public ttsListener(List<TtsRequest> l) {
-            list = l;
-            index = 0;
-
-            //speak the first one
-            robot.speak(list.get(index));
-            index++;
-        }
-
-        private void speech(int i) {
-            robot.speak(list.get(i));
+        public ttsListener(Robot r, LocationSequence ls) {
+            this.ls = ls;
+            this.robot = r;
         }
 
         @Override
         public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
-            //if the status of the current ttsrequest changes to COMPLETED
-            System.out.println("TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
-            if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
-                //if there arent any ttsrequs left to do
-                if (index < list.size()) {
-                    speech(index);
-                    index++;
-                } else if (index == list.size() - 1) {
-                    //we are done
+            synchronized (ls) {
+                //if the status of the current ttsrequest changes to COMPLETED
+                System.out.println("TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
+                if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
+                    ls.notify();
+                }
+                if (ls.isCompleteSpeechSub()) {
+                    System.out.println("ListenerRemoved");
+                    ls.notify();
                     robot.removeTtsListener(this);
                 }
             }
