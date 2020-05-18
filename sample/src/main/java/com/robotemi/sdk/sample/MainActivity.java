@@ -42,6 +42,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
@@ -187,21 +188,17 @@ public class MainActivity extends AppCompatActivity implements
      * @param view
      */
     public void custom(View view) {
-        TtsRequest tts = TtsRequest.create("Starting custom routine. Beep boop exterminate.", true);
-        robot.speak(tts);
 
         //this listener does not provide a way to select a specific tts request?
+        List<TtsRequest> a = new ArrayList<TtsRequest>();
+        a.add(TtsRequest.create("Starting custom routine. Beep boop.", true));
+        a.add(TtsRequest.create("I will start my patrol.", true));
+        a.add(TtsRequest.create("TTS Request 2", true));
+        a.add(TtsRequest.create("TTS Request 3", true));
+        a.add(TtsRequest.create("TTS Requests complete.", true));
 
-        robot.addTtsListener(new Robot.TtsListener() {
-            @Override
-            public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
-                if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
-                    System.out.println("COMPLETED");
-                    //if(TtsRequest.getStatus()==TtsRequest.Status.COMPLETED);
-
-                }
-            }
-        });
+        Robot.TtsListener l = new ttsListener(a);
+        robot.addTtsListener(l);
 
         //robot.speak(TtsRequest.create("I will start my patrol.", false));
         /*robot.speak(TtsRequest.create("Getting saved locations.", false));
@@ -227,6 +224,41 @@ public class MainActivity extends AppCompatActivity implements
             robot.speak(TtsRequest.create("I am done with my patrol.", true));
         }*/
     }
+
+    public class ttsListener implements Robot.TtsListener {
+        private List<TtsRequest> list;
+        int index;
+
+        public ttsListener(List<TtsRequest> l) {
+            list = l;
+            index = 0;
+
+            //speak the first one
+            robot.speak(list.get(index));
+            index++;
+        }
+
+        private void speech(int i) {
+            robot.speak(list.get(i));
+        }
+
+        @Override
+        public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
+            //if the status of the current ttsrequest changes to COMPLETED
+            System.out.println("TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
+            if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
+                //if there arent any ttsrequs left to do
+                if (index < list.size()) {
+                    speech(index);
+                    index++;
+                } else if (index == list.size() - 1) {
+                    //we are done
+                    robot.removeTtsListener(this);
+                }
+            }
+        }
+    }
+
 
     /**
      * This is an example of saving locations.
