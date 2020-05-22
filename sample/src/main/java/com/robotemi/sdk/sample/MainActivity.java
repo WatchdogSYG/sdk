@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -69,117 +70,8 @@ public class MainActivity extends AppCompatActivity implements
     List<String> locations;
     private Robot robot;
 
-    /**
-     * Hiding keyboard after every button press
-     */
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+    private TextView textView;
 
-    /**
-     * Checks if the app has permission to write to device storage
-     * If the app does not has permission then the user will be prompted to grant permissions
-     */
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
-        }
-    }
-
-    /**
-     * Setting up all the event listeners
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-        robot.addOnRobotReadyListener(this);
-        robot.addNlpListener(this);
-        robot.addOnBeWithMeStatusChangedListener(this);
-        robot.addOnGoToLocationStatusChangedListener(this);
-        robot.addConversationViewAttachesListenerListener(this);
-        robot.addWakeupWordListener(this);
-        robot.addTtsListener(this);
-        robot.addOnLocationsUpdatedListener(this);
-        robot.addOnConstraintBeWithStatusChangedListener(this);
-        robot.addOnDetectionStateChangedListener(this);
-        robot.addAsrListener(this);
-
-        //demo speak
-        robot.speak(TtsRequest.create("Hello, World. This is when onStart functions are called.", true));
-        System.out.println("Where does this println go?");
-    }
-
-    /**
-     * Removing the event listeners upon leaving the app.
-     */
-    @Override
-    protected void onStop() {
-        super.onStop();
-        robot.removeOnRobotReadyListener(this);
-        robot.removeNlpListener(this);
-        robot.removeOnBeWithMeStatusChangedListener(this);
-        robot.removeOnGoToLocationStatusChangedListener(this);
-        robot.removeConversationViewAttachesListenerListener(this);
-        robot.removeWakeupWordListener(this);
-        robot.removeTtsListener(this);
-        robot.removeOnLocationsUpdateListener(this);
-        robot.removeDetectionStateChangedListener(this);
-        robot.removeAsrListener(this);
-        robot.stopMovement();
-
-        //demo speak
-        robot.speak(TtsRequest.create("Hello, World. This is when onStop functions are called.", true));
-    }
-
-    /**
-     * Places this application in the top bar for a quick access shortcut.
-     */
-    @Override
-    public void onRobotReady(boolean isReady) {
-        if (isReady) {
-            try {
-                final ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
-                robot.onStart(activityInfo);
-            } catch (PackageManager.NameNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        initViews();
-        verifyStoragePermissions(this);
-        robot = Robot.getInstance(); // get an instance of the robot in order to begin using its features.
-    }
-
-    public void initViews() {
-        etSpeak = findViewById(R.id.etSpeak);
-        etSaveLocation = findViewById(R.id.etSaveLocation);
-        etGoTo = findViewById(R.id.etGoTo);
-    }
-
-    /**
-     * Have the robot speak while displaying what is being said.
-     */
-    public void speak(View view) {
-        TtsRequest ttsRequest = TtsRequest.create(etSpeak.getText().toString().trim(), true);
-        robot.speak(ttsRequest);
-        hideKeyboard(MainActivity.this);
-    }
 
     //TODO abstract these away neatly
 
@@ -244,16 +136,139 @@ public class MainActivity extends AppCompatActivity implements
                 System.out.println("TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
                 if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
                     ls.notify();
+                    //if the speech routine is complete, remove the listener
+                    if (ls.isCompleteSpeechSub()) {
+                        System.out.println("ListenerRemoved");
+                        ls.notify();
+                        robot.removeTtsListener(this);
+                    }
                 }
-                if (ls.isCompleteSpeechSub()) {
-                    System.out.println("ListenerRemoved");
-                    ls.notify();
-                    robot.removeTtsListener(this);
-                }
+
             }
         }
     }
 
+    /**************************************************************************************************************************
+     * System calls and utilities
+     *************************************************************************************************************************/
+
+    /**
+     * Hiding keyboard after every button press
+     */
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    /**
+     * Checks if the app has permission to write to device storage
+     * If the app does not has permission then the user will be prompted to grant permissions
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+        }
+    }
+
+    /**
+     * Setting up all the event listeners
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        robot.addOnRobotReadyListener(this);
+        robot.addNlpListener(this);
+        robot.addOnBeWithMeStatusChangedListener(this);
+        robot.addOnGoToLocationStatusChangedListener(this);
+        robot.addConversationViewAttachesListenerListener(this);
+        robot.addWakeupWordListener(this);
+        robot.addTtsListener(this);
+        robot.addOnLocationsUpdatedListener(this);
+        robot.addOnConstraintBeWithStatusChangedListener(this);
+        robot.addOnDetectionStateChangedListener(this);
+        robot.addAsrListener(this);
+
+        //demo speak
+        robot.hideTopBar();
+        robot.toggleNavigationBillboard(true);
+        robot.speak(TtsRequest.create("Hello, World. This is when onStart functions are called.", true));
+
+        textView.append("Initialising");
+        System.out.println("Where does this println go?");
+    }
+
+    /**
+     * Removing the event listeners upon leaving the app.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+        robot.removeOnRobotReadyListener(this);
+        robot.removeNlpListener(this);
+        robot.removeOnBeWithMeStatusChangedListener(this);
+        robot.removeOnGoToLocationStatusChangedListener(this);
+        robot.removeConversationViewAttachesListenerListener(this);
+        robot.removeWakeupWordListener(this);
+        robot.removeTtsListener(this);
+        robot.removeOnLocationsUpdateListener(this);
+        robot.removeDetectionStateChangedListener(this);
+        robot.removeAsrListener(this);
+        robot.stopMovement();
+
+        //demo speak
+        robot.speak(TtsRequest.create("Hello, World. This is when onStop functions are called.", true));
+    }
+
+    /**
+     * Places this application in the top bar for a quick access shortcut.
+     */
+    @Override
+    public void onRobotReady(boolean isReady) {
+        if (isReady) {
+            try {
+                final ActivityInfo activityInfo = getPackageManager().getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
+                robot.onStart(activityInfo);
+            } catch (PackageManager.NameNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        initViews();
+        verifyStoragePermissions(this);
+        robot = Robot.getInstance(); // get an instance of the robot in order to begin using its features.
+    }
+
+    /**************************************************************************************************************************
+     * Sample functionality
+     *************************************************************************************************************************/
+
+    public void initViews() {
+        textView = findViewById(R.id.textView);
+    }
+
+    /**
+     * Have the robot speak while displaying what is being said.
+     */
+    public void speak(View view) {
+        TtsRequest ttsRequest = TtsRequest.create(etSpeak.getText().toString().trim(), true);
+        robot.speak(ttsRequest);
+        hideKeyboard(MainActivity.this);
+    }
 
     /**
      * This is an example of saving locations.
