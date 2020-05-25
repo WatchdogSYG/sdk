@@ -23,7 +23,7 @@ import com.robotemi.sdk.listeners.OnRobotReadyListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import flinderstemi.util.InitialisationSequence;
+import flinderstemi.util.StateMachine;
 
 public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusChangedListener, OnConstraintBeWithStatusChangedListener, OnDetectionStateChangedListener, OnGoToLocationStatusChangedListener, OnRobotReadyListener {
     public EditText etSpeak;
@@ -40,15 +40,17 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
     public void custom(View view) {
 
         //this listener does not provide a way to select a specific tts request?
-        InitialisationSequence routine = new InitialisationSequence(robot);
-        System.out.println("Create Routine");
-        synchronized (routine) {
-            new Thread(routine).start();
-            System.out.println("Started");
-            Robot.TtsListener l = new ttsListener(robot, routine);
-            System.out.println("Add new Listener");
+        StateMachine initialisation = new StateMachine(robot);
+        System.out.println("FLINTEMI: Create Initialisation Routine");
+        textView.setText("Current Action: Initialising");
+
+        synchronized (initialisation) {
+            new Thread(initialisation).start();
+            System.out.println("FLINTEMI: Started");
+            Robot.TtsListener l = new ttsListener(robot, initialisation);
+            System.out.println("FLINTEMI: Add new Listener");
             robot.addTtsListener(l);
-            System.out.println("Added new Listener");
+            System.out.println("FLINTEMI: Added new Listener");
         }
 
 
@@ -77,30 +79,67 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         }*/
     }
 
+    //TODO handle cancelled and abort statuses due to "Hey, Temi" wakeups
+
     public static class ttsListener implements Robot.TtsListener {
-        InitialisationSequence ls;
+        StateMachine stateMachine;
         Robot robot;
 
-        public ttsListener(Robot r, InitialisationSequence ls) {
-            this.ls = ls;
-            this.robot = r;
+        public ttsListener(Robot robot, StateMachine stateMachine) {
+            System.out.println("FLINTEMI: Construct ttsListener");
+            this.stateMachine = stateMachine;
+            this.robot = robot;
         }
 
         @Override
         public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
-            synchronized (ls) {
+            synchronized (stateMachine) {
                 //if the status of the current ttsrequest changes to COMPLETED
-                System.out.println("TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
+                System.out.println("FLINTEMI: TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
                 if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
-                    ls.notify();
+                    System.out.println("FLINTEMI: ttsReqeustStatus=COMPLETED,notify");
+                    stateMachine.notify();
                     //if the speech routine is complete, remove the listener
-                    if (ls.isCompleteSpeechSub()) {
-                        System.out.println("ListenerRemoved");
-                        ls.notify();
+                    if (stateMachine.isCompleteSpeechSub()) {
+                        System.out.println("FLINTEMI: ttsReqeustStatus=COMPLETED,stateMachine.isCompleteSub=true,notify");
+                        stateMachine.notify();
+                        System.out.println("FLINTEMI: addOnGoToLocationStatusChangedListener");
+                        robot.addOnGoToLocationStatusChangedListener(new patrolLocationListener(robot, stateMachine));
                         robot.removeTtsListener(this);
+                        System.out.println("FLINTEMI: ttsListenerRemoved");
                     }
                 }
 
+            }
+        }
+    }
+
+    public static class patrolLocationListener implements OnGoToLocationStatusChangedListener {
+        StateMachine stateMachine;
+        Robot robot;
+
+        public patrolLocationListener(Robot r, StateMachine stateMachine) {
+            System.out.println("FLINTEMI: Construct patrolLocationListener");
+            this.stateMachine = stateMachine;
+            this.robot = r;
+        }
+
+        @Override
+        public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
+            System.out.println("FLINTEMI: onGoToLocationStatusChanged:location=" + location + ",status=" + status + ",description=" + description);
+            synchronized (stateMachine) {
+                if (status.equals(OnGoToLocationStatusChangedListener.COMPLETE)) {
+                    System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify");
+                    stateMachine.notify();
+                }
+                //if the patrol routine is complete, remove the listener
+                if (stateMachine.isCompletePatrolSub()) {
+                    System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,stateMachine.isCompleteSub=true,notify");
+                    stateMachine.notify();
+                    //would add the next listener here
+                    robot.removeOnGoToLocationStatusChangedListener(this);
+                    System.out.println("FLINTEMI: OnGoToLocationStatusChangedListenerRemoved");
+                }
             }
         }
     }
@@ -153,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         robot.toggleNavigationBillboard(true);
         robot.speak(TtsRequest.create("Hello, World. This is when onStart functions are called.", true));
 
-        textView.append("Initialising");
+        textView.setText("Current Action: onStart");
     }
 
     /**
