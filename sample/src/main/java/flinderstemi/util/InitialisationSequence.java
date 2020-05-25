@@ -11,7 +11,7 @@ import com.robotemi.sdk.TtsRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationSequence implements Runnable {
+public class InitialisationSequence implements Runnable {
 
     Robot robot;
     List<TtsRequest> a;
@@ -23,7 +23,7 @@ public class LocationSequence implements Runnable {
         return completeSpeechSub;
     }
 
-    public LocationSequence(Robot robot) {
+    public InitialisationSequence(Robot robot) {
         System.out.println("Constructor");
         completeSpeechSub = false;
         this.robot = robot;
