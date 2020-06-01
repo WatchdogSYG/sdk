@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
                     case OnGoToLocationStatusChangedListener.COMPLETE:
                         if (status.equals(OnGoToLocationStatusChangedListener.COMPLETE)) {
                             System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify");
+                            stateMachine.arrived();
                             stateMachine.notify();
                         }
                         //if the patrol routine is complete, remove the listener
@@ -318,23 +319,23 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         Log.d("GoToStatusChanged", "descriptionId=" + descriptionId + ", description=" + description);
         switch (status) {
             case "start":
-                robot.speak(TtsRequest.create("Starting", false));
+                //robot.speak(TtsRequest.create("Starting", false));
                 break;
 
             case "calculating":
-                robot.speak(TtsRequest.create("Calculating", false));
+                //robot.speak(TtsRequest.create("Calculating", false));
                 break;
 
             case "going":
-                robot.speak(TtsRequest.create("Going", false));
+                //robot.speak(TtsRequest.create("Going", false));
                 break;
 
             case "complete":
-                robot.speak(TtsRequest.create("Completed", false));
+                //robot.speak(TtsRequest.create("Completed", false));
                 break;
 
             case "abort":
-                robot.speak(TtsRequest.create("Abort", false));
+                //robot.speak(TtsRequest.create("Abort", false));
                 break;
         }
     }

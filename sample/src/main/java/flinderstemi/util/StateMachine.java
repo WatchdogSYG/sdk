@@ -11,6 +11,7 @@ import com.robotemi.sdk.TtsRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class StateMachine implements Runnable {
 
@@ -28,11 +29,12 @@ public class StateMachine implements Runnable {
     int locationLoopIndex;
     final int maxPatrolLoops = 100;
     final int initialState = 0;
+    private int previousState;
 
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
     private boolean completePatrolSub;
-    private boolean waiting;
+    private boolean manualWaiting;
 
     public boolean isCompleteSpeechSub() {
         return completeSpeechSub;
@@ -42,25 +44,27 @@ public class StateMachine implements Runnable {
         return completePatrolSub;
     }
 
-    public boolean isWaiting() {
-        return waiting;
-    }
 
-    public void setWaiting(boolean waiting) {
-        this.waiting = waiting;
+    public void arrived() {
+        previousState = state;
+        state = 2;
     }
 
     public void waitFor(int seconds) {
-        final Timer timer = new Timer() {
-            public void run() {
-                waiting = false;
-                this.cancel();
-            }
-        };
+        Timer timer = new Timer();
+        timer.schedule(new WaitTask(), 1000 * seconds);
+    }
+
+    class WaitTask extends TimerTask {
+        public void run() {
+            manualWaiting = true;
+            state = previousState;
+            this.cancel();
+        }
     }
 
 
-    //TODO should this be public?
+    //TODO should this be public? also it crashes
     public void tryActionAgain() {
         System.out.println("FLINTEMI: Manually repeat state.");
 
@@ -91,6 +95,7 @@ public class StateMachine implements Runnable {
         speechIndex = 0;
         locationIndex = 1;//not homebase at 0
         locationLoopIndex = 0;
+        manualWaiting = false;
 
         speechQueue = new ArrayList<TtsRequest>();
         speechQueue.add(TtsRequest.create("Starting custom routine. Beep boop.", true));
@@ -146,8 +151,7 @@ public class StateMachine implements Runnable {
                 }
                 break;
             case 2://stop and wait
-                System.out.println("FLINTEMI: Waiting for 10 seconds.");
-
+                System.out.println("FLINTEMI: Timer for 10 seconds.");
                 waitFor(10);
                 break;
             case 3://terminate
@@ -173,7 +177,10 @@ public class StateMachine implements Runnable {
             synchronized (this) {
                 try {
                     System.out.println("FLINTEMI: try state machine wait");
-                    wait();
+                    //if we are not using a timer to wait, wait forever until notified
+                    if (!manualWaiting) {
+                        wait();
+                    }
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
