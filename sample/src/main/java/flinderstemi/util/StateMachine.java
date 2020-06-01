@@ -10,6 +10,7 @@ import com.robotemi.sdk.TtsRequest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class StateMachine implements Runnable {
 
@@ -25,12 +26,13 @@ public class StateMachine implements Runnable {
     int speechIndex;
     int locationIndex;
     int locationLoopIndex;
-    final int maxPatrolLoops = 3;
+    final int maxPatrolLoops = 100;
     final int initialState = 0;
 
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
     private boolean completePatrolSub;
+    private boolean waiting;
 
     public boolean isCompleteSpeechSub() {
         return completeSpeechSub;
@@ -38,6 +40,46 @@ public class StateMachine implements Runnable {
 
     public boolean isCompletePatrolSub() {
         return completePatrolSub;
+    }
+
+    public boolean isWaiting() {
+        return waiting;
+    }
+
+    public void setWaiting(boolean waiting) {
+        this.waiting = waiting;
+    }
+
+    public void waitFor(int seconds) {
+        final Timer timer = new Timer() {
+            public void run() {
+                waiting = false;
+                this.cancel();
+            }
+        };
+    }
+
+
+    //TODO should this be public?
+    public void tryActionAgain() {
+        System.out.println("FLINTEMI: Manually repeat state.");
+
+        //how do we handle a repeat at each state?
+        //the indices of state and sub-state are always incremented before this can be called by the MainActivity thread.
+        // Therefore, we can look at the state we are programming for and decrement the relevant value.
+        switch (state) {
+            case 1:
+                //decrement speechIndex
+                speechIndex--;
+                System.out.println("State set to state=" + state + ", speechIndex=" + speechIndex);
+                break;
+            case 2:
+                //decrement locationIndex
+                locationIndex--;
+                System.out.println("State set to state=" + state + ", locationIndex=" + locationIndex);
+        }
+
+        //now the while loop will start again and call the fns of the (sub)state +1-1.
     }
 
     public StateMachine(Robot robot) {
@@ -103,8 +145,10 @@ public class StateMachine implements Runnable {
                     System.out.println("FLINTEMI: Increment locationIndex to locationIndex=" + locationIndex);
                 }
                 break;
-            case 2://found
+            case 2://stop and wait
+                System.out.println("FLINTEMI: Waiting for 10 seconds.");
 
+                waitFor(10);
                 break;
             case 3://terminate
 
