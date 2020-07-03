@@ -11,6 +11,7 @@ import com.robotemi.sdk.TtsRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class StateMachine implements Runnable {
 
@@ -28,6 +29,12 @@ public class StateMachine implements Runnable {
     int locationLoopIndex;
     final int maxPatrolLoops = 100;
     final int initialState = 0;
+
+    public void setWakeCondition(String[] wakeCondition) {
+        this.wakeCondition = wakeCondition;
+    }
+
+    public String[] wakeCondition;
 
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
@@ -50,36 +57,58 @@ public class StateMachine implements Runnable {
         this.waiting = waiting;
     }
 
-    public void waitFor(int seconds) {
-        final Timer timer = new Timer() {
+    public void waitFor(long millis) {
+        TimerTask doneWaiting = new TimerTask() {
+            @Override
             public void run() {
-                waiting = false;
-                this.cancel();
+                System.out.println("FLINTEMI; done waiting");
+                endWait();
             }
         };
+
+        Timer t = new Timer();
+        System.out.println("FLINTEMI: Start timer");
+        t.schedule(doneWaiting, millis);
     }
 
-
-    //TODO should this be public?
-    public void tryActionAgain() {
-        System.out.println("FLINTEMI: Manually repeat state.");
-
-        //how do we handle a repeat at each state?
-        //the indices of state and sub-state are always incremented before this can be called by the MainActivity thread.
-        // Therefore, we can look at the state we are programming for and decrement the relevant value.
-        switch (state) {
-            case 1:
-                //decrement speechIndex
-                speechIndex--;
-                System.out.println("State set to state=" + state + ", speechIndex=" + speechIndex);
-                break;
-            case 2:
-                //decrement locationIndex
-                locationIndex--;
-                System.out.println("State set to state=" + state + ", locationIndex=" + locationIndex);
+    private void endWait() {
+        System.out.println("FLINTEMI: state=patrol");
+        synchronized (this) {
+            state = 1;
+            System.out.println("FLINTEMI: state set to " + state);
+            notify();
         }
+    }
 
-        //now the while loop will start again and call the fns of the (sub)state +1-1.
+    public void wake() {
+        switch (wakeCondition[0]) {
+            case "TTS":
+                switch (wakeCondition[1]) {
+                    case "COMPLETED":
+                        speechIndex++;
+                        break;
+                }
+                break;
+            case "LOCATION":
+                switch (wakeCondition[1]) {
+                    case "COMPLETE":
+
+                        int prev = locationIndex;
+                        locationIndex++;
+                        if (locationIndex >= locations.size()) {
+                            System.out.println("FLINTEMI: Reset the location index to 1 from " + prev);
+                            locationIndex = 1;//set it to the first location (0==homebase)
+
+                            System.out.println("FLINTEMI: Loops complete=" + locationLoopIndex);
+                            locationLoopIndex++;
+                        }
+                        break;
+                }
+                break;
+            default:
+                System.out.println("FLINTEMI: default wake switch");
+                break;
+        }
     }
 
     public StateMachine(Robot robot) {
@@ -108,48 +137,43 @@ public class StateMachine implements Runnable {
     private void nextAction() {
         //don't want to use reflection yet
         switch (state) {
+
+
             case 0://initial speaks
                 System.out.println("FLINTEMI: speak line at speechIndex=" + speechIndex);
                 speech(speechIndex);
                 System.out.println("FLINTEMI: speechIndex++");
-                speechIndex++;
                 System.out.println("FLINTEMI: speechIndex=" + speechIndex);
-                if (speechIndex >= speechQueue.size()) {
+                if (speechIndex >= speechQueue.size() - 1) {
                     //we have reached the end of the ttsrequest queue
                     System.out.println("FLINTEMI: completeSpeechSub set to true");
                     completeSpeechSub = true; //this will remove the ttsstatuslistener on the main thread once this goes into the waiting state
                     state = 1;
                 }
                 break;
+
+
             case 1://patrolling
                 //TODO fix the slight synch problem where the Routine complete message occurs when the last goto is started and not when it is finished
-                if (locationIndex == locations.size() - 1) {
-                    //this is the last location in the loop, go to the last location
-                    System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
-                    robot.goTo(locations.get(locationIndex));
-                    System.out.println("FLINTEMI: Reset the location index to 1");
-                    locationIndex = 1;//set it to the first location (0==homebase)
-                    locationLoopIndex++;
-                    System.out.println("FLINTEMI: Loops complete=" + locationLoopIndex);
-                    //if there are no more loops to be done, go to next state
-                    if (locationLoopIndex == maxPatrolLoops) {
-                        System.out.println("FLINTEMI: Completed all loops");
-                        completePatrolSub = true;
-                        state = 3;
-                    }
-                } else {
-                    //go to the next location
-                    System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
-                    robot.goTo(locations.get(locationIndex));
-                    locationIndex++;
-                    System.out.println("FLINTEMI: Increment locationIndex to locationIndex=" + locationIndex);
+                //TODO print message when no locations are saved as this throws an indexoutofbounds exception
+                System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
+                robot.goTo(locations.get(locationIndex));
+                state = 2;
+                //if there are no more loops to be done, go to next state
+                if (locationLoopIndex >= maxPatrolLoops - 1) {
+                    System.out.println("FLINTEMI: Completed all loops");
+                    completePatrolSub = true;
+                    state = 3;
                 }
                 break;
-            case 2://stop and wait
-                System.out.println("FLINTEMI: Waiting for 10 seconds.");
 
-                waitFor(10);
+
+            case 2://stop and wait
+                System.out.println("FLINTEMI: Waiting for 5 seconds.");
+                waitFor(10000L);
                 break;
+
+
             case 3://terminate
 
                 break;
@@ -165,9 +189,9 @@ public class StateMachine implements Runnable {
         //first index is 0
 
         while (state != 3) {
-            System.out.println("FLINTEMI: Do action at index=" + state);
+            System.out.println("FLINTEMI: Do action at state=" + state);
             nextAction();
-            System.out.println("FLINTEMI: Finished action at index=" + state);//TODO fix print bug on state change
+            System.out.println("FLINTEMI: Finished action at state=" + state);//TODO fix print bug on state change
             System.out.println("FLINTEMI: synchronise routine");
 
             synchronized (this) {
@@ -177,6 +201,7 @@ public class StateMachine implements Runnable {
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
+                wake();
             }
         }
         robot.speak(TtsRequest.create("Routine Complete.", true));

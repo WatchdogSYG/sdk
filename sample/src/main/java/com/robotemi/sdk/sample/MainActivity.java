@@ -52,31 +52,6 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
             robot.addTtsListener(l);
             System.out.println("FLINTEMI: Added new Listener");
         }
-
-
-        //robot.speak(TtsRequest.create("I will start my patrol.", false));
-        /*robot.speak(TtsRequest.create("Getting saved locations.", false));
-        //get locations
-        List<String> locations;
-        locations = robot.getLocations();
-        if (locations.isEmpty()) {
-            robot.speak(TtsRequest.create("No locations saved. I will turn on the spot instead", false));
-            robot.turnBy(360);
-        } else {
-            //go to each location in the list n times
-            int n = 2;
-            //patrol loops
-            for (int i = 0; i < 2; i++) {
-                //location loop
-                for (int j = 0; j < locations.size(); j++) {
-                    String l = locations.get(i);
-                    robot.speak(TtsRequest.create("Going to location named " + l + " with index " + j, true));
-                    robot.goTo(l);
-                }
-                robot.speak(TtsRequest.create("I am finished with patrol loop " + i, true));
-            }
-            robot.speak(TtsRequest.create("I am done with my patrol.", true));
-        }*/
     }
 
     //TODO handle cancelled and abort statuses due to "Hey, Temi" wakeups
@@ -96,14 +71,16 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
             synchronized (stateMachine) {
                 //if the status of the current ttsrequest changes to COMPLETED
                 System.out.println("FLINTEMI: TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
+                //TODO declare strings somwehere else
 
                 switch (ttsRequest.getStatus()) {
                     case COMPLETED:
+                        stateMachine.setWakeCondition(new String[]{"TTS", "COMPLETED"});
                         System.out.println("FLINTEMI: ttsReqeustStatus=COMPLETED,notify");
                         stateMachine.notify();
                         //if the speech routine is complete, remove the listener
                         if (stateMachine.isCompleteSpeechSub()) {
-                            System.out.println("FLINTEMI: ttsReqeustStatus=COMPLETED,stateMachine.isCompleteSub=true,notify");
+                            System.out.println("FLINTEMI: ttsRequestStatus=COMPLETED,stateMachine.isCompleteSub=true,notify");
                             stateMachine.notify();
                             System.out.println("FLINTEMI: addOnGoToLocationStatusChangedListener");
                             robot.addOnGoToLocationStatusChangedListener(new patrolLocationListener(robot, stateMachine));
@@ -115,14 +92,16 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
                         //display error on textarea
 
                         //try again
-                        stateMachine.tryActionAgain();
-                        notify();
+                        stateMachine.setWakeCondition(new String[]{"TTS", "ERROR"});
+                        stateMachine.notify();
                         break;
                     case NOT_ALLOWED:
-                        stateMachine.tryActionAgain();
-                        notify();
+                        stateMachine.setWakeCondition(new String[]{"TTS", "NOT_ALLOWED"});
+                        stateMachine.notify();
                         break;
+                    default:
                 }
+
             }
         }
     }
@@ -143,13 +122,13 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
             synchronized (stateMachine) {
                 switch (status) {
                     case OnGoToLocationStatusChangedListener.COMPLETE:
-                        if (status.equals(OnGoToLocationStatusChangedListener.COMPLETE)) {
-                            System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify");
+                        System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify");
+                        stateMachine.setWakeCondition(new String[]{"LOCATION", "COMPLETE"});
                             stateMachine.notify();
-                        }
                         //if the patrol routine is complete, remove the listener
                         if (stateMachine.isCompletePatrolSub()) {
                             System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,stateMachine.isCompleteSub=true,notify");
+                            stateMachine.setWakeCondition(new String[]{"LOCATION", "COMPLETE"});
                             stateMachine.notify();
                             //would add the next listener here
                             robot.removeOnGoToLocationStatusChangedListener(this);
@@ -158,12 +137,10 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
                         break;
                     case OnGoToLocationStatusChangedListener.ABORT:
                         robot.speak(TtsRequest.create("Abort", false));
-                        stateMachine.tryActionAgain();
-                        notify();
+                        stateMachine.setWakeCondition(new String[]{"LOCATION", "ABORT"});
+                        stateMachine.notify();
                         break;
                 }
-
-
             }
         }
     }
