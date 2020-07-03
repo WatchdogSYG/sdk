@@ -41,18 +41,16 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
     public void custom(View view) {
 
         //this listener does not provide a way to select a specific tts request?
-        StateMachine initialisation = new StateMachine(robot);
+        StateMachine sm = new StateMachine(robot);
         System.out.println("FLINTEMI: Create Initialisation Routine");
         textView.setText("Current Action: Initialising");
 
-        synchronized (initialisation) {
-            new Thread(initialisation).start();
+        new Thread(sm).start();
             System.out.println("FLINTEMI: Started");
-            Robot.TtsListener l = new TTSListener(robot, initialisation);
+        Robot.TtsListener l = sm.initialiseTalkingState(new TTSListener(robot, sm));
             System.out.println("FLINTEMI: Add new Listener");
             robot.addTtsListener(l);
             System.out.println("FLINTEMI: Added new Listener");
-        }
     }
 
 
@@ -70,31 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         @Override
         public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
             System.out.println("FLINTEMI: onGoToLocationStatusChanged:location=" + location + ",status=" + status + ",description=" + description);
-            synchronized (stateMachine) {
-                switch (status) {
-                    case OnGoToLocationStatusChangedListener.COMPLETE:
-                        if (status.equals(OnGoToLocationStatusChangedListener.COMPLETE)) {
-                            System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify");
-                            stateMachine.notify();
-                        }
-                        //if the patrol routine is complete, remove the listener
-                        if (stateMachine.isCompletePatrolSub()) {
-                            System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,stateMachine.isCompleteSub=true,notify");
-                            stateMachine.notify();
-                            //would add the next listener here
-                            robot.removeOnGoToLocationStatusChangedListener(this);
-                            System.out.println("FLINTEMI: OnGoToLocationStatusChangedListenerRemoved");
-                        }
-                        break;
-                    case OnGoToLocationStatusChangedListener.ABORT:
-                        robot.speak(TtsRequest.create("Abort", false));
-                        stateMachine.tryActionAgain();
-                        notify();
-                        break;
-                }
 
-
-            }
         }
     }
 

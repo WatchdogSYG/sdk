@@ -9,6 +9,7 @@ import flinderstemi.listeners.TTSListener;
 
 public class TalkingState {
     private Robot robot;
+    boolean firstRun = true;
 
     private int action = 0;
     private TTSListener ttsl;
@@ -27,14 +28,22 @@ public class TalkingState {
         return 3;
     }
 
-    public void hearTTS(String status) {
-        switch (status) {
-            case "COMPLETED":
-                iterate(1);
-                break;
-            case "CANCELLED":
-                iterate(0);
-                break;
+    public void hearTTS(TtsRequest.Status status) {
+        if (firstRun) {
+            iterate(1);
+            firstRun = false;
+        } else {
+            switch (status) {
+                case COMPLETED:
+                    iterate(1);
+                    break;
+                case ERROR:
+                    iterate(0);
+                    break;
+                case NOT_ALLOWED:
+                    iterate(0);
+                    break;
+            }
         }
     }
 
