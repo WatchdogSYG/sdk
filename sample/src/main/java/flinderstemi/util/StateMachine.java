@@ -26,7 +26,7 @@ public class StateMachine implements Runnable {
     int speechIndex;
     int locationIndex;
     int locationLoopIndex;
-    final int maxPatrolLoops = 100;
+    final int maxPatrolLoops = 10000;
     final int initialState = 0;
 
     //send messages to other thread through these variables
@@ -180,5 +180,11 @@ public class StateMachine implements Runnable {
             }
         }
         robot.speak(TtsRequest.create("Routine Complete.", true));
+    }
+
+    //TODO enumerate states or turn into constants
+    public enum states {
+        PATROLLING,
+        EXIT
     }
 }
