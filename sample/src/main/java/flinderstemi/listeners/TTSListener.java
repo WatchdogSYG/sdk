@@ -3,6 +3,7 @@ package flinderstemi.listeners;
 
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
+import com.robotemi.sdk.sample.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,9 +24,33 @@ public class TTSListener implements Robot.TtsListener {
         synchronized (stateMachine) {
             //if the status of the current ttsrequest changes to COMPLETED
             System.out.println("FLINTEMI: TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
-            //producer condition
-            stateMachine.setTtsStatus(ttsRequest.getStatus());
-            notify();
+
+            switch (ttsRequest.getStatus()) {
+                case COMPLETED:
+                    System.out.println("FLINTEMI: ttsReqeustStatus=COMPLETED,notify");
+                    stateMachine.notify();
+                    //if the speech routine is complete, remove the listener
+                    if (stateMachine.isCompleteSpeechSub()) {
+                        System.out.println("FLINTEMI: ttsReqeustStatus=COMPLETED,stateMachine.isCompleteSub=true,notify");
+                        stateMachine.notify();
+                        System.out.println("FLINTEMI: addOnGoToLocationStatusChangedListener");
+                        robot.addOnGoToLocationStatusChangedListener(new MainActivity.patrolLocationListener(robot, stateMachine));
+                        robot.removeTtsListener(this);
+                        System.out.println("FLINTEMI: ttsListenerRemoved");
+                    }
+                    break;
+                case ERROR:
+                    //display error on textarea
+
+                    //try again
+                    stateMachine.tryActionAgain();
+                    notify();
+                    break;
+                case NOT_ALLOWED:
+                    stateMachine.tryActionAgain();
+                    notify();
+                    break;
+            }
         }
     }
 }
