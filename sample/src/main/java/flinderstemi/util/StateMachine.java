@@ -8,7 +8,9 @@ package flinderstemi.util;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,44 +59,59 @@ public class StateMachine implements Runnable {
         this.waiting = waiting;
     }
 
+    public void stop() {
+        synchronized (this) {
+            state = 3;
+            this.notify();
+        }
+
+    }
     public void waitFor(long millis) {
         TimerTask doneWaiting = new TimerTask() {
             @Override
             public void run() {
-                System.out.println("FLINTEMI; done waiting");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date = new Date();
+                System.out.println("FLINTEMI: Waiting for 10 seconds completed:" + formatter.format(date));
                 endWait();
             }
         };
 
-        Timer t = new Timer();
-        System.out.println("FLINTEMI: Start timer");
-        t.schedule(doneWaiting, millis);
-    }
-
-    private void endWait() {
-        System.out.println("FLINTEMI: state=patrol");
         synchronized (this) {
-            state = 1;
-            System.out.println("FLINTEMI: state set to " + state);
-            notify();
+            try {
+                Timer t = new Timer();
+                System.out.println("FLINTEMI: Start timer");
+                t.schedule(doneWaiting, millis);
+                this.wait();
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
         }
     }
 
-    public void wake() {
+    private void endWait() {
+        System.out.println("FLINTEMI: endWait(), notify()");
+        synchronized (this) {
+            this.notify();
+        }
+    }
+
+    public void wake() {//TODO define this with a String[] as an arg insead of using a global variable
         switch (wakeCondition[0]) {
             case "TTS":
                 switch (wakeCondition[1]) {
-                    case "COMPLETED":
+                    case "COMPLETED"://I hate how the sdk uses "completed" here instead of a consistent string as below
                         speechIndex++;
                         break;
                 }
                 break;
             case "LOCATION":
                 switch (wakeCondition[1]) {
-                    case "COMPLETE":
+                    case "COMPLETE"://I hate how the sdk uses "complete" here instead of a consistent string as above
 
                         int prev = locationIndex;
                         locationIndex++;
+
                         if (locationIndex >= locations.size()) {
                             System.out.println("FLINTEMI: Reset the location index to 1 from " + prev);
                             locationIndex = 1;//set it to the first location (0==homebase)
@@ -102,9 +119,23 @@ public class StateMachine implements Runnable {
                             System.out.println("FLINTEMI: Loops complete=" + locationLoopIndex);
                             locationLoopIndex++;
                         }
+
+                        //wait for 10s
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                        Date date = new Date();
+                        System.out.println("FLINTEMI: Waiting for 10 seconds starting:" + formatter.format(date));
+                        waitFor(10000L);
+
                         break;
+                    case "ABORT":
+                        //something went wrong with the movement to a location, try it again. i.e. dont increment the state or action
+                        System.out.println("FLINTEMI: Something went wrong with the movement to a location, try again.");
                 }
                 break;
+            case "WAITING":
+                switch (wakeCondition[1]) {
+                    case "COMPLETED":
+                }
             default:
                 System.out.println("FLINTEMI: default wake switch");
                 break;
@@ -158,7 +189,7 @@ public class StateMachine implements Runnable {
                 //TODO print message when no locations are saved as this throws an indexoutofbounds exception
                 System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
                 robot.goTo(locations.get(locationIndex));
-                state = 2;
+
                 //if there are no more loops to be done, go to next state
                 if (locationLoopIndex >= maxPatrolLoops - 1) {
                     System.out.println("FLINTEMI: Completed all loops");
@@ -169,8 +200,7 @@ public class StateMachine implements Runnable {
 
 
             case 2://stop and wait
-                System.out.println("FLINTEMI: Waiting for 5 seconds.");
-                waitFor(10000L);
+
                 break;
 
 

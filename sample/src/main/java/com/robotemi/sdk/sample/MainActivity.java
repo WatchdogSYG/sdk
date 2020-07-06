@@ -37,10 +37,11 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
      *
      * @param view
      */
+    StateMachine initialisation;
     public void custom(View view) {
 
         //this listener does not provide a way to select a specific tts request?
-        StateMachine initialisation = new StateMachine(robot);
+        initialisation = new StateMachine(robot);
         System.out.println("FLINTEMI: Create Initialisation Routine");
         textView.setText("Current Action: Initialising");
 
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
             robot.addTtsListener(l);
             System.out.println("FLINTEMI: Added new Listener");
         }
+    }
+
+    public void stopStateMachine(View view) {
+
+        initialisation.stop();
     }
 
     //TODO handle cancelled and abort statuses due to "Hey, Temi" wakeups
