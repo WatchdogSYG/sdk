@@ -7,16 +7,17 @@ import com.robotemi.sdk.TtsRequest;
 
 import org.jetbrains.annotations.NotNull;
 
-public class TTSListener implements Robot.TtsListener {
+public class TTSSequenceListener implements Robot.TtsListener {
     StateMachine stateMachine;
     Robot robot;
 
-    public TTSListener(Robot robot, StateMachine stateMachine) {
-        System.out.println("FLINTEMI: Construct ttsListener");
+    public TTSSequenceListener(Robot robot, StateMachine stateMachine) {
+        System.out.println("FLINTEMI: Construct TTSSequenceListener");
         this.stateMachine = stateMachine;
         this.robot = robot;
     }
 
+    //TODO move the synchronised block to the StateMachine class, keep this one simple
     @Override
     public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
         synchronized (stateMachine) {

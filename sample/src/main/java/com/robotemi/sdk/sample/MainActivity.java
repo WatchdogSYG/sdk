@@ -18,13 +18,11 @@ import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
-import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 
 import flinderstemi.util.StateMachine;
-import flinderstemi.util.TTSListener;
 
-public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusChangedListener, OnConstraintBeWithStatusChangedListener, OnDetectionStateChangedListener, OnGoToLocationStatusChangedListener, OnRobotReadyListener {
+public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusChangedListener, OnConstraintBeWithStatusChangedListener, OnDetectionStateChangedListener, OnRobotReadyListener {
     public EditText etSpeak;
     private Robot robot;
     private TextView textView;
@@ -36,19 +34,11 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
      */
     StateMachine routine;
     public void custom(View view) {
-
-        //this listener does not provide a way to select a specific tts request?
         routine = new StateMachine(robot);
         System.out.println("FLINTEMI: Create Initialisation Routine");
         textView.setText("Current Action: Initialising");
-
         synchronized (routine) {
             new Thread(routine).start();
-            System.out.println("FLINTEMI: Started");
-            Robot.TtsListener l = new TTSListener(robot, routine);
-            System.out.println("FLINTEMI: Add new Listener");
-            robot.addTtsListener(l);
-            System.out.println("FLINTEMI: Added new Listener");
         }
     }
 
@@ -109,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         super.onStart();
         robot.addOnRobotReadyListener(this);
         robot.addOnBeWithMeStatusChangedListener(this);
-        robot.addOnGoToLocationStatusChangedListener(this);
         robot.addOnConstraintBeWithStatusChangedListener(this);
         robot.addOnDetectionStateChangedListener(this);
 
@@ -129,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         super.onStop();
         robot.removeOnRobotReadyListener(this);
         robot.removeOnBeWithMeStatusChangedListener(this);
-        robot.removeOnGoToLocationStatusChangedListener(this);
         robot.removeOnConstraintBeWithStatusChangedListener(this);
         robot.removeDetectionStateChangedListener(this);
         robot.stopMovement();
@@ -186,32 +174,33 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         }
     }
 
-    @Override
-    public void onGoToLocationStatusChanged(String location, String status, int descriptionId, String description) {
-        Log.d("GoToStatusChanged", "descriptionId=" + descriptionId + ", description=" + description);
-        switch (status) {
-            case "start":
-                robot.speak(TtsRequest.create("Starting", false));
-                break;
+    /*
+        @Override
+        public void onGoToLocationStatusChanged(String location, String status, int descriptionId, String description) {
+            Log.d("GoToStatusChanged", "descriptionId=" + descriptionId + ", description=" + description);
+            switch (status) {
+                case "start":
+                    robot.speak(TtsRequest.create("Starting", false));
+                    break;
 
-            case "calculating":
-                robot.speak(TtsRequest.create("Calculating", false));
-                break;
+                case "calculating":
+                    robot.speak(TtsRequest.create("Calculating", false));
+                    break;
 
-            case "going":
-                robot.speak(TtsRequest.create("Going", false));
-                break;
+                case "going":
+                    robot.speak(TtsRequest.create("Going", false));
+                    break;
 
-            case "complete":
-                robot.speak(TtsRequest.create("Completed", false));
-                break;
+                case "complete":
+                    robot.speak(TtsRequest.create("Completed", false));
+                    break;
 
-            case "abort":
-                robot.speak(TtsRequest.create("Abort", false));
-                break;
+                case "abort":
+                    robot.speak(TtsRequest.create("Abort", false));
+                    break;
+            }
         }
-    }
-
+    */
     @Override
     public void onConstraintBeWithStatusChanged(boolean isConstraint) {
         Log.d("onConstraintBeWith", "status = " + isConstraint);

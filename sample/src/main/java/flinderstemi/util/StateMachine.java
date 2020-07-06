@@ -8,6 +8,8 @@ package flinderstemi.util;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,9 +19,26 @@ import java.util.TimerTask;
 
 public class StateMachine implements Runnable {
 
+    /*******************************************************************************************
+     *                                        Calibration                                        *
+     ******************************************************************************************/
+
+    final long waitDuration = 10000L;
+
+    /*******************************************************************************************
+     *                                        Variables                                        *
+     ******************************************************************************************/
+
     //robot and state variables
     Robot robot;
     int state;
+
+    //state names
+    final int GREETING = 0;
+    final int PATROLLING = 1;
+    final int CONVERSING = 2;
+    final int TERMINATED = 3;
+    final int PAUSED = 4;
 
     //lists of actions
     List<TtsRequest> speechQueue;
@@ -30,11 +49,7 @@ public class StateMachine implements Runnable {
     int locationIndex;
     int locationLoopIndex;
     final int maxPatrolLoops = 100;
-    final int initialState = 0;
-
-    public void setWakeCondition(String[] wakeCondition) {
-        this.wakeCondition = wakeCondition;
-    }
+    final int initialState = GREETING;
 
     public String[] wakeCondition;
 
@@ -42,6 +57,14 @@ public class StateMachine implements Runnable {
     private boolean completeSpeechSub;
     private boolean completePatrolSub;
     private boolean waiting;
+
+    /*******************************************************************************************
+     *                                   Getters & Setters                                     *
+     ******************************************************************************************/
+
+    public void setWakeCondition(String[] wakeCondition) {
+        this.wakeCondition = wakeCondition;
+    }
 
     public boolean isCompleteSpeechSub() {
         return completeSpeechSub;
@@ -59,91 +82,14 @@ public class StateMachine implements Runnable {
         this.waiting = waiting;
     }
 
-    public void stop() {
-        synchronized (this) {
-            state = 3;
-            this.notify();
-        }
-
-    }
-    public void waitFor(long millis) {
-        TimerTask doneWaiting = new TimerTask() {
-            @Override
-            public void run() {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                Date date = new Date();
-                System.out.println("FLINTEMI: Waiting for 10 seconds completed:" + formatter.format(date));
-                endWait();
-            }
-        };
-
-        synchronized (this) {
-            try {
-                Timer t = new Timer();
-                System.out.println("FLINTEMI: Start timer");
-                t.schedule(doneWaiting, millis);
-                this.wait();
-            } catch (InterruptedException ie) {
-                ie.printStackTrace();
-            }
-        }
-    }
-
-    private void endWait() {
-        System.out.println("FLINTEMI: endWait(), notify()");
-        synchronized (this) {
-            this.notify();
-        }
-    }
-
-    public void wake() {//TODO define this with a String[] as an arg insead of using a global variable
-        switch (wakeCondition[0]) {
-            case "TTS":
-                switch (wakeCondition[1]) {
-                    case "COMPLETED"://I hate how the sdk uses "completed" here instead of a consistent string as below
-                        speechIndex++;
-                        break;
-                }
-                break;
-            case "LOCATION":
-                switch (wakeCondition[1]) {
-                    case "COMPLETE"://I hate how the sdk uses "complete" here instead of a consistent string as above
-
-                        int prev = locationIndex;
-                        locationIndex++;
-
-                        if (locationIndex >= locations.size()) {
-                            System.out.println("FLINTEMI: Reset the location index to 1 from " + prev);
-                            locationIndex = 1;//set it to the first location (0==homebase)
-
-                            System.out.println("FLINTEMI: Loops complete=" + locationLoopIndex);
-                            locationLoopIndex++;
-                        }
-
-                        //wait for 10s
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                        Date date = new Date();
-                        System.out.println("FLINTEMI: Waiting for 10 seconds starting:" + formatter.format(date));
-                        waitFor(10000L);
-
-                        break;
-                    case "ABORT":
-                        //something went wrong with the movement to a location, try it again. i.e. dont increment the state or action
-                        System.out.println("FLINTEMI: Something went wrong with the movement to a location, try again.");
-                }
-                break;
-            case "WAITING":
-                switch (wakeCondition[1]) {
-                    case "COMPLETED":
-                }
-            default:
-                System.out.println("FLINTEMI: default wake switch");
-                break;
-        }
-    }
+    /*******************************************************************************************
+     *                                     Constructor(s)                                      *
+     ******************************************************************************************/
 
     public StateMachine(Robot robot) {
-        System.out.println("FLINTEMI: InitialisationSequence Constructor");
+        System.out.println("FLINTEMI: Constructor StateMachine(Robot robot)");
+
+        //initialise variables
         completeSpeechSub = false;
         completePatrolSub = false;
         this.robot = robot;
@@ -152,25 +98,176 @@ public class StateMachine implements Runnable {
         locationIndex = 1;//not homebase at 0
         locationLoopIndex = 0;
 
+        //initial greeting
         speechQueue = new ArrayList<TtsRequest>();
         speechQueue.add(TtsRequest.create("Starting custom routine. Beep boop.", true));
         speechQueue.add(TtsRequest.create("I will start my patrol.", true));
 
         locations = robot.getLocations();
-        System.out.println("FLINTEMI Locations=" + locations.toString());
-        System.out.println("End constructor");
+        System.out.println("FLINTEMI: Locations = " + locations.toString());
+        System.out.println("End Constructor StateMachine(Robot robot)");
     }
 
+    /*******************************************************************************************
+     *                                     Functionality                                       *
+     ******************************************************************************************/
+
+    /**
+     * Sets the state to StateMachine.TERMINATED and wakes the State thread
+     */
+    public void stop() {
+        synchronized (this) {
+            state = TERMINATED;
+            this.notify();
+        }
+    }
+
+    /**
+     * Speaks the request in <code>speechQueue</code> at the specified index.
+     *
+     * @param i the index of the TTS request
+     */
     private void speech(int i) {
         robot.speak(speechQueue.get(i));
     }
 
+    public void waitFor(long millis) {
+
+        final StateMachine sm = this;
+
+        //create a new task as a callback
+        final TimerTask doneWaiting = new TimerTask() {
+            @Override
+            public void run() {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date = new Date();
+                System.out.println("FLINTEMI: Waiting for 10 seconds completed:" + formatter.format(date));
+                synchronized (sm) {
+                    System.out.println("FLINTEMI: endWait(), notify()");
+                    sm.notify();
+                }
+            }
+        };
+
+        //local class listener for the announcement we are going to make
+        class WaitSpeechListener implements Robot.TtsListener {
+
+            Timer t;
+            long duration;
+
+            WaitSpeechListener(long duration) {
+                System.out.println("FLINTEMI: Create Timer");
+                t = new Timer();
+                this.duration = duration;
+            }
+
+            @Override
+            public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
+
+                //if the status of the current ttsrequest changes to COMPLETED, start waiting. Actually, this is not too important so we can just wait even if it fails
+
+                if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
+                    //TODO handle the cases where the TTSRequest fails into the NOT_ALLOWED or ERROR statuses
+                    System.out.println("FLINTEMI: TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
+
+                    //schedule the task to be completed after the waiting period ends
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                    Date date = new Date();
+                    System.out.println("FLINTEMI: Waiting for 10 seconds starting:" + formatter.format(date));
+
+                    //schedule it
+                    t.schedule(doneWaiting, duration);
+
+                    System.out.println("FLINTEMI: Removed WaitTTSListener");
+                    robot.removeTtsListener(this);
+                }
+            }
+        }
+
+        //start the timer and schedule the task
+        synchronized (this) {
+            try {
+
+                //announce
+                robot.speak(TtsRequest.create("I will wait here for 10 seconds.", true));
+
+                //announce that we are going to wait, we will need a listener for this so the waiting can begin after the speech request ends
+                robot.addTtsListener(new WaitSpeechListener(millis));
+
+
+                System.out.println("FLINTEMI: wait()");
+                this.wait();
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            }
+        }
+    }
+
+    public void wake() {//TODO define this with a String[] as an arg instead of using a global variable
+        switch (state) {
+            case GREETING://The listeners active in this state should be only the TTSSequenceListener
+                switch (wakeCondition[1]) {
+                    case "COMPLETED":
+                        speechIndex++;
+                        break;
+                }
+                break;
+            case PATROLLING://The listeners active in this state should be the TTSListener, GoToLocationListener and DetectionStateListener
+                switch (wakeCondition[0]) {
+                    case "TTS":
+                        switch (wakeCondition[1]) {
+                            case "COMPLETED"://I hate how the sdk uses "completed" here instead of a consistent string as below
+                                //get ready to speak the next string in line
+                                speechIndex++;
+                                break;
+                        }
+                        break;
+                    case "LOCATION":
+                        switch (wakeCondition[1]) {
+                            case "COMPLETE"://I hate how the sdk uses "complete" here instead of a consistent string as above
+                                //get ready to go to the next location in line
+                                int prev = locationIndex;
+                                locationIndex++;
+
+                                //if we have reached the end of our location array, start again and increment the loop number
+                                if (locationIndex >= locations.size()) {
+                                    System.out.println("FLINTEMI: Reset the location index to 1 from " + prev);
+                                    locationIndex = 1;//set it to the first location (0==homebase)
+                                    System.out.println("FLINTEMI: Loops complete=" + locationLoopIndex);
+                                    locationLoopIndex++;
+                                }
+
+                                //wait for 10s (needs to be calibrated)
+                                waitFor(waitDuration);
+                                break;
+                            case "ABORT":
+                                //something went wrong with the movement to a location, try it again. i.e. dont increment the state or action
+                                System.out.println("FLINTEMI: Something went wrong with the movement to a location, try again.");
+                        }
+                        break;
+                    case "WAITING":
+                        switch (wakeCondition[1]) {
+                            case "COMPLETED":
+                        }
+                    default:
+                        System.out.println("FLINTEMI: default wake switch");
+                        break;
+                }
+                break;
+            case CONVERSING:
+                break;
+            case TERMINATED:
+                break;
+            case PAUSED:
+                break;
+        }
+    }
+
+
     private void nextAction() {
         //don't want to use reflection yet
         switch (state) {
-
-
-            case 0://initial speaks
+            case GREETING:
                 System.out.println("FLINTEMI: speak line at speechIndex=" + speechIndex);
                 speech(speechIndex);
                 System.out.println("FLINTEMI: speechIndex++");
@@ -179,14 +276,13 @@ public class StateMachine implements Runnable {
                     //we have reached the end of the ttsrequest queue
                     System.out.println("FLINTEMI: completeSpeechSub set to true");
                     completeSpeechSub = true; //this will remove the ttsstatuslistener on the main thread once this goes into the waiting state
-                    state = 1;
+                    state = PATROLLING;
                 }
                 break;
-
-
-            case 1://patrolling
+            case PATROLLING://patrolling
                 //TODO fix the slight synch problem where the Routine complete message occurs when the last goto is started and not when it is finished
                 //TODO print message when no locations are saved as this throws an indexoutofbounds exception
+
                 System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
                 robot.goTo(locations.get(locationIndex));
 
@@ -194,31 +290,41 @@ public class StateMachine implements Runnable {
                 if (locationLoopIndex >= maxPatrolLoops - 1) {
                     System.out.println("FLINTEMI: Completed all loops");
                     completePatrolSub = true;
-                    state = 3;
+                    state = TERMINATED;
                 }
                 break;
+            case CONVERSING:
 
-
-            case 2://stop and wait
 
                 break;
+            case TERMINATED:
+                System.out.println("FLINTEMI: State set to 3 (terminate)");
+                robot.speak(TtsRequest.create("I have finished my routine.", true));
+                break;
+            case PAUSED:
 
-
-            case 3://terminate
 
                 break;
             default:
-
                 break;
         }
     }
 
+    /*******************************************************************************************
+     *                                     Thread Loop                                         *
+     ******************************************************************************************/
+
     @Override
     public void run() {
         System.out.println("FLINTEMI: Run");
-        //first index is 0
 
-        while (state != 3) {
+        System.out.println("FLINTEMI: Started");
+        Robot.TtsListener l = new TTSSequenceListener(robot, this);
+        System.out.println("FLINTEMI: Add new Listener");
+        robot.addTtsListener(l);
+        System.out.println("FLINTEMI: Added new Listener");
+
+        while (state != TERMINATED) {
             System.out.println("FLINTEMI: Do action at state=" + state);
             nextAction();
             System.out.println("FLINTEMI: Finished action at state=" + state);//TODO fix print bug on state change
@@ -234,6 +340,5 @@ public class StateMachine implements Runnable {
                 wake();
             }
         }
-        robot.speak(TtsRequest.create("Routine Complete.", true));
     }
 }
