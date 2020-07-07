@@ -20,12 +20,13 @@ import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 
+import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.StateMachine;
 
-public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusChangedListener, OnConstraintBeWithStatusChangedListener, OnDetectionStateChangedListener, OnRobotReadyListener {
+public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusChangedListener, OnConstraintBeWithStatusChangedListener, OnDetectionStateChangedListener, OnRobotReadyListener, SetTextViewCallback {
     public EditText etSpeak;
     private Robot robot;
-    private TextView textView;
+    private TextView textViewVariable;
 
     /**
      * This custom method implements the "patrol" functionality.
@@ -33,10 +34,11 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
      * @param view
      */
     StateMachine routine;
+
     public void custom(View view) {
-        routine = new StateMachine(robot);
+        routine = new StateMachine(robot, this);
         System.out.println("FLINTEMI: Create Initialisation Routine");
-        textView.setText("Current Action: Initialising");
+        updateThought("Current Action: Initialising");
         synchronized (routine) {
             new Thread(routine).start();
         }
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         robot.setPrivacyMode(true);
         robot.toggleNavigationBillboard(true);
 
-        textView.setText("Current Action: onStart");
+        textViewVariable.setText("Current Action: onStart");
     }
 
     /**
@@ -125,13 +127,13 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         //demo speak
         robot.speak(TtsRequest.create("Hello, World. This is when onStop functions are called.", false));
     }
+
+    public void initViews() {
+        textViewVariable = findViewById(R.id.textView);
+    }
     /**************************************************************************************************************************
      * Sample functionality
      *************************************************************************************************************************/
-
-    public void initViews() {
-        textView = findViewById(R.id.textView);
-    }
 
     /**
      * Have the robot speak while displaying what is being said.
@@ -214,5 +216,11 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         } else {
             robot.stopMovement();
         }
+    }
+
+    @Override
+    public void updateThought(String string) {
+        System.out.println("FLINTEMI: setText to \"" + string + "\"");
+        textViewVariable.setText(string);
     }
 }

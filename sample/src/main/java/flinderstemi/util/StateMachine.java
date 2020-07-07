@@ -20,10 +20,12 @@ import java.util.TimerTask;
 public class StateMachine implements Runnable {
 
     /*******************************************************************************************
-     *                                        Calibration                                        *
+     *                                        Calibration                                      *
      ******************************************************************************************/
 
     final long waitDuration = 10000L;
+
+    SetTextViewCallback stvc;
 
     /*******************************************************************************************
      *                                        Variables                                        *
@@ -86,8 +88,13 @@ public class StateMachine implements Runnable {
      *                                     Constructor(s)                                      *
      ******************************************************************************************/
 
-    public StateMachine(Robot robot) {
+    public StateMachine(Robot robot, SetTextViewCallback stvc) {
         System.out.println("FLINTEMI: Constructor StateMachine(Robot robot)");
+
+        this.stvc = stvc;
+
+        this.stvc.updateThought("Constructing State Machine");
+
 
         //initialise variables
         completeSpeechSub = false;
