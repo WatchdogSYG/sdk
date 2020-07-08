@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import flinderstemi.util.listeners.DetectionListener;
+import flinderstemi.util.listeners.TTSSequenceListener;
+
 public class StateMachine implements Runnable {
 
     /*******************************************************************************************
@@ -112,6 +115,16 @@ public class StateMachine implements Runnable {
 
         locations = robot.getLocations();
         System.out.println("FLINTEMI: Locations = " + locations.toString());
+
+
+        Robot.TtsListener l = new TTSSequenceListener(robot, this);
+        DetectionListener dl = new DetectionListener(robot, this);
+        robot.addOnDetectionStateChangedListener(dl);
+        System.out.println("FLINTEMI: Add new Listener");
+        robot.addTtsListener(l);
+        System.out.println("FLINTEMI: Added new Listener");
+
+
         System.out.println("End Constructor StateMachine(Robot robot)");
     }
 
@@ -125,6 +138,7 @@ public class StateMachine implements Runnable {
     public void stop() {
         synchronized (this) {
             state = TERMINATED;
+            robot.speak(TtsRequest.create("Routine Terminated", false));
             this.notify();
         }
     }
@@ -252,10 +266,20 @@ public class StateMachine implements Runnable {
                                 System.out.println("FLINTEMI: Something went wrong with the movement to a location, try again.");
                         }
                         break;
-                    case "WAITING":
+                    case "DETECTION":
+                        System.out.println(wakeCondition[1]);
                         switch (wakeCondition[1]) {
-                            case "COMPLETED":
+                            case "IDLE":
+                                stvc.updateThought("DetectionState: IDLE");
+                                break;
+                            case "LOST":
+                                stvc.updateThought("DetectionState: LOST");
+                                break;
+                            case "DETECTED":
+                                stvc.updateThought("DetectionState: DETECTED");
+                                break;
                         }
+                        break;
                     default:
                         System.out.println("FLINTEMI: default wake switch");
                         break;
@@ -270,7 +294,6 @@ public class StateMachine implements Runnable {
         }
     }
 
-
     private void nextAction() {
         //don't want to use reflection yet
         switch (state) {
@@ -283,6 +306,7 @@ public class StateMachine implements Runnable {
                     //we have reached the end of the ttsrequest queue
                     System.out.println("FLINTEMI: completeSpeechSub set to true");
                     completeSpeechSub = true; //this will remove the ttsstatuslistener on the main thread once this goes into the waiting state
+
                     state = PATROLLING;
                 }
                 break;
@@ -326,10 +350,7 @@ public class StateMachine implements Runnable {
         System.out.println("FLINTEMI: Run");
 
         System.out.println("FLINTEMI: Started");
-        Robot.TtsListener l = new TTSSequenceListener(robot, this);
-        System.out.println("FLINTEMI: Add new Listener");
-        robot.addTtsListener(l);
-        System.out.println("FLINTEMI: Added new Listener");
+
 
         while (state != TERMINATED) {
             System.out.println("FLINTEMI: Do action at state=" + state);

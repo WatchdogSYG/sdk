@@ -1,10 +1,12 @@
-package flinderstemi.util;
+package flinderstemi.util.listeners;
 
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import flinderstemi.util.StateMachine;
 
 public class PatrolLocationListener implements OnGoToLocationStatusChangedListener {
     StateMachine stateMachine;

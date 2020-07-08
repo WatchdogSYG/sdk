@@ -1,4 +1,4 @@
-package flinderstemi.util;
+package flinderstemi.util.listeners;
 
 //TODO handle cancelled and abort statuses due to "Hey, Temi" wakeups
 
@@ -6,6 +6,8 @@ import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 
 import org.jetbrains.annotations.NotNull;
+
+import flinderstemi.util.StateMachine;
 
 public class TTSSequenceListener implements Robot.TtsListener {
     StateMachine stateMachine;

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,6 +28,30 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
     public EditText etSpeak;
     private Robot robot;
     private TextView textViewVariable;
+    private Button operatorMenuButton;
+    private TextView faceTextView;//temp
+    private Button startButton;
+
+    public void initViews() {
+
+        textViewVariable = findViewById(R.id.thoughtTextView);
+        faceTextView = findViewById(R.id.face);
+        startButton = findViewById(R.id.btnCustom);
+        operatorMenuButton = findViewById(R.id.menu);
+        operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                System.out.println("Old size: " + faceTextView.getTextSize());
+                faceTextView.setText("Operator Menu");
+                faceTextView.setTextSize(60);
+                textViewVariable.setVisibility(View.GONE);
+                startButton.setVisibility(View.GONE);
+                textViewVariable.setVisibility(View.GONE);
+                operatorMenuButton.setVisibility(View.GONE);
+                return true;
+            }
+        });
+    }
 
     /**
      * This custom method implements the "patrol" functionality.
@@ -128,9 +153,7 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         robot.speak(TtsRequest.create("Hello, World. This is when onStop functions are called.", false));
     }
 
-    public void initViews() {
-        textViewVariable = findViewById(R.id.textView);
-    }
+
     /**************************************************************************************************************************
      * Sample functionality
      *************************************************************************************************************************/
@@ -223,4 +246,6 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         System.out.println("FLINTEMI: setText to \"" + string + "\"");
         textViewVariable.setText(string);
     }
+
+
 }
