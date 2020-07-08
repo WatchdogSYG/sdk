@@ -1,15 +1,13 @@
 package com.robotemi.sdk.sample;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,16 +22,34 @@ import com.robotemi.sdk.listeners.OnRobotReadyListener;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.StateMachine;
 
-public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusChangedListener, OnConstraintBeWithStatusChangedListener, OnDetectionStateChangedListener, OnRobotReadyListener, SetTextViewCallback {
-    public EditText etSpeak;
+public class MainActivity extends AppCompatActivity implements
+        OnBeWithMeStatusChangedListener,
+        OnConstraintBeWithStatusChangedListener,
+        OnDetectionStateChangedListener,
+        OnRobotReadyListener,
+        SetTextViewCallback {
+
+    /*******************************************************************************************
+     *                                       Temi SDK                                          *
+     ******************************************************************************************/
+
     private Robot robot;
+    private StateMachine routine;
+
+    /*******************************************************************************************
+     *                                    Android Widgets                                      *
+     ******************************************************************************************/
+
     private TextView textViewVariable;
     private Button operatorMenuButton;
     private TextView faceTextView;//temp
     private Button startButton;
 
-    public void initViews() {
+    /*******************************************************************************************
+     *                                    Functionality                                        *
+     ******************************************************************************************/
 
+    public void initViews() {
         textViewVariable = findViewById(R.id.thoughtTextView);
         faceTextView = findViewById(R.id.face);
         startButton = findViewById(R.id.btnCustom);
@@ -48,9 +64,15 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
                 startButton.setVisibility(View.GONE);
                 textViewVariable.setVisibility(View.GONE);
                 operatorMenuButton.setVisibility(View.GONE);
+                switchToOpMenu();
                 return true;
             }
         });
+    }
+
+    public void switchToOpMenu() {
+        Intent i = new Intent(this, OperatorMenuActivity.class);
+        startActivity(i);
     }
 
     /**
@@ -58,9 +80,7 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
      *
      * @param view
      */
-    StateMachine routine;
-
-    public void custom(View view) {
+    public void startPatrol(View view) {
         routine = new StateMachine(robot, this);
         System.out.println("FLINTEMI: Create Initialisation Routine");
         updateThought("Current Action: Initialising");
@@ -73,23 +93,9 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         routine.stop();
     }
 
-    /**************************************************************************************************************************
-     * System calls and utilities
-     *************************************************************************************************************************/
-
-    /**
-     * Hiding keyboard after every button press
-     */
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+    /*******************************************************************************************
+     *                                    Initialisation                                       *
+     ******************************************************************************************/
 
     /**
      * Places this application in the top bar for a quick access shortcut.
@@ -153,20 +159,9 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         robot.speak(TtsRequest.create("Hello, World. This is when onStop functions are called.", false));
     }
 
-
-    /**************************************************************************************************************************
-     * Sample functionality
-     *************************************************************************************************************************/
-
-    /**
-     * Have the robot speak while displaying what is being said.
-     */
-    public void speak(View view) {
-        TtsRequest ttsRequest = TtsRequest.create(etSpeak.getText().toString().trim(), true);
-        robot.speak(ttsRequest);
-        hideKeyboard(MainActivity.this);
-    }
-
+    /*******************************************************************************************
+     *                                   Sample Functions                                      *
+     ******************************************************************************************/
 
     @Override
     public void onBeWithMeStatusChanged(String status) {
@@ -226,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
             }
         }
     */
+
     @Override
     public void onConstraintBeWithStatusChanged(boolean isConstraint) {
         Log.d("onConstraintBeWith", "status = " + isConstraint);
@@ -241,11 +237,13 @@ public class MainActivity extends AppCompatActivity implements OnBeWithMeStatusC
         }
     }
 
+    /*******************************************************************************************
+     *                         Manual Callback Interface Overrides                             *
+     ******************************************************************************************/
+
     @Override
     public void updateThought(String string) {
         System.out.println("FLINTEMI: setText to \"" + string + "\"");
         textViewVariable.setText(string);
     }
-
-
 }
