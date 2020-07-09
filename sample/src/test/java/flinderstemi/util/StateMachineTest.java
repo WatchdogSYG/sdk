@@ -12,13 +12,14 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class StateMachineTest {
+    StateMachine initialisation;
     @Before
     public void setUp() throws Exception {
         Robot robot = Robot.getInstance();
 
 
         //this listener does not provide a way to select a specific tts request?
-        StateMachine initialisation = new StateMachine(robot);
+        initialisation = new StateMachine(robot);
         System.out.println("FLINTEMI: Create Initialisation Routine");
         //textView.setText("Current Action: Initialising");
 
@@ -34,7 +35,10 @@ public class StateMachineTest {
 
     @Test
     public void testIsCompleteSpeechSub() {
-        assertTrue(true);
+        System.out.println(initialisation.state);
+        assertEquals(initialisation.state,1);
+
+
     }
 
     void testIsCompletePatrolSub() {

@@ -7,7 +7,7 @@
     <application>
 
         <provider
-            android:name=".TemiSdkContentProvider"
+            android:name="TemiSdkContentProvider"
             android:authorities="${applicationId}.com.robotemi.sdk"
             android:enabled="true"
             android:exported="false" />

@@ -1,22 +1,10 @@
 <resources>
-    <string name="app_name">Temi SDK Sample</string>
-    <string name="enter_location">Please enter a location name</string>
-    <string name="save_location">Save Location</string>
-    <string name="go_to_location">Please enter location to go to</string>
-    <string name="go_to">Go to</string>
-    <string name="enter_speech">Please enter something to say</string>
-    <string name="speak">Speak</string>
-    <string name="follow_me">Follow Me</string>
-    <string name="saved_locations">Saved Locations</string>
-    <string name="show_contacts">Show Contacts</string>
-    <string name="stop_follow">Stop Follow</string>
-    <string name="skidjoy">skidjoy</string>
-    <string name="tiltangle">tiltAngle</string>
-    <string name="turnby">turnBy</string>
-    <string name="battery_info">Battery Info</string>
-    <string name="stop_movement">Stop Movement</string>
-    <string name="call_owner">Call Owner</string>
-    <string name="publish_to_activities">Publish To Activities</string>
-
-
+    <string name="app_name">Hospital Patrol</string>
+    <string name="opMenuHeader">Operator Menu</string>
+    <string name="btn_stop">Terminate this App</string>
+    <string name="btn_return">Stop the routine and return to the home base</string>
+    <string name="btn_returnToLauncher">Return to the System Launcher</string>
+    <string name="btn_returnToMain">Resume normal operation</string>
+    <string name="help">This is where I would display system diagnostics, state or help info..\n\nYou can get Temi to follow you by tapping it on the top of the head. It will stop following you if it can\'t find you, or if you tap it on the top of the head again.\n\nTo manage LOCATIONS, terminate this app and return to the Launcher. Go to the apps menu [icon] and click on "Locations". From there you can tap the ... to edit saved locations.\n\nReminder: Temi will patrol by cycling through all saved locations in order, except for the home base. Please do not delete the home base location.</string>
+    <string name="caption_qr">Scan the QR code with your device to access the Online User Manual.</string>
 </resources>

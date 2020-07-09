@@ -12,7 +12,7 @@ public class OperatorMenuActivity extends AppCompatActivity {
 
     }
 
-    public OperatorMenuActivity(Activity a) {
+    public void getMainReference(Activity a) {
         this.a = a;
         System.out.println(a.toString());
     }
