@@ -26,7 +26,7 @@ public class StateMachine implements Runnable {
      *                                        Calibration                                      *
      ******************************************************************************************/
 
-    final long waitDuration = 10000L;
+    final long waitDuration = 15000L;
 
     SetTextViewCallback stvc;
 
@@ -110,8 +110,8 @@ public class StateMachine implements Runnable {
 
         //initial greeting
         speechQueue = new ArrayList<TtsRequest>();
-        speechQueue.add(TtsRequest.create("Starting custom routine. Beep boop.", true));
-        speechQueue.add(TtsRequest.create("I will start my patrol.", true));
+        speechQueue.add(TtsRequest.create("Starting custom routine. Beep boop.", false));
+        speechQueue.add(TtsRequest.create("I will start my patrol.", false));
 
         locations = robot.getLocations();
         System.out.println("FLINTEMI: Locations = " + locations.toString());
@@ -136,9 +136,10 @@ public class StateMachine implements Runnable {
      * Sets the state to StateMachine.TERMINATED and wakes the State thread
      */
     public void stop() {
+        robot.stopMovement();
         synchronized (this) {
             state = TERMINATED;
-            robot.speak(TtsRequest.create("Routine Terminated", false));
+            robot.speak(TtsRequest.create("Routine Terminated", true));
             this.notify();
         }
     }
@@ -175,11 +176,14 @@ public class StateMachine implements Runnable {
 
             Timer t;
             long duration;
+            SetTextViewCallback stvc;
 
-            WaitSpeechListener(long duration) {
+
+            WaitSpeechListener(long duration, SetTextViewCallback stvc) {
                 System.out.println("FLINTEMI: Create Timer");
                 t = new Timer();
                 this.duration = duration;
+                this.stvc = stvc;
             }
 
             @Override
@@ -194,10 +198,13 @@ public class StateMachine implements Runnable {
                     //schedule the task to be completed after the waiting period ends
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     Date date = new Date();
-                    System.out.println("FLINTEMI: Waiting for 10 seconds starting:" + formatter.format(date));
+                    System.out.println("FLINTEMI: Waiting for " + duration + "ms starting:" + formatter.format(date));
 
+                    //this is actually called on the UI thread so it doesnt freak out
+                    this.stvc.updateThought("I will wait here for a while. Feel free to use my touchless hand sanitiser dispenser!");
                     //schedule it
                     t.schedule(doneWaiting, duration);
+
 
                     System.out.println("FLINTEMI: Removed WaitTTSListener");
                     robot.removeTtsListener(this);
@@ -210,11 +217,10 @@ public class StateMachine implements Runnable {
             try {
 
                 //announce
-                robot.speak(TtsRequest.create("I will wait here for 10 seconds.", true));
+                robot.speak(TtsRequest.create("I will wait here for " + waitDuration / 1000L + " seconds.", true));
 
                 //announce that we are going to wait, we will need a listener for this so the waiting can begin after the speech request ends
-                robot.addTtsListener(new WaitSpeechListener(millis));
-
+                robot.addTtsListener(new WaitSpeechListener(millis, stvc));
 
                 System.out.println("FLINTEMI: wait()");
                 this.wait();
@@ -270,13 +276,16 @@ public class StateMachine implements Runnable {
                         System.out.println(wakeCondition[1]);
                         switch (wakeCondition[1]) {
                             case "IDLE":
-                                stvc.updateThought("DetectionState: IDLE");
+                                //TODO
+                                // this.stvc.updateThought("DetectionState: IDLE");
                                 break;
                             case "LOST":
-                                stvc.updateThought("DetectionState: LOST");
+                                //TODO
+                                // this.stvc.updateThought("DetectionState: LOST");
                                 break;
                             case "DETECTED":
-                                stvc.updateThought("DetectionState: DETECTED");
+                                //TODO
+                                // this.stvc.updateThought("DetectionState: DETECTED");
                                 break;
                         }
                         break;
@@ -313,13 +322,18 @@ public class StateMachine implements Runnable {
             case PATROLLING://patrolling
                 //TODO fix the slight synch problem where the Routine complete message occurs when the last goto is started and not when it is finished
                 //TODO print message when no locations are saved as this throws an indexoutofbounds exception
+                //TODO run change thoughts from UI thread.
 
                 System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
+                //TODO
+                // this.stvc.updateThought("Going to the next waypoint...");
                 robot.goTo(locations.get(locationIndex));
 
                 //if there are no more loops to be done, go to next state
                 if (locationLoopIndex >= maxPatrolLoops - 1) {
                     System.out.println("FLINTEMI: Completed all loops");
+                    //TODO
+                    // this.stvc.updateThought("Completed all " + maxPatrolLoops + " loops");
                     completePatrolSub = true;
                     state = TERMINATED;
                 }

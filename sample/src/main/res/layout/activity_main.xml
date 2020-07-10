@@ -1,79 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vf"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="100"
-    android:background="@color/colorPrimaryDark"
     tools:context=".MainActivity">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="90">
-
-        <TextView
-            android:id="@+id/face"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minHeight="120dp"
-            android:text=":)"
-            android:textColor="@color/colorWhite"
-            android:layout_marginVertical="80dp"
-            android:textSize="210sp" />
-
-        <TextView
-            android:id="@+id/thoughtTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/face"
-            android:background="#009688"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center|left"
-            android:minHeight="80dp"
-            android:paddingLeft="200dp"
-            android:text="Current Action: "
-            android:textSize="30sp" />
-
-        <Button
-            android:id="@+id/btnCustom"
-            android:layout_width="220dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/thoughtTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_marginHorizontal="280dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/colorAccent"
-            android:onClick="startPatrol"
-            android:text="Start Patrol"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/btnStop"
-            android:layout_width="220dp"
-            android:layout_height="150dp"
-            android:layout_below="@id/thoughtTextView"
-            android:layout_alignParentRight="true"
-            android:layout_marginHorizontal="280dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/colorAccent"
-            android:onClick="stopStateMachine"
-            android:text="Stop"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/menu"
-        android:layout_width="80dp"
-        android:layout_height="0dp"
-        android:layout_gravity="end"
-        android:layout_weight="10"
+        android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
-        android:longClickable="true" />
-</LinearLayout>
+        android:orientation="vertical"
+        android:weightSum="100">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="85">
+
+            <TextView
+                android:id="@+id/face"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="70dp"
+                android:gravity="center"
+                android:minHeight="120dp"
+                android:text=":)"
+                android:textColor="@color/colorWhite"
+                android:textSize="210sp" />
+
+            <TextView
+                android:id="@+id/thoughtTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/face"
+                android:background="#009688"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center|left"
+                android:textAlignment="center"
+                android:minHeight="80dp"
+                android:text="@string/startPrompt"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/btnCustom"
+                android:layout_width="220dp"
+                android:layout_height="150dp"
+                android:layout_below="@id/thoughtTextView"
+                android:layout_alignParentLeft="true"
+                android:layout_marginHorizontal="536dp"
+                android:layout_marginTop="50dp"
+                android:background="@color/colorAccent"
+                android:onClick="startStateMachine"
+                android:text="Start Patrol"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/menu"
+            android:layout_width="120dp"
+            android:layout_height="0dp"
+            android:layout_gravity="end"
+            android:layout_weight="15"
+            android:background="@color/colorPrimaryDark"
+            android:longClickable="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:gravity="center"
+            android:text="@string/opMenuHeader"
+            android:textColor="@color/colorWhite"
+            android:textSize="70sp"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="70"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="80dp"
+                    android:paddingVertical="26dp">
+
+                    <Button
+                        android:id="@+id/btnStop"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@color/alert"
+                        android:onClick="stopStateMachine"
+                        android:text="@string/btn_stop"
+                        android:enabled="false"></Button>
+
+                    <Button
+                        android:id="@+id/btnRet"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@color/alert"
+                        android:text="@string/btn_return"></Button>
+
+                    <Button
+                        android:id="@+id/btnReturnToLauncher"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@color/alert"
+                        android:text="@string/btn_returnToLauncher"></Button>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="26dp"
+                    android:text="@string/help"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="17sp"></TextView>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="26dp">
+
+                    <ImageView
+                        android:id="@+id/qr"
+                        android:layout_width="match_parent"
+                        android:layout_height="380dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:src="@drawable/qr_code_readmemd_teal" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_below="@id/qr"
+                        android:text="@string/caption_qr"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20dp"></TextView>
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:padding="6dp">
+
+            <Button
+                android:id="@+id/btnReturnToMain"
+                android:layout_width="215dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorTemi"
+                android:onClick="toMainMenu"
+                android:text="@string/btn_returnToMain"></Button>
+        </LinearLayout>
+    </LinearLayout>
+</ViewFlipper>
+
 

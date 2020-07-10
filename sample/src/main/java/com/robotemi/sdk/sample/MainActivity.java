@@ -1,6 +1,5 @@
 package com.robotemi.sdk.sample;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,6 +44,10 @@ public class MainActivity extends AppCompatActivity implements
     private Button operatorMenuButton;
     private TextView faceTextView;//temp
     private Button startButton;
+    private Button stopButton;
+    private ViewFlipper vf;
+
+    String thoughtPrefix;
 
     /*******************************************************************************************
      *                                    Functionality                                        *
@@ -53,26 +57,24 @@ public class MainActivity extends AppCompatActivity implements
         textViewVariable = findViewById(R.id.thoughtTextView);
         faceTextView = findViewById(R.id.face);
         startButton = findViewById(R.id.btnCustom);
+        stopButton = findViewById(R.id.btnStop);
+        vf = findViewById(R.id.vf);
         operatorMenuButton = findViewById(R.id.menu);
         operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                System.out.println("Old size: " + faceTextView.getTextSize());
-                faceTextView.setText("Operator Menu");
-                faceTextView.setTextSize(60);
-                textViewVariable.setVisibility(View.GONE);
-                startButton.setVisibility(View.GONE);
-                textViewVariable.setVisibility(View.GONE);
-                operatorMenuButton.setVisibility(View.GONE);
-                switchToOpMenu();
+                toOpMenu();
                 return true;
             }
         });
     }
 
-    public void switchToOpMenu() {
-        Intent i = new Intent(this, OperatorMenuActivity.class);
-        startActivity(i);
+    private void toOpMenu() {
+        vf.showNext();
+    }
+
+    public void toMainMenu(View view) {
+        vf.showPrevious();
     }
 
     /**
@@ -80,17 +82,24 @@ public class MainActivity extends AppCompatActivity implements
      *
      * @param view
      */
-    public void startPatrol(View view) {
+    public void startStateMachine(View view) {
+        startButton.setVisibility(View.GONE);
+        stopButton.setEnabled(true);
+        textViewVariable.setPadding(200, 0, 0, 0);
+        textViewVariable.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         routine = new StateMachine(robot, this);
         System.out.println("FLINTEMI: Create Initialisation Routine");
-        updateThought("Current Action: Initialising");
+        updateThought(getResources().getString(R.string.cInit));
         synchronized (routine) {
             new Thread(routine).start();
         }
     }
 
     public void stopStateMachine(View view) {
+        updateThought(getResources().getString(R.string.cTermination));
         routine.stop();
+        stopButton.setEnabled(false);
+        startButton.setVisibility(View.VISIBLE);
     }
 
     /*******************************************************************************************
@@ -140,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements
         robot.setPrivacyMode(true);
         robot.toggleNavigationBillboard(true);
 
-        textViewVariable.setText("Current Action: onStart");
+        thoughtPrefix = getResources().getString(R.string.cPrefix);
     }
 
     /**
@@ -244,6 +253,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void updateThought(String string) {
         System.out.println("FLINTEMI: setText to \"" + string + "\"");
-        textViewVariable.setText(string);
+        textViewVariable.setText(thoughtPrefix + string);
     }
 }
