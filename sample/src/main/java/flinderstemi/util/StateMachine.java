@@ -44,6 +44,7 @@ public class StateMachine implements Runnable {
     final int CONVERSING = 2;
     final int TERMINATED = 3;
     final int PAUSED = 4;
+    final int RETURNING = 5;
 
     //lists of actions
     List<TtsRequest> speechQueue;
@@ -139,7 +140,6 @@ public class StateMachine implements Runnable {
         robot.stopMovement();
         synchronized (this) {
             state = TERMINATED;
-            robot.speak(TtsRequest.create("Routine Terminated", true));
             this.notify();
         }
     }
@@ -344,11 +344,17 @@ public class StateMachine implements Runnable {
                 break;
             case TERMINATED:
                 System.out.println("FLINTEMI: State set to 3 (terminate)");
-                robot.speak(TtsRequest.create("I have finished my routine.", true));
+                robot.speak(TtsRequest.create("Routine Terminated", true));
                 break;
             case PAUSED:
 
 
+                break;
+            case RETURNING:
+                robot.stopMovement();
+                robot.speak(TtsRequest.create("Returning to the home base", true));
+                robot.goTo(locations.get(0));
+                state = TERMINATED;
                 break;
             default:
                 break;
@@ -375,12 +381,15 @@ public class StateMachine implements Runnable {
             synchronized (this) {
                 try {
                     System.out.println("FLINTEMI: try state machine wait");
-                    wait();
+                    if (state != TERMINATED) {
+                        wait();
+                    }
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
                 wake();
             }
         }
+        //TERMINATED
     }
 }

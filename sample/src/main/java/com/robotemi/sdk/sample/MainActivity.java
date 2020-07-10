@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements
     private TextView faceTextView;//temp
     private Button startButton;
     private Button stopButton;
+    private Button returnButton;
     private ViewFlipper vf;
 
     String thoughtPrefix;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements
         faceTextView = findViewById(R.id.face);
         startButton = findViewById(R.id.btnCustom);
         stopButton = findViewById(R.id.btnStop);
+        returnButton = findViewById(R.id.btnRet);
         vf = findViewById(R.id.vf);
         operatorMenuButton = findViewById(R.id.menu);
         operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements
     public void startStateMachine(View view) {
         startButton.setVisibility(View.GONE);
         stopButton.setEnabled(true);
+        returnButton.setEnabled(true);
         textViewVariable.setPadding(200, 0, 0, 0);
         textViewVariable.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         routine = new StateMachine(robot, this);
@@ -99,7 +102,25 @@ public class MainActivity extends AppCompatActivity implements
         updateThought(getResources().getString(R.string.cTermination));
         routine.stop();
         stopButton.setEnabled(false);
+        returnButton.setEnabled(false);
         startButton.setVisibility(View.VISIBLE);
+    }
+
+    public void ReturnToBase(View view) {
+        updateThought(getResources().getString(R.string.cReturn));
+        //TODO fix null obj ref
+        if (routine == null) {
+            //is this rigorous enough, can we remove/modify the home base
+            robot.goTo("home base");
+        } else {
+            robot.goTo("home base");
+        }
+    }
+
+    public void returnToLauncher(View view) {
+        routine.stop();
+        System.out.println("FLINTEMI: Calling finish(). Shutting down app immediately.");
+        finish();
     }
 
     /*******************************************************************************************

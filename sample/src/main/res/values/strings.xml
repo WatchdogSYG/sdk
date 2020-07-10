@@ -4,17 +4,14 @@
     <string name="opMenuHeader">Operator Menu</string>
     <string name="btn_stop">Stop</string>
     <string name="btn_return">Stop and return to the home base</string>
-    <string name="btn_returnToLauncher">Stop and return to the System Launcher</string>
+    <string name="btn_returnToLauncher">Restart this app</string>
     <string name="btn_returnToMain">Resume normal operation</string>
-    <string name="help">This is where I would display system diagnostics, state or help info..\n\nYou can get Temi to follow you by tapping it on the top of the head. It will stop following you if it can\'t find you, or if you tap it on the top of the head again.\n\nTo manage LOCATIONS, terminate this app and return to the Launcher. Go to the apps menu [icon] and click on "Locations". From there you can tap the ... to edit saved locations.\n\nReminder: Temi will patrol by cycling through all saved locations in order, except for the home base. Please do not delete the home base location.</string>
+    <string name="help">This is where I would display system diagnostics, state or help info&#8230;\n\nYou can get Temi to follow you by tapping it on the top of the head. It will stop following you if it can\'t find you, or if you tap it on the top of the head again.\n\nTo manage LOCATIONS, terminate this app and return to the Launcher. Go to the apps menu [icon] and click on "Locations". From there you can tap the ... to edit saved locations.\n\nReminder: Temi will patrol by cycling through all saved locations in order, except for the home base. Please do not delete the home base location.</string>
     <string name="caption_qr">Scan the QR code with your device to access the Online User Manual.</string>
-
-
     <string name="cPrefix">Current Action:\u0020</string>
-    <string name="cInit">Initialisation...</string>
+    <string name="cInit">Initialisation&#8230;</string>
     <string name="cTermination">Routine Terminated.</string>
-    <string name="cWait">I am waiting here. Feel free to use my touchless hand sanitiser dispenser!</string>
-
-
-    <string name="sGoingTo">Going to the next waypoint...</string>
+    <string name="cWait">I am waiting here. Feel free to use my touch-less hand sanitiser dispenser!</string>
+    <string name="cReturn">Returning to the home base&#8230;</string>
+    <string name="sGoingTo">Going to the next waypoint&#8230;</string>
 </resources>

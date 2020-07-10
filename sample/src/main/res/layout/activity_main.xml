@@ -39,9 +39,9 @@
                 android:cursorVisible="false"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center|left"
-                android:textAlignment="center"
                 android:minHeight="80dp"
                 android:text="@string/startPrompt"
+                android:textAlignment="center"
                 android:textSize="30sp" />
 
             <Button
@@ -111,9 +111,9 @@
                         android:layout_height="120dp"
                         android:layout_marginBottom="40dp"
                         android:background="@color/alert"
+                        android:enabled="false"
                         android:onClick="stopStateMachine"
-                        android:text="@string/btn_stop"
-                        android:enabled="false"></Button>
+                        android:text="@string/btn_stop"></Button>
 
                     <Button
                         android:id="@+id/btnRet"
@@ -121,6 +121,7 @@
                         android:layout_height="120dp"
                         android:layout_marginBottom="40dp"
                         android:background="@color/alert"
+                        android:onClick="ReturnToBase"
                         android:text="@string/btn_return"></Button>
 
                     <Button
@@ -129,6 +130,7 @@
                         android:layout_height="120dp"
                         android:layout_marginBottom="40dp"
                         android:background="@color/alert"
+                        android:onClick="returnToLauncher"
                         android:text="@string/btn_returnToLauncher"></Button>
                 </LinearLayout>
 
