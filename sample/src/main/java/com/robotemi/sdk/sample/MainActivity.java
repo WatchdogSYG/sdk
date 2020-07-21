@@ -262,6 +262,9 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("onDetectionStateChanged", "state = " + state);
         if (state == DETECTED) {
             robot.constraintBeWith();
+            Log.d(this.getClass().getName(), "onDetectionState = DETECTED");
+            //TODO move this listener to another class and into the statemachine
+            robot.speak(TtsRequest.create("Hello there, feel free to use my touchless sanitiser dispenser. Maintaining good hand hygiene is an important measure we can take to prevent infectious diseases from spreading.", false));
         } else {
             robot.stopMovement();
         }
@@ -272,8 +275,14 @@ public class MainActivity extends AppCompatActivity implements
      ******************************************************************************************/
 
     @Override
-    public void updateThought(String string) {
-        System.out.println("FLINTEMI: setText to \"" + string + "\"");
-        textViewVariable.setText(thoughtPrefix + string);
+    public void updateThought(final String string) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //TODO use string res with placeholders
+                System.out.println("FLINTEMI: setText to \"" + string + "\"");
+                textViewVariable.setText(thoughtPrefix + string);
+            }
+        });
     }
 }
