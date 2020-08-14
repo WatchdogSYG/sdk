@@ -270,6 +270,7 @@ public class StateMachine implements Runnable {
                 System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
                 stvc.updateThought("Going to the next waypoint ...");
                 robot.speak(TtsRequest.create("I'm going to the next waypoint now. Goodbye.", false));
+
                 robot.goTo(locations.get(locationIndex));
 
                 //if there are no more loops to be done, go to next state

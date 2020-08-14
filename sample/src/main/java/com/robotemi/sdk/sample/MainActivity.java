@@ -2,6 +2,7 @@ package com.robotemi.sdk.sample;
 
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements
      *
      * @param view
      */
+    MediaPlayer mp;
     public void startStateMachine(View view) {
         startButton.setVisibility(View.GONE);
         stopButton.setEnabled(true);
@@ -96,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements
         synchronized (routine) {
             new Thread(routine).start();
         }
+        mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
+        mp.setLooping(true);
+        mp.start();
     }
 
     public void stopStateMachine(View view) {
@@ -104,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements
         stopButton.setEnabled(false);
         returnButton.setEnabled(false);
         startButton.setVisibility(View.VISIBLE);
+        mp.stop();
     }
 
     public void ReturnToBase(View view) {
@@ -119,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void returnToLauncher(View view) {
         routine.stop();
+        mp.stop();
         System.out.println("FLINTEMI: Calling finish(). Shutting down app immediately.");
         finish();
     }
@@ -179,14 +186,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
+        mp.stop();
         robot.removeOnRobotReadyListener(this);
         robot.removeOnBeWithMeStatusChangedListener(this);
         robot.removeOnConstraintBeWithStatusChangedListener(this);
         robot.removeDetectionStateChangedListener(this);
         robot.stopMovement();
-
-        //demo speak
-        robot.speak(TtsRequest.create("Hello, World. This is when onStop functions are called.", false));
     }
 
     /*******************************************************************************************
