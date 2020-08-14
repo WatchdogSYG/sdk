@@ -5,6 +5,8 @@ package flinderstemi.util;
  * JDoc
  */
 
+import android.util.Log;
+
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 
@@ -22,6 +24,8 @@ public class StateMachine implements Runnable {
      ******************************************************************************************/
 
     final long idleTimeDuration = 15000L;
+    final int socLow = 44; //adjust this for testing
+    final int socHigh = 95; //adjust this to manage uptime as the charging of the battery will taper as SOC->100
 
     /*******************************************************************************************
      *                                        Callbacks                                        *
@@ -57,6 +61,8 @@ public class StateMachine implements Runnable {
     final int initialState = GREETING;
 
     public String[] wakeCondition;
+
+    DetectionListener dl;//the positioning of this variable allows adding and removing of a DetectionListener when we want so we can avoid interrupting TTS when looking for a user interaction
 
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
@@ -117,11 +123,11 @@ public class StateMachine implements Runnable {
         System.out.println("FLINTEMI: Locations = " + locations.toString());
 
 
-        Robot.TtsListener l = new TTSSequenceListener(robot, this);
-        DetectionListener dl = new DetectionListener(robot, this);
-        robot.addOnDetectionStateChangedListener(dl);
+        Robot.TtsListener sl = new TTSSequenceListener(robot, this);
+        dl = new DetectionListener(robot, this);
+
         System.out.println("FLINTEMI: Add new Listener");
-        robot.addTtsListener(l);
+        robot.addTtsListener(sl);
         System.out.println("FLINTEMI: Added new Listener");
 
 
@@ -153,19 +159,14 @@ public class StateMachine implements Runnable {
     }
 
     public void waitFor(long millis) {
-
-        final StateMachine sm = this;
-
-
         //start the timer and schedule the task (WaitspeechListaner now contains the timer and timertask)
         synchronized (this) {
             try {
-
                 //announce
                 robot.speak(TtsRequest.create("I will wait here for " + idleTimeDuration / 1000L + " seconds. Please, feel free to use my hand sanitiser dispenser.", false));
 
                 //announce that we are going to wait, we will need a listener for this so the waiting can begin after the speech request ends
-                robot.addTtsListener(new WaitSpeechListener(millis, stvc, this, robot));
+                robot.addTtsListener(new WaitSpeechListener(millis, stvc, dl, this, robot));
 
                 System.out.println("FLINTEMI: wait()");
                 this.wait();
@@ -222,7 +223,7 @@ public class StateMachine implements Runnable {
                         switch (wakeCondition[1]) {
                             case "IDLE":
                                 //TODO
-                                // this.stvc.updateThought("DetectionState: IDLE");
+                                this.stvc.updateThought("DetectionState: IDLE");
                                 break;
                             case "LOST":
                                 //TODO
@@ -317,7 +318,16 @@ public class StateMachine implements Runnable {
 
         while (state != TERMINATED) {
             System.out.println("FLINTEMI: Do action at state=" + state);
-            nextAction();
+
+            int soc = robot.getBatteryData().getBatteryPercentage();
+            if (soc <= socLow) {
+                state = RETURNING;
+                Log.d("Battery", Integer.toString(soc));
+                Log.i("Logic", "Low battery, returning to base and set state=RETURNING");
+            } else {
+                nextAction();
+            }
+
             System.out.println("FLINTEMI: Finished action at state=" + state);//TODO fix print bug on state change
             System.out.println("FLINTEMI: synchronise routine");
 

@@ -17,7 +17,6 @@ import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
-import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 
 import flinderstemi.util.SetTextViewCallback;
@@ -26,7 +25,7 @@ import flinderstemi.util.StateMachine;
 public class MainActivity extends AppCompatActivity implements
         OnBeWithMeStatusChangedListener,
         OnConstraintBeWithStatusChangedListener,
-        OnDetectionStateChangedListener,
+        //OnDetectionStateChangedListener,
         OnRobotReadyListener,
         SetTextViewCallback {
 
@@ -86,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements
      * @param view
      */
     MediaPlayer mp;
+
     public void startStateMachine(View view) {
         startButton.setVisibility(View.GONE);
         stopButton.setEnabled(true);
@@ -130,6 +130,10 @@ public class MainActivity extends AppCompatActivity implements
         finish();
     }
 
+    public void debugArea(View view) {
+        Log.i("Battery", Integer.toString(robot.getBatteryData().getBatteryPercentage()));
+    }
+
     /*******************************************************************************************
      *                                    Initialisation                                       *
      ******************************************************************************************/
@@ -170,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnRobotReadyListener(this);
         robot.addOnBeWithMeStatusChangedListener(this);
         robot.addOnConstraintBeWithStatusChangedListener(this);
-        robot.addOnDetectionStateChangedListener(this);
+        //robot.addOnDetectionStateChangedListener(this);
 
         //demo speak
         robot.hideTopBar();
@@ -186,11 +190,13 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        mp.stop();
+        if (!(mp == null)) {
+            mp.stop();
+        }
         robot.removeOnRobotReadyListener(this);
         robot.removeOnBeWithMeStatusChangedListener(this);
         robot.removeOnConstraintBeWithStatusChangedListener(this);
-        robot.removeDetectionStateChangedListener(this);
+        //robot.removeDetectionStateChangedListener(this);
         robot.stopMovement();
     }
 
@@ -262,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d("onConstraintBeWith", "status = " + isConstraint);
     }
 
-    @Override
+    /*@Override
     public void onDetectionStateChanged(int state) {
         Log.d("onDetectionStateChanged", "state = " + state);
         if (state == DETECTED) {
@@ -273,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements
         } else {
             robot.stopMovement();
         }
-    }
+    }*/
 
     /*******************************************************************************************
      *                         Manual Callback Interface Overrides                             *

@@ -1,5 +1,7 @@
 package flinderstemi.util.listeners;
 
+import android.util.Log;
+
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 
@@ -22,20 +24,18 @@ public class DetectionListener implements OnDetectionStateChangedListener {
         //final int IDLE = 0
         //final int LOST = 1
         //final int DETECTED = 2
-        System.out.println(state);
-        switch (state) {
-            case OnDetectionStateChangedListener.IDLE:
-                stateMachine.setWakeCondition(new String[]{"DETECTION", "IDLE"});
-                System.out.println("IDLE");
-                break;
-            case OnDetectionStateChangedListener.LOST:
-                stateMachine.setWakeCondition(new String[]{"DETECTION", "LOST"});
-                System.out.println("LOST");
-                break;
-            case OnDetectionStateChangedListener.DETECTED:
-                stateMachine.setWakeCondition(new String[]{"DETECTION", "DETECTED"});
-                System.out.println("DETECTED");
-                break;
+
+
+        Log.d("onDetectionStateChanged", "state = " + state);
+        if (state == DETECTED) {
+            robot.constraintBeWith();
+            Log.d(this.getClass().getName(), "onDetectionState = DETECTED");
+
+            //remove this listener as we do not want it triggering again and interrupting itself, note that we will have to listen for the end of the above speech so we can re-add this listener
+            robot.removeDetectionStateChangedListener(this);
+            robot.addTtsListener(new InteractionSpeechListener(this, robot, stateMachine));
+        } else {
+            robot.stopMovement();
         }
     }
 }

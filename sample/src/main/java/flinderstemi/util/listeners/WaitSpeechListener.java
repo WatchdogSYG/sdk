@@ -1,5 +1,7 @@
 package flinderstemi.util.listeners;
 
+import android.util.Log;
+
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 
@@ -21,14 +23,17 @@ public class WaitSpeechListener implements Robot.TtsListener {
     StateMachine sm;
     Robot robot;
     TimerTask doneWaiting;
+    DetectionListener dl;
 
-    public WaitSpeechListener(long duration, SetTextViewCallback stvc, final StateMachine sm, Robot robot) {
+    public WaitSpeechListener(long duration, SetTextViewCallback stvc, DetectionListener dl, final StateMachine sm, Robot robot) {
         System.out.println("FLINTEMI: Create Timer");
         t = new Timer();
         this.duration = duration;
         this.stvc = stvc;
         this.sm = sm;
         this.robot = robot;
+        this.dl = dl;
+        this.dl = dl;
 
         doneWaiting = new TimerTask() {
             @Override
@@ -63,6 +68,10 @@ public class WaitSpeechListener implements Robot.TtsListener {
             this.stvc.updateThought("Waiting ...");
             //schedule it
             t.schedule(doneWaiting, duration);
+
+            //since we are on the UI thread already, we can activate the Detection listener now. The bot has already finished talking so this will not cause an interruption
+            Log.d("Detection", "addOnDetectionStateChengedListener");
+            robot.addOnDetectionStateChangedListener(dl);
 
 
             System.out.println("FLINTEMI: Removed WaitTTSListener");

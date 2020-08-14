@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
-        android:weightSum="100">
+        android:weightSum="100"
+        android:onClick="debugArea">
 
         <RelativeLayout
             android:layout_width="match_parent"
