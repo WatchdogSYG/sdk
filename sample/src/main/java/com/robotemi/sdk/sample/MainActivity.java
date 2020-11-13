@@ -176,6 +176,8 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnConstraintBeWithStatusChangedListener(this);
         //robot.addOnDetectionStateChangedListener(this);
 
+        robot.setDetectionModeOn(true,2.0f);
+        
         //demo speak
         robot.hideTopBar();
         robot.setPrivacyMode(true);
