@@ -70,7 +70,7 @@ public class WaitSpeechListener implements Robot.TtsListener {
             t.schedule(doneWaiting, duration);
 
             //since we are on the UI thread already, we can activate the Detection listener now. The bot has already finished talking so this will not cause an interruption
-            Log.d("Detection", "addOnDetectionStateChengedListener");
+            Log.d("Detection", "addOnDetectionStateChangedListener");
             robot.addOnDetectionStateChangedListener(dl);
 
 
