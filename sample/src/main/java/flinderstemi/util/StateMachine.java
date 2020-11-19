@@ -57,7 +57,7 @@ public class StateMachine implements Runnable {
     int speechIndex;
     int locationIndex;
     int locationLoopIndex;
-    final int maxPatrolLoops = GlobalParameters.MAX_PATROL_LOOPS;
+    final int maxPatrolLoops = GlobalVariables.MAX_PATROL_LOOPS;
     final int initialState = GREETING;
 
     public String[] wakeCondition;

@@ -5,17 +5,22 @@ import android.content.res.Resources;
 
 import com.robotemi.sdk.sample.R;
 
-public class GlobalParameters {
-    public Context appContext;
-    public Resources resources;
+//TODO JavaDoc
 
-    public static int MAX_PATROL_LOOPS;
+/**
+ *
+ */
+public class GlobalVariables {
+    public Context appContext;
+    public static Resources resources;
+
+    public static int MAX_PATROL_LOOPS = resources.getInteger(R.integer.maxPatrolLoops);
 
     public static int SOC_HIGH;
     public static int SOC_LOW;
     public static int SOC_BUFFER;
 
-    public GlobalParameters() {
+    public GlobalVariables() {
         resources = appContext.getResources();
 
         MAX_PATROL_LOOPS = resources.getInteger(R.integer.maxPatrolLoops);

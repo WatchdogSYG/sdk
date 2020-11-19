@@ -19,7 +19,7 @@ import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 
-import flinderstemi.util.GlobalParameters;
+import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.StateMachine;
 
@@ -54,25 +54,33 @@ public class MainActivity extends AppCompatActivity implements
 
     String thoughtPrefix;
 
+    MediaPlayer mp;
+
     /*******************************************************************************************
      *                                    Functionality                                        *
      ******************************************************************************************/
 
+    /**
+     * ViewFlipper Button to Operator Menu
+     */
     private void toOpMenu() {
         vf.showNext();
     }
 
+    /**
+     * ViewFlipper Button to Main Menu.
+     *
+     * @param view
+     */
     public void toMainMenu(View view) {
         vf.showPrevious();
     }
 
     /**
-     * This custom method implements the "patrol" functionality.
+     * This custom method starts the "patrol" functionality.
      *
      * @param view
      */
-    MediaPlayer mp;
-
     public void startStateMachine(View view) {
         startButton.setVisibility(View.GONE);
         stopButton.setEnabled(true);
@@ -160,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         //get Global Parameters for use in the app
-        new GlobalParameters();//call GP constr to get values from /res
+        new GlobalVariables();//call GP constr to get values from /res
 
         //do not need storage permissions for this app
         //verifyStoragePermissions(this);
@@ -195,18 +203,33 @@ public class MainActivity extends AppCompatActivity implements
 
         //check what to initially do based on SOC
         int soc = robot.getBatteryData().getBatteryPercentage();
-        if (soc <= GlobalParameters.SOC_LOW + GlobalParameters.SOC_BUFFER) {
+        if (soc <= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
             //low battery
             if (robot.getBatteryData().isCharging()) {
-                //charging
+                //tell the user it is charging
                 robot.speak(TtsRequest.create("Hello, I am low on battery. Press the button on the screen if you want me to start patrolling when my battery is full.", false));
                 //set UI elements
                 startButton.setText("Auto-start patrol when battery is full");
+                //set functionality
+                startButton.setOnClickListener(null);
+                startButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //startButton.setText("");
+                    }
+                });
             } else {
                 //not charging
                 robot.speak(TtsRequest.create("Hello, I am low on battery and also am not connected to a charging source. Please send me back to the home base so I can charge myself. I can do this automatically if you press the button on the screen.", false));
                 //set UI elements
                 startButton.setText("Return to charging station");
+                startButton.setOnClickListener(null);
+                startButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
             }
             //start a SOCListener to detect when we should change the UI to the next stage
         } else {
