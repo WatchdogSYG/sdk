@@ -57,7 +57,7 @@ public class StateMachine implements Runnable {
     int speechIndex;
     int locationIndex;
     int locationLoopIndex;
-    final int maxPatrolLoops = 100;
+    final int maxPatrolLoops = GlobalParameters.MAX_PATROL_LOOPS;
     final int initialState = GREETING;
 
     public String[] wakeCondition;
@@ -274,8 +274,8 @@ public class StateMachine implements Runnable {
 
                 robot.goTo(locations.get(locationIndex));
 
-                //if there are no more loops to be done, go to next state
-                if (locationLoopIndex >= maxPatrolLoops - 1) {
+                //if there are no more loops to be done, go to next state. The equality operator allows for a mexPatrolLoops of -1 to result in infinite looping until manual termination.
+                if (locationLoopIndex == maxPatrolLoops) {
                     System.out.println("FLINTEMI: Completed all loops");
                     stvc.updateThought("Completed all patrol loops. I will now return to the home base.");
                     completePatrolSub = true;
@@ -296,7 +296,7 @@ public class StateMachine implements Runnable {
                 break;
             case RETURNING:
                 robot.stopMovement();
-                robot.speak(TtsRequest.create("Returning to the home base", true));
+                robot.speak(TtsRequest.create("I'm running out of battery so I will return to the home base to charge myself. Goodbye.", true));
                 robot.goTo(locations.get(0));
                 state = TERMINATED;
                 break;
@@ -324,6 +324,7 @@ public class StateMachine implements Runnable {
                 state = RETURNING;
                 Log.d("Battery", Integer.toString(soc));
                 Log.i("Logic", "Low battery, returning to base and set state=RETURNING");
+                nextAction();
             } else {
                 nextAction();
             }

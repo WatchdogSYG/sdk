@@ -19,9 +19,13 @@ import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 
+import flinderstemi.util.GlobalParameters;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.StateMachine;
 
+/**
+ * MainActivity JavaDoc
+ */
 public class MainActivity extends AppCompatActivity implements
         OnBeWithMeStatusChangedListener,
         OnConstraintBeWithStatusChangedListener,
@@ -53,23 +57,6 @@ public class MainActivity extends AppCompatActivity implements
     /*******************************************************************************************
      *                                    Functionality                                        *
      ******************************************************************************************/
-
-    public void initViews() {
-        textViewVariable = findViewById(R.id.thoughtTextView);
-        faceTextView = findViewById(R.id.face);
-        startButton = findViewById(R.id.btnCustom);
-        stopButton = findViewById(R.id.btnStop);
-        returnButton = findViewById(R.id.btnRet);
-        vf = findViewById(R.id.vf);
-        operatorMenuButton = findViewById(R.id.menu);
-        operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                toOpMenu();
-                return true;
-            }
-        });
-    }
 
     private void toOpMenu() {
         vf.showNext();
@@ -139,7 +126,11 @@ public class MainActivity extends AppCompatActivity implements
      ******************************************************************************************/
 
     /**
+     * Called on Temi Android software initialisation.
      * Places this application in the top bar for a quick access shortcut.
+     *
+     * @param isReady
+     *
      */
     @Override
     public void onRobotReady(boolean isReady) {
@@ -153,20 +144,83 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * Called on Activity instantiation.
+     * Sets <code>GlobalParameters</code> member variables to appropriate /res/values fields.
+     * Verifies permissions.
+     * Gets TemiSDK's Robot Instance.
+     * Initialises UI View Elements.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        initViews();
+
+        //get Global Parameters for use in the app
+        new GlobalParameters();//call GP constr to get values from /res
 
         //do not need storage permissions for this app
         //verifyStoragePermissions(this);
-        robot = Robot.getInstance(); // get an instance of the robot in order to begin using its features.
+
+        // get an instance of the robot in order to begin using its features.
+        robot = Robot.getInstance();
+
+        //initialise Views in UI
+        initViews();
+    }
+
+    //TODO initialise based on stored options
+
+    /**
+     * Initialises views based on starting SOC and stored options.
+     */
+    public void initViews() {
+        textViewVariable = findViewById(R.id.thoughtTextView);
+        faceTextView = findViewById(R.id.face);
+        startButton = findViewById(R.id.btnCustom);
+        stopButton = findViewById(R.id.btnStop);
+        returnButton = findViewById(R.id.btnRet);
+        vf = findViewById(R.id.vf);
+        operatorMenuButton = findViewById(R.id.menu);
+        operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                toOpMenu();
+                return true;
+            }
+        });
+
+        //check what to initially do based on SOC
+        int soc = robot.getBatteryData().getBatteryPercentage();
+        if (soc <= GlobalParameters.SOC_LOW + GlobalParameters.SOC_BUFFER) {
+            //low battery
+            if (robot.getBatteryData().isCharging()) {
+                //charging
+                robot.speak(TtsRequest.create("Hello, I am low on battery. Press the button on the screen if you want me to start patrolling when my battery is full.", false));
+                //set UI elements
+                startButton.setText("Auto-start patrol when battery is full");
+            } else {
+                //not charging
+                robot.speak(TtsRequest.create("Hello, I am low on battery and also am not connected to a charging source. Please send me back to the home base so I can charge myself. I can do this automatically if you press the button on the screen.", false));
+                //set UI elements
+                startButton.setText("Return to charging station");
+            }
+            //start a SOCListener to detect when we should change the UI to the next stage
+        } else {
+            //enough battery
+            //leave at default
+        }
+
     }
 
     /**
-     * Setting up all the event listeners
+     * Called on Activity start.
+     * Sets Event Listeners.
+     * Sets TemiSDK.Robot options.
+     * Miscellaneous UI initialisations.
      */
     @Override
     protected void onStart() {
@@ -176,8 +230,8 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnConstraintBeWithStatusChangedListener(this);
         //robot.addOnDetectionStateChangedListener(this);
 
-        robot.setDetectionModeOn(true,2.0f);
-        
+        robot.setDetectionModeOn(true, 2.0f);
+
         //demo speak
         robot.hideTopBar();
         robot.setPrivacyMode(true);
@@ -187,7 +241,10 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Removing the event listeners upon leaving the app.
+     * Called when Activity stops.
+     * Removes all event listeners.
+     * Stops all other objetcs such as <code>MediaPlayer</code>s.
+     * Stops robot movement.
      */
     @Override
     protected void onStop() {
@@ -195,6 +252,8 @@ public class MainActivity extends AppCompatActivity implements
         if (!(mp == null)) {
             mp.stop();
         }
+
+        ///remember to remove all listeners
         robot.removeOnRobotReadyListener(this);
         robot.removeOnBeWithMeStatusChangedListener(this);
         robot.removeOnConstraintBeWithStatusChangedListener(this);

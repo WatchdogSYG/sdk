@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="maxPatrolLoops">-1</integer>
+    <integer name="SOCH">100</integer>
+    <integer name="SOCL">20</integer>
+    <integer name="SOCBuffer">10</integer>
+</resources>
