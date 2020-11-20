@@ -27,6 +27,7 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
 
     @Override
     public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
+        //reminder that we are now at low battery
         if (status == "COMPLETED") {
             //we are now charging
             robot.removeOnGoToLocationStatusChangedListener(this);
