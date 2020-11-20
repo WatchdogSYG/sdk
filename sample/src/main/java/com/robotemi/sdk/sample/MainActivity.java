@@ -16,24 +16,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.robotemi.sdk.BatteryData;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
-import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
-import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.StateMachine;
+import flinderstemi.util.listeners.ReturnToChargeOnClickListener;
 
 /**
  * MainActivity JavaDoc
  */
 public class MainActivity extends AppCompatActivity implements
-        OnBeWithMeStatusChangedListener,
         OnConstraintBeWithStatusChangedListener,
-        //OnDetectionStateChangedListener,
         OnRobotReadyListener,
         SetTextViewCallback {
 
@@ -42,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements
      ******************************************************************************************/
 
     private Robot robot;
+    private SetTextViewCallback stvc;
     private StateMachine routine;
 
     /*******************************************************************************************
@@ -90,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
         BatteryData bd = robot.getBatteryData();
         int soc = bd.getBatteryPercentage();
         Log.i("BATTERY", Integer.toString(soc));
-        if (soc <= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
+        if (soc <= GlobalVariables.SOC_LOW) {
             //low battery
             if (robot.getBatteryData().isCharging()) {
                 //tell the user it is charging
@@ -98,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements
                 //set UI elements
                 startButton.setText("Auto-start patrol when battery is full");
                 //set functionality
-                //startButton.setOnClickListener(null);
                 startButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -109,30 +104,10 @@ public class MainActivity extends AppCompatActivity implements
                 //not charging
                 robot.speak(TtsRequest.create("Hello, I am low on battery and also am not connected to a charging source. Please send me back to the home base so I can charge myself. I can do this automatically if you press the button on the screen.", false));
                 //set UI elements
-                startButton.setText("Return to charging station");
-                //startButton.setOnClickListener(null);
-                startButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Give feedback to the user that we are returning and disable further input
-                        startButton.setText("Returning to home base");
-                        startButton.setEnabled(false);
-                        //start a LocationListener so we know when we reach the home base
-                        Log.d("LOCATION", robot.getLocations().get(0));
-                        robot.goTo(GlobalVariables.L_HOME_BASE);
-                        Log.d("LOCATION", "Going to Charging Station");
-                        robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {
-                            @Override
-                            public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
-
-                                if (status == "COMPLETED") {
-                                    Log.d("LOCATION", "Reached Charging Station");
-                                    robot.speak(TtsRequest.create("e", false));
-                                }
-                            }
-                        });
-                    }
-                });
+                //Give feedback to the user that we are returning and disable further input
+                startButton.setText("Returning to home base");
+                startButton.setEnabled(false);
+                startButton.setOnClickListener(new ReturnToChargeOnClickListener(startButton, robot, stvc));
             }
             //start a SOCListener to detect when we should change the UI to the next stage
         } else {
@@ -228,11 +203,13 @@ public class MainActivity extends AppCompatActivity implements
         //get Global Parameters for use in the app
         new GlobalVariables(this, robot);//call GP constr to get values from /res
 
-        //do not need storage permissions for this app
+        //Verify permissions here
+        //do not need storage permissions for this app, maybe later to have some persistent options
         //verifyStoragePermissions(this);
 
         // get an instance of the robot in order to begin using its features.
         robot = Robot.getInstance();
+        stvc = this;
 
         //initialise Views in UI
         initViews();
@@ -271,9 +248,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStart() {
         super.onStart();
         robot.addOnRobotReadyListener(this);
-        robot.addOnBeWithMeStatusChangedListener(this);
         robot.addOnConstraintBeWithStatusChangedListener(this);
-        //robot.addOnDetectionStateChangedListener(this);
 
         robot.setDetectionModeOn(true, 2.0f);
 
@@ -288,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * Called when Activity stops.
      * Removes all event listeners.
-     * Stops all other objetcs such as <code>MediaPlayer</code>s.
+     * Stops all other objects such as <code>MediaPlayer</code>s.
      * Stops robot movement.
      */
     @Override
@@ -300,17 +275,25 @@ public class MainActivity extends AppCompatActivity implements
 
         ///remember to remove all listeners
         robot.removeOnRobotReadyListener(this);
-        robot.removeOnBeWithMeStatusChangedListener(this);
         robot.removeOnConstraintBeWithStatusChangedListener(this);
         //robot.removeDetectionStateChangedListener(this);
         robot.stopMovement();
     }
 
     /*******************************************************************************************
-     *                                   Sample Functions                                      *
+     *                              Debug and Sample Functions                                 *
      ******************************************************************************************/
 
+    /**
+     *
+     * @param location
+     * @param status
+     * @param descriptionId
+     * @param description
+     */
+    /*
     @Override
+
     public void onBeWithMeStatusChanged(String status) {
         //  When status changes to "lock" the robot recognizes the user and begin to follow.
         switch (status) {
@@ -339,53 +322,41 @@ public class MainActivity extends AppCompatActivity implements
                 robot.speak(TtsRequest.create("Track", false));
                 break;
         }
-    }
+    }*/
 
+    /**
+     *
+     */
     /*
-        @Override
-        public void onGoToLocationStatusChanged(String location, String status, int descriptionId, String description) {
-            Log.d("GoToStatusChanged", "descriptionId=" + descriptionId + ", description=" + description);
-            switch (status) {
-                case "start":
-                    robot.speak(TtsRequest.create("Starting", false));
-                    break;
+    @Override
+    public void onGoToLocationStatusChanged(String location, String status, int descriptionId, String description) {
+        Log.d("GoToStatusChanged", "descriptionId=" + descriptionId + ", description=" + description);
+        switch (status) {
+            case "start":
+                robot.speak(TtsRequest.create("Starting", false));
+                break;
 
-                case "calculating":
-                    robot.speak(TtsRequest.create("Calculating", false));
-                    break;
+            case "calculating":
+                robot.speak(TtsRequest.create("Calculating", false));
+                break;
 
-                case "going":
-                    robot.speak(TtsRequest.create("Going", false));
-                    break;
+            case "going":
+                robot.speak(TtsRequest.create("Going", false));
+                break;
 
-                case "complete":
-                    robot.speak(TtsRequest.create("Completed", false));
-                    break;
+            case "complete":
+                robot.speak(TtsRequest.create("Completed", false));
+                break;
 
-                case "abort":
-                    robot.speak(TtsRequest.create("Abort", false));
-                    break;
-            }
+            case "abort":
+                robot.speak(TtsRequest.create("Abort", false));
+                break;
         }
-    */
-
+    }*/
     @Override
     public void onConstraintBeWithStatusChanged(boolean isConstraint) {
         Log.d("onConstraintBeWith", "status = " + isConstraint);
     }
-
-    /*@Override
-    public void onDetectionStateChanged(int state) {
-        Log.d("onDetectionStateChanged", "state = " + state);
-        if (state == DETECTED) {
-            robot.constraintBeWith();
-            Log.d(this.getClass().getName(), "onDetectionState = DETECTED");
-            //TODO move this listener to another class and into the statemachine
-            robot.speak(TtsRequest.create("Hello there, feel free to use my touchless sanitiser dispenser. Maintaining good hand hygiene is an important measure we can take to prevent infectious diseases from spreading.", false));
-        } else {
-            robot.stopMovement();
-        }
-    }*/
 
     /*******************************************************************************************
      *                         Manual Callback Interface Overrides                             *

@@ -10,6 +10,7 @@ import com.robotemi.sdk.listeners.OnBatteryStatusChangedListener;
 
 import org.jetbrains.annotations.Nullable;
 
+import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.StateMachine;
 
@@ -35,15 +36,22 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
     @Override
     public void onBatteryStatusChanged(@Nullable BatteryData batteryData) {
+        //get the current battery
         SOC = batteryData.getBatteryPercentage();
+
+        //give some user feedback
         Log.i("BATTERY", "SOC=" + SOC + "%");
         stvc.updateThought("SOC=" + SOC + "%");
         robot.speak(TtsRequest.create("Battery SOC changed to " + SOC + " percent.", false));
-        if ((SOC >= 72) && (stateMachine != null)) {
-            //the state machine has already been initialised and therefore is waiting for a notification.
-            stateMachine.notify();
-        } else {
 
+        //check thresholds
+        //we are above the low threshold plus a small buffer
+        if ((SOC >= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) && (stateMachine != null)) {
+            //we have reached above low battery, we can change the UI buttons to force start
+
+        } else if ((SOC >= GlobalVariables.SOC_HIGH) && (stateMachine != null)) {
+            //the state machine has already been initialised and therefore is waiting for a notification. We can possibly auto start now.
+            stateMachine.notify();
         }
     }
 }
