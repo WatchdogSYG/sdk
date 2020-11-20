@@ -270,7 +270,7 @@ public class StateMachine implements Runnable {
 
                 System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
                 stvc.updateThought("Going to the next waypoint ...");
-                robot.speak(TtsRequest.create("I'm going to the next waypoint now. Goodbye.", false));
+                robot.speak(TtsRequest.create("I'm going to the next waypoint now. Goodbye.", true));
 
                 robot.goTo(locations.get(locationIndex));
 
@@ -320,9 +320,10 @@ public class StateMachine implements Runnable {
             System.out.println("FLINTEMI: Do action at state=" + state);
 
             int soc = robot.getBatteryData().getBatteryPercentage();
-            if (soc <= socLow) {
+            Log.i("Battery", Integer.toString(soc));
+            if (soc <= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
                 state = RETURNING;
-                Log.d("Battery", Integer.toString(soc));
+
                 Log.i("Logic", "Low battery, returning to base and set state=RETURNING");
                 nextAction();
             } else {
