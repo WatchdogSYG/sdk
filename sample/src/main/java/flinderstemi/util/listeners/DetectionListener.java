@@ -32,7 +32,7 @@ public class DetectionListener implements OnDetectionStateChangedListener {
             Log.d(this.getClass().getName(), "onDetectionState = DETECTED");
 
             //remove this listener as we do not want it triggering again and interrupting itself, note that we will have to listen for the end of the above speech so we can re-add this listener
-            robot.removeDetectionStateChangedListener(this);
+            robot.removeOnDetectionStateChangedListener(this);
             robot.addTtsListener(new InteractionSpeechListener(this, robot, stateMachine));
         } else {
             robot.stopMovement();

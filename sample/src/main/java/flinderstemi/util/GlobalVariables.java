@@ -32,6 +32,5 @@ public class GlobalVariables {
         SOC_HIGH = resources.getInteger(R.integer.SOCH);
         SOC_LOW = resources.getInteger(R.integer.SOCL);
         SOC_BUFFER = resources.getInteger(R.integer.SOCBuffer);
-
     }
 }
