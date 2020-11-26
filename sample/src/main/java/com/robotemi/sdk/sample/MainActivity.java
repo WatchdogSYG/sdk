@@ -107,29 +107,33 @@ public class MainActivity extends AppCompatActivity implements
                 //Give feedback to the user that we are returning and disable further input
                 startButton.setText("Returning to home base");
                 startButton.setEnabled(false);
-                startButton.setOnClickListener(new ReturnToChargeOnClickListener(startButton, robot, stvc));
+                startButton.setOnClickListener(new ReturnToChargeOnClickListener(startButton, robot, this, textViewVariable, routine));
             }
             //start a SOCListener to detect when we should change the UI to the next stage
         } else {
             //enough battery
             //leave at default
-            startButton.setVisibility(View.GONE);
-            stopButton.setEnabled(true);
-            returnButton.setEnabled(true);
-            textViewVariable.setPadding(200, 0, 0, 0);
-            textViewVariable.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-            routine = new StateMachine(robot, this);
-            System.out.println("FLINTEMI: Create Initialisation Routine");
-            updateThought(getResources().getString(R.string.cInit));
-            synchronized (routine) {
-                new Thread(routine).start();
-            }
-            //TODO set the correct file for music
-            mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
-            //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
-            mp.setLooping(true);
-            mp.start();
+            startRoutineFresh(view);
         }
+    }
+
+    public void startRoutineFresh(View view) {
+        startButton.setVisibility(View.GONE);
+        stopButton.setEnabled(true);
+        returnButton.setEnabled(true);
+        textViewVariable.setPadding(200, 0, 0, 0);
+        textViewVariable.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        routine = new StateMachine(robot, this);
+        System.out.println("FLINTEMI: Create Initialisation Routine");
+        updateThought(getResources().getString(R.string.cInit));
+        synchronized (routine) {
+            new Thread(routine).start();
+        }
+        //TODO set the correct file for music
+        mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
+        //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
+        mp.setLooping(true);
+        mp.start();
     }
 
     public void stopStateMachine(View view) {

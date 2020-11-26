@@ -2,8 +2,8 @@
 <resources>
     <integer name="maxPatrolLoops">-1</integer>
     <integer name="SOCH">100</integer>
-    <integer name="SOCL">90</integer>
-    <integer name="SOCBuffer">5</integer>
+    <integer name="SOCL">98</integer>
+    <integer name="SOCBuffer">1</integer>
 
     <integer name="wait_ms">15000</integer>
 </resources>

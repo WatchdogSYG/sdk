@@ -6,23 +6,23 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.robotemi.sdk.Robot;
+import com.robotemi.sdk.sample.MainActivity;
 
 import flinderstemi.util.GlobalVariables;
-import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.StateMachine;
 
 public class ReturnToChargeOnClickListener implements View.OnClickListener {
 
     Button startButton;
     Robot robot;
-    SetTextViewCallback stvc;
+    MainActivity main;
     TextView tv;
     StateMachine stateMachine;
 
-    public ReturnToChargeOnClickListener(Button startButton, Robot robot, SetTextViewCallback stvc, TextView tv, StateMachine stateMachine) {
+    public ReturnToChargeOnClickListener(Button startButton, Robot robot, MainActivity main, TextView tv, StateMachine stateMachine) {
         this.startButton = startButton;
         this.robot = robot;
-        this.stvc = stvc;
+        this.main = main;
         this.tv = tv;
         this.stateMachine = stateMachine;
     }
@@ -39,6 +39,7 @@ public class ReturnToChargeOnClickListener implements View.OnClickListener {
         robot.goTo(GlobalVariables.L_HOME_BASE);
         //start a LocationListener so we know when we reach the home base
         Log.d("LOCATION", "Going to Charging Station");
-        robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, tv, stvc, stateMachine));
+        robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, tv, main, stateMachine, startButton));
+        //Robot robot, TextView tv, MainActivity main, StateMachine stateMachine, Button startButton
     }
 }
