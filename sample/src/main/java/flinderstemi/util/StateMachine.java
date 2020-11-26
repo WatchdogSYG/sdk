@@ -9,11 +9,13 @@ import android.util.Log;
 
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
+import com.robotemi.sdk.sample.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import flinderstemi.util.listeners.DetectionListener;
+import flinderstemi.util.listeners.ReturnToChargeLocationListener;
 import flinderstemi.util.listeners.TTSSequenceListener;
 import flinderstemi.util.listeners.WaitSpeechListener;
 
@@ -31,7 +33,7 @@ public class StateMachine implements Runnable {
      *                                        Callbacks                                        *
      ******************************************************************************************/
 
-    SetTextViewCallback stvc;
+    MainActivity main;
 
     /*******************************************************************************************
      *                                        Variables                                        *
@@ -97,12 +99,12 @@ public class StateMachine implements Runnable {
      *                                     Constructor(s)                                      *
      ******************************************************************************************/
 
-    public StateMachine(Robot robot, SetTextViewCallback stvc) {
+    public StateMachine(Robot robot, MainActivity main) {
         System.out.println("FLINTEMI: Constructor StateMachine(Robot robot)");
 
-        this.stvc = stvc;
+        this.main = main;
 
-        this.stvc.updateThought("Constructing State Machine");
+        main.updateThought("Constructing State Machine");
 
 
         //initialise variables
@@ -166,7 +168,7 @@ public class StateMachine implements Runnable {
                 robot.speak(TtsRequest.create("I will wait here for " + idleTimeDuration / 1000L + " seconds. Please, feel free to use my hand sanitiser dispenser.", false));
 
                 //announce that we are going to wait, we will need a listener for this so the waiting can begin after the speech request ends
-                robot.addTtsListener(new WaitSpeechListener(millis, stvc, dl, this, robot));
+                robot.addTtsListener(new WaitSpeechListener(millis, main, dl, this, robot));
 
                 System.out.println("FLINTEMI: wait()");
                 this.wait();
@@ -223,7 +225,7 @@ public class StateMachine implements Runnable {
                         switch (wakeCondition[1]) {
                             case "IDLE":
                                 //TODO
-                                this.stvc.updateThought("DetectionState: IDLE");
+                                this.main.updateThought("DetectionState: IDLE");
                                 break;
                             case "LOST":
                                 //TODO
@@ -269,7 +271,7 @@ public class StateMachine implements Runnable {
                 //TODO print message when no locations are saved as this throws an indexoutofbounds exception
 
                 System.out.println("FLINTEMI: going to location=" + locationIndex + ", name=" + locations.get(locationIndex));
-                stvc.updateThought("Going to the next waypoint ...");
+                main.updateThought("Going to the next waypoint ...");
                 robot.speak(TtsRequest.create("I'm going to the next waypoint now. Goodbye.", true));
 
                 robot.goTo(locations.get(locationIndex));
@@ -277,7 +279,7 @@ public class StateMachine implements Runnable {
                 //if there are no more loops to be done, go to next state. The equality operator allows for a mexPatrolLoops of -1 to result in infinite looping until manual termination.
                 if (locationLoopIndex == maxPatrolLoops) {
                     System.out.println("FLINTEMI: Completed all loops");
-                    stvc.updateThought("Completed all patrol loops. I will now return to the home base.");
+                    main.updateThought("Completed all patrol loops. I will now return to the home base.");
                     completePatrolSub = true;
                     state = TERMINATED;
                 }
@@ -298,6 +300,7 @@ public class StateMachine implements Runnable {
                 robot.stopMovement();
                 robot.speak(TtsRequest.create("I'm running out of battery so I will return to the home base to charge myself. Goodbye.", true));
                 robot.goTo(locations.get(0));
+                robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main.getTextViewVariable(), main, this, main.getStartButton(), main.getMediaPlayer()));
                 state = TERMINATED;
                 break;
             default:
@@ -321,7 +324,7 @@ public class StateMachine implements Runnable {
 
             int soc = robot.getBatteryData().getBatteryPercentage();
             Log.i("Battery", Integer.toString(soc));
-            if (soc <= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
+            if (soc <= GlobalVariables.SOC_LOW) {
                 state = RETURNING;
 
                 Log.i("Logic", "Low battery, returning to base and set state=RETURNING");

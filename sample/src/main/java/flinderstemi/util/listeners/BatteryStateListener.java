@@ -122,7 +122,8 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             //state machine doesnt exist, this is the start of the program, make one
             if (SOC >= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
                 //The state machine is waiting for a notfy from a button press, set the onclicklistener
-
+//The state machine is waiting for a notify from a button press, set the onclicklistener, we have moved from low to high battery
+                formatHighSOCStartButton();
             } else if (SOC >= GlobalVariables.SOC_HIGH) {
                 //the state machine has already been initialised and therefore is waiting for a notification. We can possibly auto start now.
                 //TODO set the state machine to patrolling state

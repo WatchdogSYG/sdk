@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private TextView textViewVariable;
     private Button operatorMenuButton;
-    private TextView faceTextView;//temp
     private Button startButton;
     private Button stopButton;
     private Button returnButton;
@@ -54,7 +53,22 @@ public class MainActivity extends AppCompatActivity implements
 
     String thoughtPrefix;
 
-    MediaPlayer mp;
+    private MediaPlayer mp;
+
+    /*******************************************************************************************
+     *                                        Get/Set                                          *
+     ******************************************************************************************/
+    public TextView getTextViewVariable() {
+        return textViewVariable;
+    }
+
+    public Button getStartButton() {
+        return startButton;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mp;
+    }
 
     /*******************************************************************************************
      *                                    Functionality                                        *
@@ -103,11 +117,10 @@ public class MainActivity extends AppCompatActivity implements
             } else {
                 //not charging
                 robot.speak(TtsRequest.create("Hello, I am low on battery and also am not connected to a charging source. Please send me back to the home base so I can charge myself. I can do this automatically if you press the button on the screen.", false));
-                //set UI elements
                 //Give feedback to the user that we are returning and disable further input
-                startButton.setText("Returning to home base");
-                startButton.setEnabled(false);
-                startButton.setOnClickListener(new ReturnToChargeOnClickListener(startButton, robot, this, textViewVariable, routine));
+                stvc.updateThought("My battery is low and I am not charging...");
+                startButton.setText("Tap to send me back to the home base");
+                startButton.setOnClickListener(new ReturnToChargeOnClickListener(startButton, robot, this, textViewVariable, routine, mp));
             }
             //start a SOCListener to detect when we should change the UI to the next stage
         } else {
@@ -117,24 +130,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    public void startRoutineFresh(View view) {
-        startButton.setVisibility(View.GONE);
-        stopButton.setEnabled(true);
-        returnButton.setEnabled(true);
-        textViewVariable.setPadding(200, 0, 0, 0);
-        textViewVariable.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        routine = new StateMachine(robot, this);
-        System.out.println("FLINTEMI: Create Initialisation Routine");
-        updateThought(getResources().getString(R.string.cInit));
-        synchronized (routine) {
-            new Thread(routine).start();
-        }
-        //TODO set the correct file for music
-        mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
-        //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
-        mp.setLooping(true);
-        mp.start();
-    }
+
 
     public void stopStateMachine(View view) {
         updateThought(getResources().getString(R.string.cTermination));
@@ -157,7 +153,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void returnToLauncher(View view) {
-        routine.stop();
+        if (routine != null) {
+            routine.stop();
+        }
         mp.stop();
         System.out.println("FLINTEMI: Calling finish(). Shutting down app immediately.");
         finish();
@@ -226,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements
      */
     public void initViews() {
         textViewVariable = findViewById(R.id.thoughtTextView);
-        faceTextView = findViewById(R.id.face);
         startButton = findViewById(R.id.btnCustom);
         stopButton = findViewById(R.id.btnStop);
         returnButton = findViewById(R.id.btnRet);
@@ -282,6 +279,33 @@ public class MainActivity extends AppCompatActivity implements
         robot.removeOnConstraintBeWithStatusChangedListener(this);
         //robot.removeDetectionStateChangedListener(this);
         robot.stopMovement();
+    }
+
+/*******************************************************************************************
+ *                                    Behaviour Utils                                      *
+ ******************************************************************************************/
+    //TODO javadoc
+
+    /**
+     * @param view
+     */
+    public void startRoutineFresh(View view) {
+        startButton.setVisibility(View.GONE);
+        stopButton.setEnabled(true);
+        returnButton.setEnabled(true);
+        textViewVariable.setPadding(200, 0, 0, 0);
+        textViewVariable.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        routine = new StateMachine(robot, this);
+        System.out.println("FLINTEMI: Create Initialisation Routine");
+        updateThought(getResources().getString(R.string.cInit));
+        synchronized (routine) {
+            new Thread(routine).start();
+        }
+        //TODO set the correct file for music
+        mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
+        //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
+        mp.setLooping(true);
+        mp.start();
     }
 
     /*******************************************************************************************
