@@ -26,8 +26,6 @@ public class StateMachine implements Runnable {
      ******************************************************************************************/
 
     final long idleTimeDuration = 15000L;
-    final int socLow = 44; //adjust this for testing
-    final int socHigh = 95; //adjust this to manage uptime as the charging of the battery will taper as SOC->100
 
     /*******************************************************************************************
      *                                        Callbacks                                        *
@@ -248,6 +246,9 @@ public class StateMachine implements Runnable {
                 break;
             case PAUSED:
                 break;
+            case RETURNING:
+                state = PATROLLING;
+                break;
         }
     }
 
@@ -300,7 +301,9 @@ public class StateMachine implements Runnable {
                 robot.stopMovement();
                 robot.speak(TtsRequest.create("I'm running out of battery so I will return to the home base to charge myself. Goodbye.", true));
                 robot.goTo(locations.get(0));
-                robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main.getTextViewVariable(), main, this, main.getStartButton(), main.getMediaPlayer()));
+
+
+                robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main, this, main.getStartButton(), main.getMediaPlayer()));
                 state = TERMINATED;
                 break;
             default:
@@ -318,15 +321,15 @@ public class StateMachine implements Runnable {
 
         System.out.println("FLINTEMI: Started");
 
-
         while (state != TERMINATED) {
             System.out.println("FLINTEMI: Do action at state=" + state);
 
             int soc = robot.getBatteryData().getBatteryPercentage();
             Log.i("Battery", Integer.toString(soc));
+
+
             if (soc <= GlobalVariables.SOC_LOW) {
                 state = RETURNING;
-
                 Log.i("Logic", "Low battery, returning to base and set state=RETURNING");
                 nextAction();
             } else {

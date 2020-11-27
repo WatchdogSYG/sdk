@@ -4,6 +4,8 @@ import android.view.View;
 
 import com.robotemi.sdk.sample.MainActivity;
 
+import flinderstemi.util.StateMachine;
+
 //TODO Quality - Check the Auto-start toggleable state on initialisation.
 
 /**
@@ -13,9 +15,11 @@ import com.robotemi.sdk.sample.MainActivity;
 public class ChargingHighOnClickListener implements View.OnClickListener {
 
     MainActivity main;
+    StateMachine stateMachine;
 
-    public ChargingHighOnClickListener(MainActivity main) {
+    public ChargingHighOnClickListener(MainActivity main, StateMachine stateMachine) {
         this.main = main;
+        this.stateMachine = stateMachine;
     }
 
     /**
@@ -25,6 +29,10 @@ public class ChargingHighOnClickListener implements View.OnClickListener {
      */
     @Override
     public void onClick(View v) {
-        main.startRoutineFresh(v);
+        if (stateMachine != null) {
+            stateMachine.notify();
+        } else {
+            main.startRoutineFresh();
+        }
     }
 }

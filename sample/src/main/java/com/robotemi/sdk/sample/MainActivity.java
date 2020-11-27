@@ -70,6 +70,14 @@ public class MainActivity extends AppCompatActivity implements
         return mp;
     }
 
+    public boolean routineExists() {
+        if (routine != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*******************************************************************************************
      *                                    Functionality                                        *
      ******************************************************************************************/
@@ -120,17 +128,15 @@ public class MainActivity extends AppCompatActivity implements
                 //Give feedback to the user that we are returning and disable further input
                 stvc.updateThought("My battery is low and I am not charging...");
                 startButton.setText("Tap to send me back to the home base");
-                startButton.setOnClickListener(new ReturnToChargeOnClickListener(startButton, robot, this, textViewVariable, routine, mp));
+                startButton.setOnClickListener(new ReturnToChargeOnClickListener(startButton, robot, this, routine, mp));
             }
             //start a SOCListener to detect when we should change the UI to the next stage
         } else {
             //enough battery
             //leave at default
-            startRoutineFresh(view);
+            startRoutineFresh();
         }
     }
-
-
 
     public void stopStateMachine(View view) {
         updateThought(getResources().getString(R.string.cTermination));
@@ -287,9 +293,9 @@ public class MainActivity extends AppCompatActivity implements
     //TODO javadoc
 
     /**
-     * @param view
+     *
      */
-    public void startRoutineFresh(View view) {
+    public void startRoutineFresh() {
         startButton.setVisibility(View.GONE);
         stopButton.setEnabled(true);
         returnButton.setEnabled(true);
@@ -302,7 +308,8 @@ public class MainActivity extends AppCompatActivity implements
             new Thread(routine).start();
         }
         //TODO set the correct file for music
-        mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
+        mp = MediaPlayer.create(this, R.raw.twiceicsm);
+        //mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
         //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
         mp.setLooping(true);
         mp.start();
