@@ -39,15 +39,15 @@ public class StateMachine implements Runnable {
 
     //robot and state variables
     Robot robot;
+
     int state;
 
     //state names
     final int GREETING = 0;
     final int PATROLLING = 1;
-    final int CONVERSING = 2;
-    final int TERMINATED = 3;
-    final int PAUSED = 4;
-    final int RETURNING = 5;
+    final int TERMINATED = 2;
+    final int STUCK = 3;
+    final int RETURNING = 4;
 
     //lists of actions
     List<TtsRequest> speechQueue;
@@ -98,17 +98,17 @@ public class StateMachine implements Runnable {
      ******************************************************************************************/
 
     public StateMachine(Robot robot, MainActivity main) {
-        System.out.println("FLINTEMI: Constructor StateMachine(Robot robot)");
-
-        this.main = main;
-
+        Log.i("FLINTEMI", "Contructing StateMachine");
         main.updateThought("Constructing State Machine");
 
+        this.main = main;
+        this.robot = robot;
 
         //initialise variables
         completeSpeechSub = false;
         completePatrolSub = false;
-        this.robot = robot;
+
+        //initial conditions
         state = initialState;
         speechIndex = 0;
         locationIndex = 1;//not homebase at 0
@@ -120,9 +120,9 @@ public class StateMachine implements Runnable {
         speechQueue.add(TtsRequest.create("I will start my patrol.", false));
 
         locations = robot.getLocations();
-        System.out.println("FLINTEMI: Locations = " + locations.toString());
+        Log.d("LOCATION", "Locations = " + locations.toString());
 
-
+        Log.d("LISTENER", "TTSSequenceListener(robot, this)");
         Robot.TtsListener sl = new TTSSequenceListener(robot, this);
         dl = new DetectionListener(robot, this);
 
@@ -215,6 +215,9 @@ public class StateMachine implements Runnable {
                                 break;
                             case "ABORT":
                                 //something went wrong with the movement to a location, try it again. i.e. dont increment the state or action
+                                //TERMINATE
+                                //TODO make this robust
+                                state = STUCK;
                                 System.out.println("FLINTEMI: Something went wrong with the movement to a location, try again.");
                         }
                         break;
@@ -240,11 +243,9 @@ public class StateMachine implements Runnable {
                         break;
                 }
                 break;
-            case CONVERSING:
-                break;
             case TERMINATED:
                 break;
-            case PAUSED:
+            case STUCK:
                 break;
             case RETURNING:
                 state = PATROLLING;
@@ -277,7 +278,7 @@ public class StateMachine implements Runnable {
 
                 robot.goTo(locations.get(locationIndex));
 
-                //if there are no more loops to be done, go to next state. The equality operator allows for a mexPatrolLoops of -1 to result in infinite looping until manual termination.
+                //if there are no more loops to be done, go to next state. The equality operator allows for a maxPatrolLoops of -1 to result in infinite looping until manual termination.
                 if (locationLoopIndex == maxPatrolLoops) {
                     System.out.println("FLINTEMI: Completed all loops");
                     main.updateThought("Completed all patrol loops. I will now return to the home base.");
@@ -285,17 +286,13 @@ public class StateMachine implements Runnable {
                     state = TERMINATED;
                 }
                 break;
-            case CONVERSING:
-
-
-                break;
             case TERMINATED:
                 System.out.println("FLINTEMI: State set to 3 (terminate)");
                 //robot.speak(TtsRequest.create("Routine Terminated", true)); //this may overwrite the previous ttsrequest
                 break;
-            case PAUSED:
-
-
+            case STUCK:
+                robot.speak(TtsRequest.create("Help, I am stuck. Please notify a staff member of this error. Help, I am stuck. Please notify a staff member of this error. Help, I am stuck. Please notify a staff member of this error.", false));
+                state = TERMINATED;
                 break;
             case RETURNING:
                 robot.stopMovement();
@@ -328,6 +325,7 @@ public class StateMachine implements Runnable {
             Log.i("Battery", Integer.toString(soc));
 
 
+            //TODO check if terminated first otherwise a stuck temi will remain stuck
             if (soc <= GlobalVariables.SOC_LOW) {
                 state = RETURNING;
                 Log.i("Logic", "Low battery, returning to base and set state=RETURNING");

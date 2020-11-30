@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements
                 robot.speak(TtsRequest.create("Hello, I am low on battery. Press the button on the screen if you want me to start patrolling when my battery is full.", false));
                 //set UI elements
                 startButton.setText("Auto-start patrol when battery is full");
-                //set functionality
+                //TODO set non-cosmetic functionality
                 startButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements
     /**
      *
      */
-    public void startRoutineFresh() {
+    public StateMachine startRoutineFresh() {
         startButton.setVisibility(View.GONE);
         stopButton.setEnabled(true);
         returnButton.setEnabled(true);
@@ -313,6 +313,8 @@ public class MainActivity extends AppCompatActivity implements
         //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
         mp.setLooping(true);
         mp.start();
+
+        return routine;
     }
 
     /*******************************************************************************************

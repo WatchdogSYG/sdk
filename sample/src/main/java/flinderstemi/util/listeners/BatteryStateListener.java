@@ -48,11 +48,13 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             autoStart = false;
             //format button to be in the false state
             startButton.setText("Turn ON Patrol Auto-Start");
+            Log.i("BATTERY", "Patrol auto-start disabled.");
             main.updateThought("Charging " + Integer.toString(SOC) + "%. Auto-start patrol when full battery DISABLED");
         } else {
             autoStart = true;
             //format button to be in the true state
             startButton.setText("Turn OFF Patrol Auto-Start");
+            Log.i("BATTERY", "Patrol auto-start enabled.");
             main.updateThought("Charging " + Integer.toString(SOC) + "%. Auto-start patrol when full battery ENABLED.");
         }
     }
@@ -164,11 +166,8 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
                 //The state machine is waiting for a notify from a button press, set the onclicklistener, we have moved from low to high battery
                 formatHighSOCStartButton();
             } else if (batteryState(SOC) == FULL) {
-
+//the state machine has already been initialised and therefore is waiting for a notification. We can possibly auto start now.
                 formatFullSOCStartButton();
-                //the state machine has already been initialised and therefore is waiting for a notification. We can possibly auto start now.
-                //TODO set the state machine to patrolling state
-                stateMachine.notify();
             }
         } else {
             /**********************************************************************\
@@ -184,11 +183,8 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             } else if (batteryState(SOC) == FULL) {
                 formatFullSOCStartButton();
                 //the state machine has already been initialised and therefore is waiting for a notification. We can possibly auto start now.
-                //TODO set the state machine to patrolling state
-                stateMachine.notify();
             }
         }
-
 
         //store the previous soc in an int for comparison later
         setPreviousBatteryPercentage(SOC);

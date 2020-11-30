@@ -32,13 +32,11 @@ public class ChargingFullOnClickListener implements View.OnClickListener {
 
     public void fullWakeStateMachine(MainActivity main, StateMachine stateMachine) {
         if (stateMachine != null) {
-            //sm doesnt exist, make a new one from fresh
-            main.startRoutineFresh();
-            setStateMachine(stateMachine);
-
-        } else {
             //sm does exist, notify it
             stateMachine.notify();
+        } else {
+            //sm doesnt exist, make a new one from fresh
+            setStateMachine(main.startRoutineFresh());
         }
     }
 }
