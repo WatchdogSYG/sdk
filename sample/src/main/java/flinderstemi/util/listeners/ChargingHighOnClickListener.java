@@ -30,7 +30,9 @@ public class ChargingHighOnClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (stateMachine != null) {
-            stateMachine.notify();
+            synchronized (stateMachine) {
+                stateMachine.notify();
+            }
         } else {
             main.startRoutineFresh();
         }

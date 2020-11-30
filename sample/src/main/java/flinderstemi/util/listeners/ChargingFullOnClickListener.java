@@ -1,5 +1,6 @@
 package flinderstemi.util.listeners;
 
+import android.util.Log;
 import android.view.View;
 
 import com.robotemi.sdk.sample.MainActivity;
@@ -33,9 +34,13 @@ public class ChargingFullOnClickListener implements View.OnClickListener {
     public void fullWakeStateMachine(MainActivity main, StateMachine stateMachine) {
         if (stateMachine != null) {
             //sm does exist, notify it
-            stateMachine.notify();
+            Log.d("BATTERY", "StateMachine exists. notify()");
+            synchronized (stateMachine) {
+                stateMachine.notify();
+            }
         } else {
             //sm doesnt exist, make a new one from fresh
+            Log.d("BATTERY", "StateMachine is null. main.startRoutineFresh()");
             setStateMachine(main.startRoutineFresh());
         }
     }

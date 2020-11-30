@@ -308,10 +308,11 @@ public class MainActivity extends AppCompatActivity implements
             new Thread(routine).start();
         }
         //TODO set the correct file for music
-        mp = MediaPlayer.create(this, R.raw.twiceicsm);
+        //mp = MediaPlayer.create(this, R.raw.twiceicsm);
         //mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
-        //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
+        mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
         mp.setLooping(true);
+        mp.setVolume(0.5f, 0.5f);
         mp.start();
 
         return routine;

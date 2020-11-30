@@ -6,7 +6,6 @@ import android.widget.Button;
 
 import com.robotemi.sdk.BatteryData;
 import com.robotemi.sdk.Robot;
-import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnBatteryStatusChangedListener;
 import com.robotemi.sdk.sample.MainActivity;
 
@@ -23,8 +22,9 @@ import flinderstemi.util.StateMachine;
  */
 public class BatteryStateListener implements OnBatteryStatusChangedListener {
     public final int LOW = 0;
-    public final int HIGH = 1;
-    public final int FULL = 2;
+    public final int BUFFER = 1;
+    public final int HIGH = 2;
+    public final int FULL = 3;
 
 
     Robot robot;
@@ -43,6 +43,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     public boolean isAutoStart() {
         return autoStart;
     }
+
     public void toggleAutoStart() {
         if (autoStart) {
             autoStart = false;
@@ -69,11 +70,17 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
     private int batteryState(int soc) {
         if (soc < GlobalVariables.SOC_LOW) {
+            Log.d("BATTERY", "batteryState(soc)=0");
             return 0;
-        } else if ((soc >= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) && (soc < GlobalVariables.SOC_HIGH)) {
+        } else if (soc < GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
+            Log.d("BATTERY", "batteryState(soc)=1");
             return 1;
-        } else {
+        } else if (soc > GlobalVariables.SOC_HIGH) {
+            Log.d("BATTERY", "batteryState(soc)=2");
             return 2;
+        } else {
+            Log.d("BATTERY", "batteryState(soc)=3");
+            return 3;
         }
     }
 
@@ -98,6 +105,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
 
     public void formatLowSOCStartButton() {
+        Log.d("BATTERY", "formatLowSOCStartButton");
         //initially, when the robot is returning, the button is disabled
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
@@ -114,6 +122,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     }
 
     private void formatHighSOCStartButton() {
+        Log.d("BATTERY", "formatHighSOCStartButton");
         startButton.setText("Force Start Patrol Now");
         main.updateThought("Charging " + SOC + "%. Auto-start patrol when full battery. Tap the button to start the patrol now." + Boolean.toString(autoStart));
         startButton.setEnabled(true);
@@ -124,6 +133,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     }
 
     private void formatFullSOCStartButton() {
+        Log.d("BATTERY", "formatFullSOCStartButton");
         //if the statemachine doesnt exist at startup, the ChargingFullOnClickListener will never have a @NonNull member variable for stateMachine, and therefore will never be able to call fullWakeStateMachine from its OnClick method.
         //we need to set one
 
@@ -145,45 +155,26 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     public void onBatteryStatusChanged(@Nullable BatteryData batteryData) {
         //get the current battery
         SOC = batteryData.getBatteryPercentage();
+        int bs = batteryState((SOC));
 
         //give some user feedback
         Log.i("BATTERY", "SOC=" + SOC + "%");
         main.updateThought("SOC=" + SOC + "%");
-        robot.speak(TtsRequest.create("Battery SOC changed to " + SOC + " percent.", false));
+        //TODO warn devs about interrupting the sm using the battery soc changed announcement
 
         //check thresholds
         //we are above the low threshold plus a small buffer
-        /**********************************************************************\
-         * State Machine exists
-         **********************************************************************/
-        if (stateMachine != null) {
-            //state machine exists, notify it
-            if (batteryState(SOC) == LOW) {
 
-                formatLowSOCStartButton();
-            } else if (batteryState(SOC) == HIGH) {//this construct is necessary to provide the hysteresis effect
+        //state machine exists, notify it
+        if ((bs == LOW) || (bs == BUFFER)) {
+            formatLowSOCStartButton();
+        } else if (bs == HIGH) {//this construct is necessary to provide the hysteresis effect
 
-                //The state machine is waiting for a notify from a button press, set the onclicklistener, we have moved from low to high battery
-                formatHighSOCStartButton();
-            } else if (batteryState(SOC) == FULL) {
-//the state machine has already been initialised and therefore is waiting for a notification. We can possibly auto start now.
-                formatFullSOCStartButton();
-            }
-        } else {
-            /**********************************************************************\
-             * State Machine DOES NOT EXIST
-             **********************************************************************/
-            //state machine doesnt exist, this is the start of the program, make one
-            //state machine exists, notify it
-            if (batteryState(SOC) == LOW) {
-                formatLowSOCStartButton();
-            } else if (batteryState(SOC) == HIGH) {//this construct is necessary to provide the hysteresis effect
-                //The state machine is waiting for a notify from a button press, set the onclicklistener, we have moved from low to high battery
-                formatHighSOCStartButton();
-            } else if (batteryState(SOC) == FULL) {
-                formatFullSOCStartButton();
-                //the state machine has already been initialised and therefore is waiting for a notification. We can possibly auto start now.
-            }
+            //The state machine is waiting for a notify from a button press, set the onclicklistener, we have moved from low to high battery
+            formatHighSOCStartButton();
+        } else if (bs == FULL) {
+            //the state machine has already been initialised and therefore is waiting for a notification. We can possibly auto start now.
+            formatFullSOCStartButton();
         }
 
         //store the previous soc in an int for comparison later

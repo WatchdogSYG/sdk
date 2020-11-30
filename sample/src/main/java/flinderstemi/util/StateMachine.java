@@ -42,6 +42,7 @@ public class StateMachine implements Runnable {
 
     int state;
 
+
     //state names
     final int GREETING = 0;
     final int PATROLLING = 1;
@@ -298,7 +299,6 @@ public class StateMachine implements Runnable {
                 robot.stopMovement();
                 robot.speak(TtsRequest.create("I'm running out of battery so I will return to the home base to charge myself. Goodbye.", true));
                 robot.goTo(locations.get(0));
-
 
                 robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main, this, main.getStartButton(), main.getMediaPlayer()));
                 state = TERMINATED;
