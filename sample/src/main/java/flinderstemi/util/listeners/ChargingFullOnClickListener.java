@@ -36,6 +36,7 @@ public class ChargingFullOnClickListener implements View.OnClickListener {
             //sm does exist, notify it
             Log.d("BATTERY", "StateMachine exists. notify()");
             synchronized (stateMachine) {
+                stateMachine.setState(stateMachine.PATROLLING);
                 stateMachine.notify();
             }
         } else {

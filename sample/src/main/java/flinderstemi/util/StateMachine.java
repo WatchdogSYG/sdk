@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import flinderstemi.util.listeners.DetectionListener;
+import flinderstemi.util.listeners.PatrolLocationListener;
 import flinderstemi.util.listeners.ReturnToChargeLocationListener;
 import flinderstemi.util.listeners.TTSSequenceListener;
 import flinderstemi.util.listeners.WaitSpeechListener;
@@ -44,11 +45,11 @@ public class StateMachine implements Runnable {
 
 
     //state names
-    final int GREETING = 0;
-    final int PATROLLING = 1;
-    final int TERMINATED = 2;
-    final int STUCK = 3;
-    final int RETURNING = 4;
+    public static final int GREETING = 0;
+    public static final int PATROLLING = 1;
+    public static final int TERMINATED = 2;
+    public static final int STUCK = 3;
+    public static final int RETURNING = 4;
 
     //lists of actions
     List<TtsRequest> speechQueue;
@@ -64,6 +65,7 @@ public class StateMachine implements Runnable {
     public String[] wakeCondition;
 
     DetectionListener dl;//the positioning of this variable allows adding and removing of a DetectionListener when we want so we can avoid interrupting TTS when looking for a user interaction
+    PatrolLocationListener pll;//The location listener when patrolling that can be added and removed when temi diverges from the patrolling information
 
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
@@ -86,12 +88,21 @@ public class StateMachine implements Runnable {
         return completePatrolSub;
     }
 
-    public boolean isWaiting() {
-        return waiting;
+    public void setPLL(PatrolLocationListener pll) {
+        robot.addOnGoToLocationStatusChangedListener(pll);
+        this.pll = pll;
     }
 
-    public void setWaiting(boolean waiting) {
-        this.waiting = waiting;
+    public void removePLL() {
+        robot.removeOnGoToLocationStatusChangedListener(pll);
+    }
+
+    public PatrolLocationListener getPLL() {
+        return pll;
+    }
+
+    public void setState(int s) {
+        state = s;
     }
 
     /*******************************************************************************************
@@ -250,6 +261,7 @@ public class StateMachine implements Runnable {
                 break;
             case RETURNING:
                 state = PATROLLING;
+                setPLL(pll);
                 break;
         }
     }
@@ -301,7 +313,6 @@ public class StateMachine implements Runnable {
                 robot.goTo(locations.get(0));
 
                 robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main, this, main.getStartButton(), main.getMediaPlayer()));
-                state = TERMINATED;
                 break;
             default:
                 break;
@@ -328,6 +339,7 @@ public class StateMachine implements Runnable {
             //TODO check if terminated first otherwise a stuck temi will remain stuck
             if (soc <= GlobalVariables.SOC_LOW) {
                 state = RETURNING;
+                removePLL();
                 Log.i("Logic", "Low battery, returning to base and set state=RETURNING");
                 nextAction();
             } else {

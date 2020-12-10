@@ -42,7 +42,7 @@ public class RoutineStartFormatHelper {
             new Thread(routine).start();
         }
         //TODO set the correct file for music
-        mp = MediaPlayer.create(appContext, R.raw.dragonforcettfaf);
+        mp = MediaPlayer.create(appContext, R.raw.twiceicsm);
         //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
         mp.setLooping(true);
         mp.start();

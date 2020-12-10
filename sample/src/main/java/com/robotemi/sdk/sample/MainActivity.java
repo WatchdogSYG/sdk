@@ -18,6 +18,7 @@ import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
+import com.robotemi.sdk.navigation.model.SpeedLevel;
 
 import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.SetTextViewCallback;
@@ -258,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnConstraintBeWithStatusChangedListener(this);
 
         robot.setDetectionModeOn(true, 2.0f);
+        robot.setGoToSpeed(SpeedLevel.SLOW);
 
         //demo speak
         robot.hideTopBar();
@@ -308,9 +310,9 @@ public class MainActivity extends AppCompatActivity implements
             new Thread(routine).start();
         }
         //TODO set the correct file for music
-        //mp = MediaPlayer.create(this, R.raw.twiceicsm);
+        mp = MediaPlayer.create(this, R.raw.twiceicsm);
         //mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
-        mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
+        //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
         mp.setLooping(true);
         mp.setVolume(0.5f, 0.5f);
         mp.start();

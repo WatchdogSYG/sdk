@@ -25,7 +25,6 @@ public class TTSSequenceListener implements Robot.TtsListener {
         synchronized (stateMachine) {
             //if the status of the current ttsrequest changes to COMPLETED
             System.out.println("FLINTEMI: TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
-            //TODO declare strings somwehere else
 
             switch (ttsRequest.getStatus()) {
                 case COMPLETED:
@@ -37,7 +36,7 @@ public class TTSSequenceListener implements Robot.TtsListener {
                         System.out.println("FLINTEMI: ttsRequestStatus=COMPLETED,stateMachine.isCompleteSub=true,notify");
                         stateMachine.notify();
                         System.out.println("FLINTEMI: addOnGoToLocationStatusChangedListener");
-                        robot.addOnGoToLocationStatusChangedListener(new PatrolLocationListener(robot, stateMachine));
+                        stateMachine.setPLL(new PatrolLocationListener(robot, stateMachine));
                         robot.removeTtsListener(this);
                         System.out.println("FLINTEMI: ttsListenerRemoved");
                     }
