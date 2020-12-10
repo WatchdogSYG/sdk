@@ -57,7 +57,7 @@ public class ReturnToChargeOnClickListener implements View.OnClickListener {
         //start a LocationListener so we know when we reach the home base
         Log.d("LOCATION", "Going to Charging Station");
         robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main, stateMachine, startButton, mp));
-
+        startButton.setOnClickListener(null);
         //TODO start or continue mp here
 
     }

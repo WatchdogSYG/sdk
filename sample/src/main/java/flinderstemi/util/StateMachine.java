@@ -14,6 +14,7 @@ import com.robotemi.sdk.sample.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import flinderstemi.util.listeners.BatteryStateListener;
 import flinderstemi.util.listeners.DetectionListener;
 import flinderstemi.util.listeners.PatrolLocationListener;
 import flinderstemi.util.listeners.ReturnToChargeLocationListener;
@@ -64,13 +65,13 @@ public class StateMachine implements Runnable {
 
     public String[] wakeCondition;
 
-    DetectionListener dl;//the positioning of this variable allows adding and removing of a DetectionListener when we want so we can avoid interrupting TTS when looking for a user interaction
-    PatrolLocationListener pll;//The location listener when patrolling that can be added and removed when temi diverges from the patrolling information
+    private DetectionListener dl;//the positioning of this variable allows adding and removing of a DetectionListener when we want so we can avoid interrupting TTS when looking for a user interaction
+    private PatrolLocationListener pll;//The location listener when patrolling that can be added and removed when temi diverges from the patrolling information
+    private BatteryStateListener bsl;
 
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
     private boolean completePatrolSub;
-    private boolean waiting;
 
     /*******************************************************************************************
      *                                   Getters & Setters                                     *
@@ -99,6 +100,18 @@ public class StateMachine implements Runnable {
 
     public PatrolLocationListener getPLL() {
         return pll;
+    }
+
+    public BatteryStateListener getBSL() {
+        return bsl;
+    }
+
+    public void setBSL(BatteryStateListener bsl) {
+        this.bsl = bsl;
+    }
+
+    public void removeBSL(BatteryStateListener batteryStateListener) {
+        robot.removeOnBatteryStatusChangedListener(batteryStateListener);
     }
 
     public void setState(int s) {
@@ -261,7 +274,9 @@ public class StateMachine implements Runnable {
                 break;
             case RETURNING:
                 state = PATROLLING;
+                removeBSL(bsl);
                 setPLL(pll);
+                main.getMediaPlayer().start();
                 break;
         }
     }

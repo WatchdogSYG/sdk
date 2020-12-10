@@ -69,10 +69,10 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     }
 
     private int batteryState(int soc) {
-        if (soc < GlobalVariables.SOC_LOW) {
+        if (soc <= GlobalVariables.SOC_LOW) {
             Log.d("BATTERY", "batteryState(soc)=0");
             return 0;
-        } else if (soc < GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
+        } else if (soc <= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
             Log.d("BATTERY", "batteryState(soc)=1");
             return 1;
         } else if (soc > GlobalVariables.SOC_HIGH) {
@@ -85,14 +85,18 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     }
 
     public BatteryStateListener(Robot robot, MainActivity main, StateMachine stateMachine, Button startButton) {
+        Log.d("SEQUENCE", "Constructing BatteryStateListener");
         this.robot = robot;
         this.main = main;
         this.stateMachine = stateMachine;
         this.startButton = startButton;
+
+
         autoStart = true;
         BatteryData bd = robot.getBatteryData();
         charging = bd.isCharging();
         SOC = bd.getBatteryPercentage();
+
 
         lowListener = new ChargingLowOnClickListener(this);
         highListener = new ChargingHighOnClickListener(main, stateMachine);
@@ -105,11 +109,13 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
 
     public void formatLowSOCStartButton() {
+        Log.i("BATTERY", "Battery SOC = LOW");
         Log.d("BATTERY", "formatLowSOCStartButton");
         //initially, when the robot is returning, the button is disabled
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
 
+        Log.i("SEQUENCE", "autostart = " + Boolean.toString(isAutoStart()));
         if (isAutoStart()) {
             startButton.setText("Turn OFF Patrol Auto-Start");
         } else {
@@ -118,34 +124,42 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
         main.updateThought("Charging " + SOC + "%. Auto-start patrol when full battery " + Boolean.toString(autoStart));
 
+        Log.i("LISTENER", "Start Button OnClickListener = lowListener");
         startButton.setOnClickListener(lowListener);
     }
 
     private void formatHighSOCStartButton() {
+        Log.i("BATTERY", "Battery SOC = HIGH");
         Log.d("BATTERY", "formatHighSOCStartButton");
+
         startButton.setText("Force Start Patrol Now");
         main.updateThought("Charging " + SOC + "%. Auto-start patrol when full battery. Tap the button to start the patrol now." + Boolean.toString(autoStart));
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
 
-
+        Log.i("LISTENER", "Start Button OnClickListener = highListener");
         startButton.setOnClickListener(highListener);
     }
 
     private void formatFullSOCStartButton() {
-        Log.d("BATTERY", "formatFullSOCStartButton");
+        Log.i("BATTERY", "Battery SOC = FULL");
+        Log.d("BATTERY", "formatFULLSOCStartButton");
+
         //if the statemachine doesnt exist at startup, the ChargingFullOnClickListener will never have a @NonNull member variable for stateMachine, and therefore will never be able to call fullWakeStateMachine from its OnClick method.
         //we need to set one
 
         //if autostart, start
         //otherwise provide a button
         if (autoStart) {
+            Log.i("SEQUENCE", "Auto-starting");
+            Log.d("SEQUENCE", "autostart = true. fullWakeStateMachine()");
             fullListener.fullWakeStateMachine(main, stateMachine);
             startButton.setVisibility(View.GONE);
         } else {
             startButton.setVisibility(View.VISIBLE);
             startButton.setText("Start Patrol");
             main.updateThought("Ready to Start Patrol");
+            Log.i("LISTENER", "Start Button OnClickListener = highListener");
             startButton.setOnClickListener(fullListener);
         }
     }

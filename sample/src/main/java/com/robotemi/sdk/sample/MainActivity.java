@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements
         return mp;
     }
 
+    //TODO use this fn for all routine existence checks
     public boolean routineExists() {
         if (routine != null) {
             return true;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /*******************************************************************************************
-     *                                    Functionality                                        *
+     *                                   UI Functionality                                      *
      ******************************************************************************************/
 
     /**
@@ -100,9 +101,11 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * This custom method starts the "patrol" functionality.
+     * This method is called by the default OnClickListener of the main button: <code>startButton</code>.
+     * It checks if the robot is charging. If it is charging, the robot will notify the user and prompt the user to click the button to alow auto start when battery is full similar to the ChargingHighOnClickListener.
+     * //TODO make this more than cosmetic
      *
-     * @param view
+     * @param view The startButton that was clicked.
      */
     public void startStateMachine(View view) {
         //check what to initially do based on SOC
@@ -139,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * @param view
+     */
     public void stopStateMachine(View view) {
         updateThought(getResources().getString(R.string.cTermination));
         routine.stop();
@@ -148,6 +154,9 @@ public class MainActivity extends AppCompatActivity implements
         mp.stop();
     }
 
+    /**
+     * @param view
+     */
     public void ReturnToBase(View view) {
         updateThought(getResources().getString(R.string.cReturn));
         //TODO fix null obj ref
@@ -159,6 +168,9 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    /**
+     * @param view
+     */
     public void returnToLauncher(View view) {
         if (routine != null) {
             routine.stop();
@@ -168,6 +180,9 @@ public class MainActivity extends AppCompatActivity implements
         finish();
     }
 
+    /**
+     * @param view
+     */
     public void debugArea(View view) {
         Log.i("Battery", Integer.toString(robot.getBatteryData().getBatteryPercentage()));
     }

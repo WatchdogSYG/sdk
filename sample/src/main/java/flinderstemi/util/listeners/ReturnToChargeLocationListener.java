@@ -75,7 +75,7 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
         //give feedback to the user
         main.updateThought("Charging... Auto-start when full battery: ON");
         //SOC Listener, do this before the next step (button enable)
-        robot.addOnBatteryStatusChangedListener(new BatteryStateListener(robot, main, stateMachine, startButton));
+        stateMachine.setBSL(new BatteryStateListener(robot, main, stateMachine, startButton));
         //enable button and set to next function: Cancel autostart
         Log.d("LOCATION", "Reached Charging Station");
 
@@ -83,7 +83,7 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
         robot.removeOnGoToLocationStatusChangedListener(this);
     }
 
-    //detects if charging occurs when going back to the home base, in case of a onGoToLocatoinStatusChanged event not firing
+    //detects if charging occurs when going back to the home base, in case of a onGoToLocationStatusChanged event not firing
 
     /**
      *
@@ -93,7 +93,6 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
 
         ReturnToChargeListener(Robot robot) {
             this.robot = robot;
-
         }
 
         /**
