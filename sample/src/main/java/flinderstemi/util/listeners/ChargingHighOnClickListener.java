@@ -32,6 +32,7 @@ public class ChargingHighOnClickListener implements View.OnClickListener {
         if (stateMachine != null) {
             synchronized (stateMachine) {
                 stateMachine.setState(stateMachine.PATROLLING);
+                stateMachine.setWakeCondition(new String[]{"BATTERYWAKE"});
                 stateMachine.notify();
             }
         } else {

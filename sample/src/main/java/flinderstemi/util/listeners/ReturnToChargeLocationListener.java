@@ -49,11 +49,12 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
         this.startButton = startButton;
         this.mp = mp;
 
-        rtcl = new ReturnToChargeListener(robot);
+        rtcl = new ReturnToChargeListener();
         robot.addOnBatteryStatusChangedListener(rtcl);
     }
 
     /**
+     *
      * @param location
      * @param status
      * @param descriptionId
@@ -79,6 +80,7 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
         //enable button and set to next function: Cancel autostart
         Log.d("LOCATION", "Reached Charging Station");
 
+        mp.stop();
         robot.removeOnBatteryStatusChangedListener(rtcl);
         robot.removeOnGoToLocationStatusChangedListener(this);
     }
@@ -86,23 +88,18 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
     //detects if charging occurs when going back to the home base, in case of a onGoToLocationStatusChanged event not firing
 
     /**
-     *
+     * An inner class of ReturnToChargeLocationListener that checks for charging, and then calls reachedCharging() if charging.
      */
-    public class ReturnToChargeListener implements OnBatteryStatusChangedListener {
-        Robot robot;
-
-        ReturnToChargeListener(Robot robot) {
-            this.robot = robot;
-        }
+    private class ReturnToChargeListener implements OnBatteryStatusChangedListener {
 
         /**
+         * The overridden method that checks for changes in BatteryData
          *
          * @param batteryData
          */
         @Override
         public void onBatteryStatusChanged(@Nullable BatteryData batteryData) {
-            BatteryData bd = robot.getBatteryData();
-            if (bd.isCharging()) {
+            if (batteryData.isCharging()) {
                 reachedCharging();
             }
         }

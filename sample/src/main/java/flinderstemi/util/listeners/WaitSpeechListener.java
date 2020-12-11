@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
+import com.robotemi.sdk.sample.MainActivity;
+import com.robotemi.sdk.sample.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,37 +14,58 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import flinderstemi.util.SetTextViewCallback;
+import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.StateMachine;
 
+/**
+ * //TODO JavaDoc
+ * A listener that will check for the COMPLETED status of a global TtsRequest and then start a timer that wakes the State thread.
+ */
 public class WaitSpeechListener implements Robot.TtsListener {
 
-    Timer t;
+    //arguments
     long duration;
-    SetTextViewCallback stvc;
+    MainActivity main;
+    DetectionListener dl;
     StateMachine sm;
     Robot robot;
-    TimerTask doneWaiting;
-    DetectionListener dl;
 
-    public WaitSpeechListener(long duration, SetTextViewCallback stvc, DetectionListener dl, final StateMachine sm, Robot robot) {
-        System.out.println("FLINTEMI: Create Timer");
+    //members
+    Timer t;
+    TimerTask doneWaiting;
+
+    /**
+     * Initialises members and defines a TimerTask that will fire upon completion of the Timer.
+     *
+     * @param duration
+     * @param main
+     * @param dl
+     * @param sm
+     * @param robot
+     */
+    public WaitSpeechListener(long duration, MainActivity main, DetectionListener dl, final StateMachine sm, Robot robot) {
+
         t = new Timer();
         this.duration = duration;
-        this.stvc = stvc;
+        this.main = main;
         this.sm = sm;
         this.robot = robot;
         this.dl = dl;
         this.dl = dl;
 
+        //define a timertask that waits for duration milliseconds and notifies after.
         doneWaiting = new TimerTask() {
             @Override
             public void run() {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date();
-                System.out.println("FLINTEMI: Waiting for 10 seconds completed:" + formatter.format(date));
+                Log.v(GlobalVariables.SEQUENCE, "TimerTask doneWaiting run() triggered at " + formatter.format(date));
+                Log.d(GlobalVariables.SEQUENCE, "Waiting Completed");
+
+                sm.removeDetectionListener();
+
                 synchronized (sm) {
-                    System.out.println("FLINTEMI: endWait(), notify()");
+                    Log.d(GlobalVariables.SEQUENCE, "synchronized " + sm.toString() + " notify()");
                     sm.notify();
                 }
             }
@@ -57,25 +80,30 @@ public class WaitSpeechListener implements Robot.TtsListener {
 
         if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
             //TODO handle the cases where the TTSRequest fails into the NOT_ALLOWED or ERROR statuses
-            System.out.println("FLINTEMI: TtsRequest.getStatus()=" + ttsRequest.getStatus() + ":" + ttsRequest.getSpeech());
+
+            Log.v(GlobalVariables.LISTENER, "TtsRequest\n" +
+                    "UUID\t=\t" + ttsRequest.getId() + "\n" +
+                    "String\t=\t" + ttsRequest.getSpeech() + "\n" +
+                    "Status\t=\tCOMPLETED");
+            Log.d(GlobalVariables.LISTENER, "TTSStatus changed to COMPLETED.");
 
             //schedule the task to be completed after the waiting period ends
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
-            System.out.println("FLINTEMI: Waiting for " + duration + "ms starting:" + formatter.format(date));
 
-            //this is actually called on the UI thread so it doesnt freak out
-            this.stvc.updateThought("Waiting ...");
+
+            //this is actually called on the UI thread so it doesn't freak out
+            this.main.updateThought(main.getApplicationContext().getResources().getString(R.string.waitText));
             //schedule it
+            Log.d(GlobalVariables.SEQUENCE, "Waiting for " + duration + "ms starting: " + formatter.format(date));
             t.schedule(doneWaiting, duration);
 
             //since we are on the UI thread already, we can activate the Detection listener now. The bot has already finished talking so this will not cause an interruption
-            Log.d("Detection", "addOnDetectionStateChangedListener");
-            robot.addOnDetectionStateChangedListener(dl);
+            sm.addDetectionListener();
 
-
-            System.out.println("FLINTEMI: Removed WaitTTSListener");
             robot.removeTtsListener(this);
+            Log.d(GlobalVariables.LISTENER, "Removed WaitSpeechListener implements TtsListener");
+            Log.v(GlobalVariables.LISTENER, "Removed WaitSpeechListener: " + this.toString());
         }
     }
 }

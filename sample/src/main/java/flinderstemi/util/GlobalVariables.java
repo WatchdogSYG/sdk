@@ -16,6 +16,15 @@ public class GlobalVariables {
     public Context appContext;
     public static Resources resources;
 
+    public static final String SEQUENCE = "FLINTEMI_SEQUENCE";
+    public static final String LISTENER = "FLINTEMI_LISTENER";
+    public static final String LOCATION = "FLINTEMI_LOCATION";
+    public static final String SPEECH = "FLINTEMI_SPEECH";
+    public static final String UI = "FLINTEMI_UI";
+    public static final String BATTERY = "FLINTEMI_BATTERY";
+    public static final String ABORT = "FLINTEMI_ABORT";
+    public static final String STATE = "FLINTEMI_STATE";
+
     public static int MAX_PATROL_LOOPS;
 
     public static int SOC_HIGH;

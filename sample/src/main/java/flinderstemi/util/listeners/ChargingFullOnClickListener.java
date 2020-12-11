@@ -37,6 +37,7 @@ public class ChargingFullOnClickListener implements View.OnClickListener {
             Log.d("SEQUENCE", "StateMachine exists. notify()");
             synchronized (stateMachine) {
                 stateMachine.setState(stateMachine.PATROLLING);
+                stateMachine.setWakeCondition(new String[]{"BATTERYWAKE"});
                 stateMachine.notify();
             }
         } else {

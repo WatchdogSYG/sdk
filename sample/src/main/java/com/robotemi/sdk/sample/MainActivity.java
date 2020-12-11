@@ -21,6 +21,7 @@ import com.robotemi.sdk.listeners.OnRobotReadyListener;
 import com.robotemi.sdk.navigation.model.SpeedLevel;
 
 import flinderstemi.util.GlobalVariables;
+import flinderstemi.util.RobotLogUtil;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.StateMachine;
 import flinderstemi.util.listeners.ReturnToChargeOnClickListener;
@@ -226,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements
 
         //get Global Parameters for use in the app
         new GlobalVariables(this, robot);//call GP constr to get values from /res
+        new RobotLogUtil(robot);
 
         //Verify permissions here
         //do not need storage permissions for this app, maybe later to have some persistent options
@@ -423,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void run() {
                 //TODO use string res with placeholders
-                System.out.println("FLINTEMI: setText to \"" + string + "\"");
+                Log.d(GlobalVariables.UI, "Thought\t=\t" + string);
                 textViewVariable.setText(thoughtPrefix + string);
             }
         });

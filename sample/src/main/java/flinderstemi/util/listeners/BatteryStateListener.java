@@ -21,10 +21,10 @@ import flinderstemi.util.StateMachine;
  * It checks the battery SOC as an int 0<SOC<=100 and prints it to a TextView.
  */
 public class BatteryStateListener implements OnBatteryStatusChangedListener {
-    public final int LOW = 0;
-    public final int BUFFER = 1;
-    public final int HIGH = 2;
-    public final int FULL = 3;
+    public static final int LOW = 0;
+    public static final int BUFFER = 1;
+    public static final int HIGH = 2;
+    public static final int FULL = 3;
 
 
     Robot robot;
@@ -68,7 +68,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         return prevSOC;
     }
 
-    private int batteryState(int soc) {
+    public static int batteryState(int soc) {
         if (soc <= GlobalVariables.SOC_LOW) {
             Log.d("BATTERY", "batteryState(soc)=0");
             return 0;
