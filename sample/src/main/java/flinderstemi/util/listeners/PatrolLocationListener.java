@@ -1,11 +1,14 @@
 package flinderstemi.util.listeners;
 
+import android.util.Log;
+
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.StateMachine;
 
 public class PatrolLocationListener implements OnGoToLocationStatusChangedListener {
@@ -13,14 +16,17 @@ public class PatrolLocationListener implements OnGoToLocationStatusChangedListen
     Robot robot;
 
     public PatrolLocationListener(Robot r, StateMachine stateMachine) {
-        System.out.println("FLINTEMI: Construct patrolLocationListener");
+        Log.d(GlobalVariables.LISTENER, "Constructing patrolLocationListener");
         this.stateMachine = stateMachine;
         this.robot = r;
     }
 
     @Override
     public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
-        System.out.println("FLINTEMI: onGoToLocationStatusChanged:location=" + location + ",status=" + status + ",description=" + description);
+        Log.v(GlobalVariables.LOCATION, "onGoToLocationStatusChanged:\n" +
+                "location\t=\t" + location + "\n" +
+                "status\t\t=\t" + status + "\n" +
+                "description\t=\t" + description);
         synchronized (stateMachine) {
             switch (status) {
                 case OnGoToLocationStatusChangedListener.COMPLETE:

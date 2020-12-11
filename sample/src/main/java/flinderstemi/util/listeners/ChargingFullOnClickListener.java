@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.robotemi.sdk.sample.MainActivity;
 
+import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.StateMachine;
 
 public class ChargingFullOnClickListener implements View.OnClickListener {
@@ -34,10 +35,10 @@ public class ChargingFullOnClickListener implements View.OnClickListener {
     public void fullWakeStateMachine(MainActivity main, StateMachine stateMachine) {
         if (stateMachine != null) {
             //sm does exist, notify it
-            Log.d("SEQUENCE", "StateMachine exists. notify()");
+            Log.d(GlobalVariables.SEQUENCE, "StateMachine exists. notify()");
             synchronized (stateMachine) {
-                stateMachine.setState(stateMachine.PATROLLING);
                 stateMachine.setWakeCondition(new String[]{"BATTERYWAKE"});
+                Log.v(GlobalVariables.SEQUENCE, stateMachine.toString() + " notify()");
                 stateMachine.notify();
             }
         } else {

@@ -47,14 +47,18 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     public void toggleAutoStart() {
         if (autoStart) {
             autoStart = false;
+            Log.d(GlobalVariables.STATE, "Autostart FALSE");
             //format button to be in the false state
             startButton.setText("Turn ON Patrol Auto-Start");
+            Log.d(GlobalVariables.UI, "startButton.setText( \"" + "Turn ON Patrol Auto-Start" + "\" )");
             Log.i("BATTERY", "Patrol auto-start disabled.");
             main.updateThought("Charging " + Integer.toString(SOC) + "%. Auto-start patrol when full battery DISABLED");
         } else {
             autoStart = true;
+            Log.d(GlobalVariables.STATE, "Autostart FALSE");
             //format button to be in the true state
             startButton.setText("Turn OFF Patrol Auto-Start");
+            Log.d(GlobalVariables.UI, "startButton.setText( \"" + "Turn OFF Patrol Auto-Start" + "\" )");
             Log.i("BATTERY", "Patrol auto-start enabled.");
             main.updateThought("Charging " + Integer.toString(SOC) + "%. Auto-start patrol when full battery ENABLED.");
         }
@@ -70,16 +74,16 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
     public static int batteryState(int soc) {
         if (soc <= GlobalVariables.SOC_LOW) {
-            Log.d("BATTERY", "batteryState(soc)=0");
+            Log.d("BATTERY", "batteryState(soc)=0 [LOW]");
             return 0;
         } else if (soc <= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
-            Log.d("BATTERY", "batteryState(soc)=1");
+            Log.d("BATTERY", "batteryState(soc)=1 [BUFFER]");
             return 1;
         } else if (soc > GlobalVariables.SOC_HIGH) {
-            Log.d("BATTERY", "batteryState(soc)=2");
+            Log.d("BATTERY", "batteryState(soc)=2 [HIGH]");
             return 2;
         } else {
-            Log.d("BATTERY", "batteryState(soc)=3");
+            Log.d("BATTERY", "batteryState(soc)=3 [FULL]");
             return 3;
         }
     }
@@ -96,11 +100,22 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         BatteryData bd = robot.getBatteryData();
         charging = bd.isCharging();
         SOC = bd.getBatteryPercentage();
+        Log.v(GlobalVariables.STATE, "BatteryStateListener:\n" +
+                "autoStart\t=\ttrue\n" +
+                "charging\t=\t" + charging + "\n" +
+                "soc\t\t=\t" + SOC);
 
 
+        //move logs to constructors
         lowListener = new ChargingLowOnClickListener(this);
+        Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingLowOnClickListener");
+        Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingLowOnClickListener(BatteryStateListener bsl) implements OnClickListener" + lowListener.toString());
         highListener = new ChargingHighOnClickListener(main, stateMachine);
+        Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingHighOnClickListener");
+        Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingHighOnClickListener(BatteryStateListener bsl) implements OnClickListener: " + highListener.toString());
         fullListener = new ChargingFullOnClickListener(main, stateMachine);
+        Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingFullOnClickListener");
+        Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingFullOnClickListener(BatteryStateListener bsl) implements OnClickListener" + fullListener.toString());
 
         formatLowSOCStartButton();
     }
@@ -109,13 +124,13 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
 
     public void formatLowSOCStartButton() {
-        Log.i("BATTERY", "Battery SOC = LOW");
-        Log.d("BATTERY", "formatLowSOCStartButton");
+        Log.i(GlobalVariables.BATTERY, "Battery SOC = LOW");
+        Log.d(GlobalVariables.BATTERY, "formatLowSOCStartButton");
         //initially, when the robot is returning, the button is disabled
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
 
-        Log.i("SEQUENCE", "autostart = " + Boolean.toString(isAutoStart()));
+        Log.i(GlobalVariables.SEQUENCE, "autostart = " + isAutoStart());
         if (isAutoStart()) {
             startButton.setText("Turn OFF Patrol Auto-Start");
         } else {
@@ -124,26 +139,26 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
         main.updateThought("Charging " + SOC + "%. Auto-start patrol when full battery " + Boolean.toString(autoStart));
 
-        Log.i("LISTENER", "Start Button OnClickListener = lowListener");
+        Log.i(GlobalVariables.LISTENER, "Start Button OnClickListener = lowListener");
         startButton.setOnClickListener(lowListener);
     }
 
     private void formatHighSOCStartButton() {
-        Log.i("BATTERY", "Battery SOC = HIGH");
-        Log.d("BATTERY", "formatHighSOCStartButton");
+        Log.i(GlobalVariables.BATTERY, "Battery SOC = HIGH");
+        Log.d(GlobalVariables.BATTERY, "formatHighSOCStartButton");
 
         startButton.setText("Force Start Patrol Now");
         main.updateThought("Charging " + SOC + "%. Auto-start patrol when full battery. Tap the button to start the patrol now." + Boolean.toString(autoStart));
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
 
-        Log.i("LISTENER", "Start Button OnClickListener = highListener");
+        Log.i(GlobalVariables.LISTENER, "Start Button OnClickListener = highListener");
         startButton.setOnClickListener(highListener);
     }
 
     private void formatFullSOCStartButton() {
-        Log.i("BATTERY", "Battery SOC = FULL");
-        Log.d("BATTERY", "formatFULLSOCStartButton");
+        Log.i(GlobalVariables.BATTERY, "Battery SOC = FULL");
+        Log.d(GlobalVariables.BATTERY, "formatFULLSOCStartButton");
 
         //if the statemachine doesnt exist at startup, the ChargingFullOnClickListener will never have a @NonNull member variable for stateMachine, and therefore will never be able to call fullWakeStateMachine from its OnClick method.
         //we need to set one

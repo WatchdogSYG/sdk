@@ -15,6 +15,7 @@ import com.robotemi.sdk.sample.MainActivity;
 import com.robotemi.sdk.sample.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import flinderstemi.util.listeners.BatteryStateListener;
@@ -264,7 +265,7 @@ public class StateMachine implements Runnable {
     }
 
     public void wake() {//TODO define this with a String[] as an arg instead of using a global variable
-        Log.v(GlobalVariables.STATE, "wakeCondition\t=\t" + wakeCondition.toString());
+        Log.v(GlobalVariables.STATE, "wakeCondition\t=\t" + Arrays.toString(wakeCondition));
         switch (state) {
             case GREETING://The listeners active in this state should be only the TTSSequenceListener
                 switch (wakeCondition[1]) {
@@ -309,7 +310,7 @@ public class StateMachine implements Runnable {
                                 System.out.println("FLINTEMI: Something went wrong with the movement to a location, try again.");
                         }
                     case "BATTERYWAKE":
-                        setPLL(pll);
+                        //setPLL(pll);
                         break;
                     case "DETECTION":
                         System.out.println(wakeCondition[1]);
@@ -338,7 +339,7 @@ public class StateMachine implements Runnable {
             case STUCK:
                 break;
             case RETURNING:
-                state = PATROLLING;
+                setState(PATROLLING);
                 removeBSL(bsl);
                 setPLL(pll);
                 main.getMediaPlayer().start();
@@ -376,7 +377,7 @@ public class StateMachine implements Runnable {
                 Log.i(GlobalVariables.LOCATION, "Going to the next location");
                 Log.d(GlobalVariables.LOCATION, "GoToLocation:\n" +
                         "locationIndex\t=\t" + locationIndex + "\n" +
-                        "name\t\t=\t" + locations.get(locationIndex));
+                        "name\t\t\t=\t" + locations.get(locationIndex));
                 robot.goTo(locations.get(locationIndex));
 
                 //if there are no more loops to be done, go to next state. The equality operator allows for a maxPatrolLoops of -1 to result in infinite looping until manual termination.
