@@ -9,7 +9,7 @@ import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.sample.MainActivity;
 
 import flinderstemi.util.GlobalVariables;
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 /**
  * This listener should be used after the user is offered the choice to manually send the robot back to the home base.

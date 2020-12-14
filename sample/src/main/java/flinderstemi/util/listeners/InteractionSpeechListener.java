@@ -7,7 +7,7 @@ import com.robotemi.sdk.TtsRequest;
 
 import org.jetbrains.annotations.NotNull;
 
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 /**
  * This class should be added and removed from the Robot as needed when any TTSRequest needs temporary listening to.

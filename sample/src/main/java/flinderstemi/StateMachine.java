@@ -1,4 +1,4 @@
-package flinderstemi.util;
+package flinderstemi;
 
 //TODO this javadoc
 /**
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.listeners.BatteryStateListener;
 import flinderstemi.util.listeners.DetectionListener;
 import flinderstemi.util.listeners.PatrolLocationListener;

@@ -7,7 +7,7 @@ import com.robotemi.sdk.TtsRequest;
 
 import org.jetbrains.annotations.NotNull;
 
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 public class TTSSequenceListener implements Robot.TtsListener {
     StateMachine stateMachine;

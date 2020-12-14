@@ -6,7 +6,7 @@ import android.view.View;
 import com.robotemi.sdk.sample.MainActivity;
 
 import flinderstemi.util.GlobalVariables;
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 public class ChargingFullOnClickListener implements View.OnClickListener {
 

@@ -11,6 +11,8 @@ import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.sample.MainActivity;
 import com.robotemi.sdk.sample.R;
 
+import flinderstemi.StateMachine;
+
 /**
  * A class that provides methods for formatting and utilities when starting the routine.
  */

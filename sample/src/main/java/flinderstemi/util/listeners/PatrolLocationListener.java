@@ -9,7 +9,7 @@ import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import org.jetbrains.annotations.NotNull;
 
 import flinderstemi.util.GlobalVariables;
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 public class PatrolLocationListener implements OnGoToLocationStatusChangedListener {
     StateMachine stateMachine;

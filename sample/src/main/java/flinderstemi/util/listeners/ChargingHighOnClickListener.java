@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.robotemi.sdk.sample.MainActivity;
 
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 //TODO Quality - Check the Auto-start toggleable state on initialisation.
 

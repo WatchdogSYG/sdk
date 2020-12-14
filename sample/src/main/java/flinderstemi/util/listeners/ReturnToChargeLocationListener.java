@@ -13,7 +13,7 @@ import com.robotemi.sdk.sample.MainActivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 /**
  * This Listener should be applied to a button that has been pressed to send the robot back to the base for charging.

@@ -23,7 +23,7 @@ import com.robotemi.sdk.navigation.model.SpeedLevel;
 import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.RobotLogUtil;
 import flinderstemi.util.SetTextViewCallback;
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 import flinderstemi.util.listeners.ReturnToChargeOnClickListener;
 
 /**

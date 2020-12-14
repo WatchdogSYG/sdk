@@ -12,7 +12,7 @@ import com.robotemi.sdk.sample.MainActivity;
 import org.jetbrains.annotations.Nullable;
 
 import flinderstemi.util.GlobalVariables;
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 //TODO Define a new textview that this listener should display to that does not require a SetTextViewCallback.
 

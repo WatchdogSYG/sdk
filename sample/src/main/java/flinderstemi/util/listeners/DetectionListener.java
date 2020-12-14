@@ -5,7 +5,7 @@ import android.util.Log;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 
-import flinderstemi.util.StateMachine;
+import flinderstemi.StateMachine;
 
 public class DetectionListener implements OnDetectionStateChangedListener {
 
