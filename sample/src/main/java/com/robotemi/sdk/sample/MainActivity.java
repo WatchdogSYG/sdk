@@ -16,14 +16,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.robotemi.sdk.BatteryData;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
+import com.robotemi.sdk.listeners.OnBatteryStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 import com.robotemi.sdk.navigation.model.SpeedLevel;
 
+import org.jetbrains.annotations.Nullable;
+
+import flinderstemi.StateMachine;
 import flinderstemi.util.GlobalVariables;
 import flinderstemi.util.RobotLogUtil;
 import flinderstemi.util.SetTextViewCallback;
-import flinderstemi.StateMachine;
+import flinderstemi.util.listeners.BatteryStateListener;
 import flinderstemi.util.listeners.ReturnToChargeOnClickListener;
 
 /**
@@ -113,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements
         BatteryData bd = robot.getBatteryData();
         int soc = bd.getBatteryPercentage();
         Log.i("BATTERY", Integer.toString(soc));
+
         if (soc <= GlobalVariables.SOC_LOW) {
             //low battery
             if (robot.getBatteryData().isCharging()) {
@@ -125,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void onClick(View v) {
                         startButton.setText("Cancel Auto-Start");
+                        updateThought("Charging... will auto start");
+
+                        robot.addOnBatteryStatusChangedListener(new WaitBatteryListener());
                     }
                 });
             } else {
@@ -140,6 +148,16 @@ public class MainActivity extends AppCompatActivity implements
             //enough battery
             //leave at default
             startRoutineFresh();
+        }
+    }
+
+    private class WaitBatteryListener implements OnBatteryStatusChangedListener {
+        @Override
+        public void onBatteryStatusChanged(@Nullable BatteryData batteryData) {
+            int soc = batteryData.getBatteryPercentage();
+            if (BatteryStateListener.batteryState(soc) <= BatteryStateListener.FULL) {
+                startRoutineFresh();
+            }
         }
     }
 
@@ -341,91 +359,27 @@ public class MainActivity extends AppCompatActivity implements
      *                              Debug and Sample Functions                                 *
      ******************************************************************************************/
 
-    /**
-     *
-     * @param location
-     * @param status
-     * @param descriptionId
-     * @param description
-     */
-    /*
-    @Override
-
-    public void onBeWithMeStatusChanged(String status) {
-        //  When status changes to "lock" the robot recognizes the user and begin to follow.
-        switch (status) {
-            case "abort":
-                // do something i.e. speak
-                robot.speak(TtsRequest.create("Abort", false));
-                break;
-
-            case "calculating":
-                robot.speak(TtsRequest.create("Calculating", false));
-                break;
-
-            case "lock":
-                robot.speak(TtsRequest.create("Lock", false));
-                break;
-
-            case "search":
-                robot.speak(TtsRequest.create("search", false));
-                break;
-
-            case "start":
-                robot.speak(TtsRequest.create("Start", false));
-                break;
-
-            case "track":
-                robot.speak(TtsRequest.create("Track", false));
-                break;
-        }
-    }*/
-
-    /**
-     *
-     */
-    /*
-    @Override
-    public void onGoToLocationStatusChanged(String location, String status, int descriptionId, String description) {
-        Log.d("GoToStatusChanged", "descriptionId=" + descriptionId + ", description=" + description);
-        switch (status) {
-            case "start":
-                robot.speak(TtsRequest.create("Starting", false));
-                break;
-
-            case "calculating":
-                robot.speak(TtsRequest.create("Calculating", false));
-                break;
-
-            case "going":
-                robot.speak(TtsRequest.create("Going", false));
-                break;
-
-            case "complete":
-                robot.speak(TtsRequest.create("Completed", false));
-                break;
-
-            case "abort":
-                robot.speak(TtsRequest.create("Abort", false));
-                break;
-        }
-    }*/
     @Override
     public void onConstraintBeWithStatusChanged(boolean isConstraint) {
-        Log.d("onConstraintBeWith", "status = " + isConstraint);
+        Log.d(GlobalVariables.STATE, "ConstraintBeWithStatus\t=\t" + isConstraint);
     }
 
     /*******************************************************************************************
      *                         Manual Callback Interface Overrides                             *
      ******************************************************************************************/
 
+    /**
+     * Callback interface override allows changing the text on <code>textViewVariable</code> with a prefix defined from <code>thoughtPrefix</code>.
+     *
+     * @param string The text string that is to be displayed after the prefix.
+     */
     @Override
     public void updateThought(final String string) {
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //TODO use string res with placeholders
-                Log.d(GlobalVariables.UI, "Thought\t=\t" + string);
+                Log.d(GlobalVariables.UI, "Thought\t=\t\"" + string + "\"");
                 textViewVariable.setText(thoughtPrefix + string);
             }
         });

@@ -343,7 +343,13 @@ public class StateMachine implements Runnable {
                 setState(PATROLLING);
                 removeBSL(bsl);
                 setPLL(pll);
-                main.getMediaPlayer().start();
+                try {
+                    Log.d(GlobalVariables.SEQUENCE, "Attempting to start MediaPlayer:\t" + main.getMediaPlayer().toString() + "\t isPlaying=" + main.getMediaPlayer().isPlaying());
+                    main.getMediaPlayer().start();
+                    Log.d(GlobalVariables.SEQUENCE, "Start()ed MediaPlayer:\t" + main.getMediaPlayer().toString() + "\t isPlaying=" + main.getMediaPlayer().isPlaying());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
         setWakeCondition(null);
@@ -432,12 +438,8 @@ public class StateMachine implements Runnable {
         while (state != TERMINATED) {
             Log.v(GlobalVariables.SEQUENCE, "while loop top");
 
-
-            int soc = robot.getBatteryData().getBatteryPercentage();
-            Log.i(GlobalVariables.BATTERY, "SOC\t=\t" + soc);
-
             //TODO check if terminated first otherwise a stuck temi will remain stuck?
-            if (BatteryStateListener.batteryState(soc) == BatteryStateListener.LOW) {
+            if (BatteryStateListener.batteryState(robot.getBatteryData().getBatteryPercentage()) == BatteryStateListener.LOW) {
                 Log.i(GlobalVariables.SEQUENCE, "Low Battery. Returning to Home Base.");
                 state = RETURNING;
                 Log.d(GlobalVariables.STATE, "state\t=\tRETURNING");

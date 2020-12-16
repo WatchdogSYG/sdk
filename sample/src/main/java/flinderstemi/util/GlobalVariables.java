@@ -22,7 +22,7 @@ public class GlobalVariables {
     public static final String SPEECH = "FLINTEMI_SPEECH";
     public static final String UI = "FLINTEMI_UI";
     public static final String BATTERY = "FLINTEMI_BATTERY";
-    public static final String ABORT = "FLINTEMI_ABORT";
+    public static final String ABORT = "FLINTEMI_ABORT";//use in log E channel
     public static final String STATE = "FLINTEMI_STATE";
 
     public static int MAX_PATROL_LOOPS;
@@ -31,7 +31,7 @@ public class GlobalVariables {
     public static int SOC_LOW;
     public static int SOC_BUFFER;
 
-    public static String L_HOME_BASE = "home base";
+    public static final String L_HOME_BASE = "home base";
 
     public GlobalVariables(Activity activity, Robot robot) {
         appContext = activity.getApplicationContext();

@@ -11,8 +11,8 @@ import com.robotemi.sdk.sample.MainActivity;
 
 import org.jetbrains.annotations.Nullable;
 
-import flinderstemi.util.GlobalVariables;
 import flinderstemi.StateMachine;
+import flinderstemi.util.GlobalVariables;
 
 //TODO Define a new textview that this listener should display to that does not require a SetTextViewCallback.
 
@@ -21,6 +21,10 @@ import flinderstemi.StateMachine;
  * It checks the battery SOC as an int 0<SOC<=100 and prints it to a TextView.
  */
 public class BatteryStateListener implements OnBatteryStatusChangedListener {
+
+    /*******************************************************************************************
+     *                                       Definitions                                       *
+     ******************************************************************************************/
     public static final int LOW = 0;
     public static final int BUFFER = 1;
     public static final int HIGH = 2;
@@ -40,8 +44,35 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     private boolean autoStart;
     private boolean charging;
 
+    /*******************************************************************************************
+     *                                        Get/Set                                          *
+     ******************************************************************************************/
     public boolean isAutoStart() {
         return autoStart;
+    }
+
+    private void setPreviousBatteryPercentage(int soc) {
+        prevSOC = soc;
+    }
+
+    /*******************************************************************************************
+     *                                     Functionality                                       *
+     ******************************************************************************************/
+
+    public static int batteryState(int soc) {
+        if (soc <= GlobalVariables.SOC_LOW) {
+            Log.d("BATTERY", "batteryState(" + soc + ")=0 [LOW]");
+            return 0;
+        } else if (soc <= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
+            Log.d("BATTERY", "batteryState(" + soc + ")=1 [BUFFER]");
+            return 1;
+        } else if (soc > GlobalVariables.SOC_HIGH) {
+            Log.d("BATTERY", "batteryState(" + soc + ")=2 [HIGH]");
+            return 2;
+        } else {
+            Log.d("BATTERY", "batteryState(" + soc + ")=3 [FULL]");
+            return 3;
+        }
     }
 
     public void toggleAutoStart() {
@@ -64,29 +95,9 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         }
     }
 
-    private void setPreviousBatteryPercentage(int soc) {
-        prevSOC = soc;
-    }
-
-    private int getPreviousBatteryPercentage() {
-        return prevSOC;
-    }
-
-    public static int batteryState(int soc) {
-        if (soc <= GlobalVariables.SOC_LOW) {
-            Log.d("BATTERY", "batteryState(soc)=0 [LOW]");
-            return 0;
-        } else if (soc <= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
-            Log.d("BATTERY", "batteryState(soc)=1 [BUFFER]");
-            return 1;
-        } else if (soc > GlobalVariables.SOC_HIGH) {
-            Log.d("BATTERY", "batteryState(soc)=2 [HIGH]");
-            return 2;
-        } else {
-            Log.d("BATTERY", "batteryState(soc)=3 [FULL]");
-            return 3;
-        }
-    }
+    /*******************************************************************************************
+     *                                    Constructor(s)                                       *
+     ******************************************************************************************/
 
     public BatteryStateListener(Robot robot, MainActivity main, StateMachine stateMachine, Button startButton) {
         Log.d("SEQUENCE", "Constructing BatteryStateListener");
@@ -110,10 +121,10 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         lowListener = new ChargingLowOnClickListener(this);
         Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingLowOnClickListener");
         Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingLowOnClickListener(BatteryStateListener bsl) implements OnClickListener" + lowListener.toString());
-        highListener = new ChargingHighOnClickListener(main, stateMachine);
+        highListener = new ChargingHighOnClickListener(this);
         Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingHighOnClickListener");
         Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingHighOnClickListener(BatteryStateListener bsl) implements OnClickListener: " + highListener.toString());
-        fullListener = new ChargingFullOnClickListener(main, stateMachine);
+        fullListener = new ChargingFullOnClickListener(this);
         Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingFullOnClickListener");
         Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingFullOnClickListener(BatteryStateListener bsl) implements OnClickListener" + fullListener.toString());
 
@@ -168,7 +179,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         if (autoStart) {
             Log.i("SEQUENCE", "Auto-starting");
             Log.d("SEQUENCE", "autostart = true. fullWakeStateMachine()");
-            fullListener.fullWakeStateMachine(main, stateMachine);
+            fullWakeStateMachine();
             startButton.setVisibility(View.GONE);
         } else {
             startButton.setVisibility(View.VISIBLE);
@@ -179,6 +190,21 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         }
     }
 
+    public void fullWakeStateMachine() {
+        if (stateMachine != null) {
+            //sm does exist, notify it
+            Log.d(GlobalVariables.SEQUENCE, "StateMachine exists. notify()");
+            synchronized (stateMachine) {
+                stateMachine.setWakeCondition(new String[]{"BATTERYWAKE"});
+                Log.v(GlobalVariables.SEQUENCE, stateMachine.toString() + " notify()");
+                stateMachine.notify();
+            }
+        } else {
+            //sm doesnt exist, make a new one from fresh
+            Log.d("SEQUENCE", "StateMachine is null. main.startRoutineFresh()");
+            main.startRoutineFresh();
+        }
+    }
 
     @Override
     public void onBatteryStatusChanged(@Nullable BatteryData batteryData) {

@@ -8,8 +8,8 @@ import android.widget.Button;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.sample.MainActivity;
 
-import flinderstemi.util.GlobalVariables;
 import flinderstemi.StateMachine;
+import flinderstemi.util.GlobalVariables;
 
 /**
  * This listener should be used after the user is offered the choice to manually send the robot back to the home base.
@@ -53,10 +53,10 @@ public class ReturnToChargeOnClickListener implements View.OnClickListener {
         main.updateThought("I am going back to the home base to charge");
         //goto the home base
         Log.d("LOCATION", robot.getLocations().get(0));
+        robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main, stateMachine, startButton, mp));
         robot.goTo(GlobalVariables.L_HOME_BASE);
         //start a LocationListener so we know when we reach the home base
         Log.d("LOCATION", "Going to Charging Station");
-        robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main, stateMachine, startButton, mp));
         startButton.setOnClickListener(null);
         //TODO start or continue mp here
 
