@@ -64,25 +64,15 @@ public class MainActivity extends AppCompatActivity implements
     /*******************************************************************************************
      *                                        Get/Set                                          *
      ******************************************************************************************/
+
     public TextView getTextViewVariable() {
         return textViewVariable;
     }
-
     public Button getStartButton() {
         return startButton;
     }
-
     public MediaPlayer getMediaPlayer() {
         return mp;
-    }
-
-    //TODO use this fn for all routine existence checks
-    public boolean routineExists() {
-        if (routine != null) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /*******************************************************************************************
@@ -125,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements
                 robot.speak(TtsRequest.create("Hello, I am low on battery. Press the button on the screen if you want me to start patrolling when my battery is full.", false));
                 //set UI elements
                 startButton.setText("Auto-start patrol when battery is full");
-                //TODO set non-cosmetic functionality
                 startButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -141,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements
                 //Give feedback to the user that we are returning and disable further input
                 stvc.updateThought("My battery is low and I am not charging...");
                 startButton.setText("Tap to send me back to the home base");
-                startButton.setOnClickListener(new ReturnToChargeOnClickListener(startButton, robot, this, routine, mp));
+                startButton.setOnClickListener(new ReturnToChargeOnClickListener(this, robot, routine, startButton, mp));
             }
             //start a SOCListener to detect when we should change the UI to the next stage
         } else {
@@ -151,11 +140,12 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    //TODO prevent duplicate SMs when implementing this OCL
     private class WaitBatteryListener implements OnBatteryStatusChangedListener {
         @Override
         public void onBatteryStatusChanged(@Nullable BatteryData batteryData) {
             int soc = batteryData.getBatteryPercentage();
-            if (BatteryStateListener.batteryState(soc) <= BatteryStateListener.FULL) {
+            if (BatteryStateListener.batteryState(soc) >= BatteryStateListener.FULL) {
                 startRoutineFresh();
             }
         }
@@ -191,10 +181,20 @@ public class MainActivity extends AppCompatActivity implements
      * @param view
      */
     public void returnToLauncher(View view) {
-        if (routine != null) {
+        try {
             routine.stop();
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
         }
-        mp.stop();
+
+        try {
+            mp.stop();
+        } catch (IllegalStateException ise) {
+            ise.printStackTrace();
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
+
         System.out.println("FLINTEMI: Calling finish(). Shutting down app immediately.");
         finish();
     }
@@ -207,13 +207,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /*******************************************************************************************
-     *                                    Initialisation                                       *
+     *                               Program Initialisation                                    *
      ******************************************************************************************/
 
     /**
      * Called on Temi Android software initialisation.
      * Places this application in the top bar for a quick access shortcut.
-     *
      * @param isReady
      */
     @Override
@@ -230,7 +229,8 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * Called on Activity instantiation.
-     * Sets <code>GlobalParameters</code> member variables to appropriate /res/values fields.
+     * <p>
+     * Sets <code>GlobalParameters</code> member variables to appropriate /res fields.
      * Verifies permissions.
      * Gets TemiSDK's Robot Instance.
      * Initialises UI View Elements.
@@ -262,26 +262,6 @@ public class MainActivity extends AppCompatActivity implements
     //TODO initialise based on stored options
 
     /**
-     * Initialises views based on starting SOC and stored options.
-     */
-    public void initViews() {
-        textViewVariable = findViewById(R.id.thoughtTextView);
-        startButton = findViewById(R.id.btnCustom);
-        stopButton = findViewById(R.id.btnStop);
-        returnButton = findViewById(R.id.btnRet);
-        vf = findViewById(R.id.vf);
-        operatorMenuButton = findViewById(R.id.menu);
-        operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                toOpMenu();
-                return true;
-            }
-        });
-
-    }
-
-    /**
      * Called on Activity start.
      * Sets Event Listeners.
      * Sets TemiSDK.Robot options.
@@ -302,6 +282,8 @@ public class MainActivity extends AppCompatActivity implements
         robot.toggleNavigationBillboard(false);
 
         thoughtPrefix = getResources().getString(R.string.cPrefix);
+
+        Log.i(GlobalVariables.BATTERY, "Initial SOC\t=\t" + robot.getBatteryData().getBatteryPercentage());
     }
 
     /**
@@ -313,10 +295,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        if (!(mp == null)) {
+        try {
             mp.stop();
+        } catch (NullPointerException npe) {
+            //TODO replace with E log
+            npe.printStackTrace();
         }
-
         ///remember to remove all listeners
         robot.removeOnRobotReadyListener(this);
         robot.removeOnConstraintBeWithStatusChangedListener(this);
@@ -324,9 +308,30 @@ public class MainActivity extends AppCompatActivity implements
         robot.stopMovement();
     }
 
-/*******************************************************************************************
- *                                    Behaviour Utils                                      *
- ******************************************************************************************/
+    /*******************************************************************************************
+     *                                    Behaviour Utils                                      *
+     ******************************************************************************************/
+
+    /**
+     * Initialises views based on starting SOC and stored options.
+     */
+    public void initViews() {
+        textViewVariable = findViewById(R.id.thoughtTextView);
+        startButton = findViewById(R.id.btnCustom);
+        stopButton = findViewById(R.id.btnStop);
+        returnButton = findViewById(R.id.btnRet);
+        vf = findViewById(R.id.vf);
+        operatorMenuButton = findViewById(R.id.menu);
+        operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                toOpMenu();
+                return true;
+            }
+        });
+
+    }
+
     //TODO javadoc
 
     /**
@@ -351,6 +356,13 @@ public class MainActivity extends AppCompatActivity implements
         mp.setLooping(true);
         mp.setVolume(0.5f, 0.5f);
         mp.start();
+        Log.d(GlobalVariables.STATE, "mp.start()");
+        //mp.pause();
+        //Log.d(GlobalVariables.STATE,"mp.pause()");
+        //mp.start();
+        //Log.d(GlobalVariables.STATE,"mp.start()");
+        //mp.stop();
+        //Log.d(GlobalVariables.STATE,"mp.stop()");
 
         return routine;
     }

@@ -25,6 +25,7 @@ public class GlobalVariables {
     public static final String ABORT = "FLINTEMI_ABORT";//use in log E channel
     public static final String STATE = "FLINTEMI_STATE";
 
+    //res
     public static int MAX_PATROL_LOOPS;
 
     public static int SOC_HIGH;

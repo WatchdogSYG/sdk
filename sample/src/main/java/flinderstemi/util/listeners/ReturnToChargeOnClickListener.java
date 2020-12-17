@@ -7,41 +7,44 @@ import android.widget.Button;
 
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.sample.MainActivity;
+import com.robotemi.sdk.sample.R;
 
 import flinderstemi.StateMachine;
 import flinderstemi.util.GlobalVariables;
 
 /**
  * This listener should be used after the user is offered the choice to manually send the robot back to the home base.
- * This listener will fire OnClick and will send the robot back to the charging station, format views accordingly. It then will
  */
 public class ReturnToChargeOnClickListener implements View.OnClickListener {
 
-    Button startButton;
-    Robot robot;
     MainActivity main;
+    Robot robot;
     StateMachine stateMachine;
+    Button startButton;
     MediaPlayer mp;
 
     /**
-     * Initialises relevant member variables
+     * Initialises relevant member variables.
      *
-     * @param startButton  The button that the user should press.
-     * @param robot        The singular robot instance.
      * @param main         The MainActivity of this program.
+     * @param robot        The singular robot instance.
      * @param stateMachine The StateMachine which is running the routine.
+     * @param startButton  The button that the user should press.
      * @param mp           The MediaPlayer that is playing the ambient music.
      */
-    public ReturnToChargeOnClickListener(Button startButton, Robot robot, MainActivity main, StateMachine stateMachine, MediaPlayer mp) {
-        this.startButton = startButton;
-        this.robot = robot;
+    public ReturnToChargeOnClickListener(MainActivity main, Robot robot, StateMachine stateMachine, Button startButton, MediaPlayer mp) {
         this.main = main;
+        this.robot = robot;
         this.stateMachine = stateMachine;
+        this.startButton = startButton;
         this.mp = mp;
     }
 
     /**
-     * Called when a view has been clicked.
+     * Called when a view has been clicked. Sends the robot back to the home base to charge.
+     * <p>
+     * Formats the UI for feedback and  sends the robot to the home base. Adds a new <code>ReturnToChargeLocationListener</code>.Removes all OnClickListeners from the member <code>startButton</code>.
+     * The @param View v should be startButton.
      *
      * @param v The view that was clicked.
      */
@@ -49,16 +52,21 @@ public class ReturnToChargeOnClickListener implements View.OnClickListener {
     public void onClick(View v) {
         //format the button
         startButton.setEnabled(false);
-        startButton.setText("Returning to the home base");
-        main.updateThought("I am going back to the home base to charge");
-        //goto the home base
-        Log.d("LOCATION", robot.getLocations().get(0));
-        robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main, stateMachine, startButton, mp));
-        robot.goTo(GlobalVariables.L_HOME_BASE);
-        //start a LocationListener so we know when we reach the home base
-        Log.d("LOCATION", "Going to Charging Station");
-        startButton.setOnClickListener(null);
-        //TODO start or continue mp here
+        startButton.setText(GlobalVariables.resources.getText(R.string.b_returning));
+        main.updateThought(GlobalVariables.resources.getString(R.string.t_returning));
 
+        //start a LocationListener so we know when we reach the home base
+        ReturnToChargeLocationListener l = new ReturnToChargeLocationListener(robot, main, stateMachine, startButton, mp);
+        robot.addOnGoToLocationStatusChangedListener(l);
+        Log.d(GlobalVariables.LISTENER, "Added new ReturnToChargeLocationListener implements OnGoToLocationStatusChangedListener: " + l.toString());
+
+        //goto the home base
+        Log.v(GlobalVariables.LOCATION, "HB locations[0]\t=\t" + robot.getLocations().get(0));
+        robot.goTo(GlobalVariables.L_HOME_BASE);
+        Log.i(GlobalVariables.LOCATION, "Going to Charging Station");
+
+        String s = this.toString();//is this needed? does an OnclickListener's toString() return value change when removed from a View?
+        startButton.setOnClickListener(null);
+        Log.d(GlobalVariables.LISTENER, "Removed OnClickListener from startButton: " + s.toString());
     }
 }

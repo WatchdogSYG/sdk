@@ -81,7 +81,6 @@ public class StateMachine implements Runnable {
      ******************************************************************************************/
 
     public String[] wakeCondition;
-
     private List<TtsRequest> speechQueue;
     private List<String> locations;
 
@@ -265,7 +264,7 @@ public class StateMachine implements Runnable {
         }
     }
 
-    public void wake() {//TODO define this with a String[] as an arg instead of using a global variable
+    private void wake() {//TODO define this with a String[] as an arg instead of using a global variable
         Log.v(GlobalVariables.STATE, "wakeCondition\t=\t" + Arrays.toString(wakeCondition));
         switch (state) {
             case GREETING://The listeners active in this state should be only the TTSSequenceListener
@@ -345,7 +344,9 @@ public class StateMachine implements Runnable {
                 setPLL(pll);
                 try {
                     Log.d(GlobalVariables.SEQUENCE, "Attempting to start MediaPlayer:\t" + main.getMediaPlayer().toString() + "\t isPlaying=" + main.getMediaPlayer().isPlaying());
-                    main.getMediaPlayer().start();
+                    if (!main.getMediaPlayer().isPlaying()) {
+                        main.getMediaPlayer().start();
+                    }
                     Log.d(GlobalVariables.SEQUENCE, "Start()ed MediaPlayer:\t" + main.getMediaPlayer().toString() + "\t isPlaying=" + main.getMediaPlayer().isPlaying());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -429,6 +430,9 @@ public class StateMachine implements Runnable {
      *                                     Thread Loop                                         *
      ******************************************************************************************/
 
+    /**
+     *
+     */
     @Override
     public void run() {
         Log.i(GlobalVariables.SEQUENCE, "StateMachine is now running.");

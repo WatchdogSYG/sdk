@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import flinderstemi.StateMachine;
+import flinderstemi.util.GlobalVariables;
 
 /**
  * This Listener should be applied to a button that has been pressed to send the robot back to the base for charging.
@@ -79,7 +80,12 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
         //enable button and set to next function: Cancel autostart
         Log.d("LOCATION", "Reached Charging Station");
 
-        mp.pause();
+        if (mp.isPlaying()) {
+            Log.d(GlobalVariables.STATE, "mp isPlaying, mp.pause()");
+            mp.pause();
+        }
+        Log.d(GlobalVariables.STATE, "mp isPlaying false");
+
         robot.removeOnBatteryStatusChangedListener(rtcl);
         robot.removeOnGoToLocationStatusChangedListener(this);
     }

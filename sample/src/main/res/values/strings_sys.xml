@@ -1,4 +1,4 @@
-<!-->This resource file contains the English strings that are used in the menus, UI, and instructions that are used by staff and in the Operator Menu.<-->
+<?xml version="1.0" encoding="utf-8"?><!-->This resource file contains the English strings that are used in the menus, UI, and instructions that are used by staff and in the Operator Menu.<-->
 <resources>
     <string name="app_name">Hospital Patrol App</string>
     <string name="startPrompt">Tap the button below to start the patrol.</string>
@@ -17,4 +17,6 @@
     <string name="sGoingTo">Going to the next waypoint&#8230;</string>
 
     <string name="constructingStateMachine">Constructing State Machine</string>
+
+
 </resources>

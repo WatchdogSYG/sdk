@@ -6,5 +6,12 @@
     <string name="waitSpeech1">I will wait here for</string><!--> int seconds <-->
     <string name="waitSpeech2">seconds. Please, feel free to use my hand sanitiser dispenser.</string>
     <!--> TEXT <-->
-    <string name="waitText">Waiting...</string>
+    <string name="t_waitText">Waiting...</string>
+    <string name="b_turnOnAutoStart">Turn ON Patrol Auto-Start</string>
+    <string name="b_turnOffAutoStart">Turn OFF Patrol Auto-Start</string>
+    <string name="t_chargingASOn">I am charging: %1$d% I will start patrolling again automatically when I am fully charged.</string>
+    <string name="t_chargingASOff">I am charging: %1$d% You\'ll need to manually activate my patrol function again when I am fully charged.</string>
+
+    <string name="b_returning">Returning to Home Base</string>
+    <string name="t_returning">I am going back to the home base to charge.</string>
 </resources>

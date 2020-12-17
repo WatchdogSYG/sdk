@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import flinderstemi.util.GlobalVariables;
 import flinderstemi.StateMachine;
+import flinderstemi.util.GlobalVariables;
 
 /**
  * //TODO JavaDoc
@@ -93,7 +93,7 @@ public class WaitSpeechListener implements Robot.TtsListener {
 
 
             //this is actually called on the UI thread so it doesn't freak out
-            this.main.updateThought(main.getApplicationContext().getResources().getString(R.string.waitText));
+            this.main.updateThought(main.getApplicationContext().getResources().getString(R.string.t_waitText));
             //schedule it
             Log.d(GlobalVariables.SEQUENCE, "Waiting for " + duration + "ms starting: " + formatter.format(date));
             t.schedule(doneWaiting, duration);
