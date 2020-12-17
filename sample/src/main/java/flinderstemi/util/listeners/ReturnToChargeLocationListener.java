@@ -28,8 +28,8 @@ import flinderstemi.util.GlobalVariables;
  */
 public class ReturnToChargeLocationListener implements OnGoToLocationStatusChangedListener {
 
-    Robot robot;
     MainActivity main;
+    Robot robot;
     StateMachine stateMachine;
     Button startButton;
     MediaPlayer mp;
@@ -37,15 +37,15 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
     ReturnToChargeListener rtcl;
 
     /**
-     * @param robot
-     * @param main
-     * @param stateMachine
-     * @param startButton
-     * @param mp
+     * @param main         The MainActivity
+     * @param robot        The singleton robot instance
+     * @param stateMachine The stateMachine that initiated the return to base routine
+     * @param startButton  The main input button to be formatted
+     * @param mp           The MediaPlayer that plays the ambient music
      */
-    public ReturnToChargeLocationListener(Robot robot, MainActivity main, StateMachine stateMachine, Button startButton, MediaPlayer mp) {
-        this.robot = robot;
+    public ReturnToChargeLocationListener(MainActivity main, Robot robot, StateMachine stateMachine, Button startButton, MediaPlayer mp) {
         this.main = main;
+        this.robot = robot;
         this.stateMachine = stateMachine;
         this.startButton = startButton;
         this.mp = mp;
@@ -55,7 +55,6 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
     }
 
     /**
-     *
      * @param location
      * @param status
      * @param descriptionId
@@ -91,6 +90,7 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
     }
 
     //detects if charging occurs when going back to the home base, in case of a onGoToLocationStatusChanged event not firing
+
     /**
      * An inner class of ReturnToChargeLocationListener that checks for charging, and then calls reachedCharging() if charging.
      */

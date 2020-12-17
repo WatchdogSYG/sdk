@@ -9,8 +9,8 @@
     <string name="t_waitText">Waiting...</string>
     <string name="b_turnOnAutoStart">Turn ON Patrol Auto-Start</string>
     <string name="b_turnOffAutoStart">Turn OFF Patrol Auto-Start</string>
-    <string name="t_chargingASOn">I am charging: %1$d% I will start patrolling again automatically when I am fully charged.</string>
-    <string name="t_chargingASOff">I am charging: %1$d% You\'ll need to manually activate my patrol function again when I am fully charged.</string>
+    <string name="t_chargingASOn">I am charging: %% I will start patrolling again automatically when I am fully charged.</string>
+    <string name="t_chargingASOff">I am charging: %% You\'ll need to manually activate my patrol function again when I am fully charged.</string>
 
     <string name="b_returning">Returning to Home Base</string>
     <string name="t_returning">I am going back to the home base to charge.</string>

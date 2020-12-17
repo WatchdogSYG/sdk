@@ -418,7 +418,7 @@ public class StateMachine implements Runnable {
 
                 robot.goTo(locations.get(0));
 
-                robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(robot, main, this, main.getStartButton(), main.getMediaPlayer()));//TODO move context?
+                robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(main, robot, this, main.getStartButton(), main.getMediaPlayer()));//TODO move context?
                 break;
             default:
                 Log.d(GlobalVariables.SEQUENCE, "switch (state = DEFAULT)");

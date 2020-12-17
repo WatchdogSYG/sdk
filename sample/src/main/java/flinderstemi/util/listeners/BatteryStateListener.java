@@ -138,10 +138,10 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             Log.d(GlobalVariables.STATE, "autoStart = false");
 
             //format button to be in the false state
-            String s = GlobalVariables.resources.getString(R.string.t_chargingASOff, SOC);
+            String s = GlobalVariables.resources.getString(R.string.t_chargingASOff);
             startButton.setText(GlobalVariables.resources.getText(R.string.b_turnOnAutoStart));
-            main.updateThought(s);
-
+            main.updateThought(String.format(s) + SOC);
+//
             Log.d(GlobalVariables.UI, "startButton.setText( \"" + s + "\" )");
             Log.i("BATTERY", "Patrol auto-start disabled.");
         } else {
@@ -149,9 +149,9 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             Log.d(GlobalVariables.STATE, "autoStart = true");
 
             //format button to be in the true state
-            String s = GlobalVariables.resources.getString(R.string.t_chargingASOn, SOC);
+            String s = GlobalVariables.resources.getString(R.string.t_chargingASOn);
             startButton.setText(GlobalVariables.resources.getText(R.string.b_turnOffAutoStart));
-            main.updateThought(s);
+            main.updateThought(String.format(s) + SOC);
 
             Log.d(GlobalVariables.UI, "startButton.setText( \"" + s + "\" )");
             Log.i("BATTERY", "Patrol auto-start enabled.");
@@ -165,21 +165,22 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
 
+        //TODO format strings with vars properly
         Log.i(GlobalVariables.SEQUENCE, "autoStart = " + isAutoStart());
         if (isAutoStart()) {
             //format button to be in the true state
-            String s = GlobalVariables.resources.getString(R.string.t_chargingASOn, SOC);
+            String s = GlobalVariables.resources.getString(R.string.t_chargingASOn);
             startButton.setText(GlobalVariables.resources.getText(R.string.b_turnOffAutoStart));
-            main.updateThought(s);
+            main.updateThought(String.format(s) + SOC);
 
             Log.d(GlobalVariables.UI, "startButton.setText( \"" + s + "\" )");
             Log.i("BATTERY", "Patrol auto-start enabled.");
         } else {
             //format button to be in the false state
-            String s = GlobalVariables.resources.getString(R.string.t_chargingASOff, SOC);
+            String s = GlobalVariables.resources.getString(R.string.t_chargingASOff);
             startButton.setText(GlobalVariables.resources.getText(R.string.b_turnOnAutoStart));
-            main.updateThought(s);
-
+            main.updateThought(String.format(s) + SOC);
+//
             Log.d(GlobalVariables.UI, "startButton.setText( \"" + s + "\" )");
             Log.i("BATTERY", "Patrol auto-start disabled.");
         }

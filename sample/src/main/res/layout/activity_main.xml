@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
+        android:onClick="debugArea"
         android:orientation="vertical"
-        android:weightSum="100"
-        android:onClick="debugArea">
+        android:weightSum="100">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -67,6 +67,7 @@
             android:layout_weight="15"
             android:background="@color/colorPrimaryDark"
             android:longClickable="true" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -135,14 +136,33 @@
                         android:text="@string/btn_returnToLauncher"></Button>
                 </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="26dp"
-                    android:text="@string/help"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="17sp"></TextView>
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:text="DOWN"></Button>
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:paddingTop="0dp"></TextView>
+
+                        <Button
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:text="UP"></Button>
+                    </LinearLayout>
+                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"

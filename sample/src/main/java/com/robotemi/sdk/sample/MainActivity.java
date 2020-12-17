@@ -282,8 +282,6 @@ public class MainActivity extends AppCompatActivity implements
         robot.toggleNavigationBillboard(false);
 
         thoughtPrefix = getResources().getString(R.string.cPrefix);
-
-        Log.i(GlobalVariables.BATTERY, "Initial SOC\t=\t" + robot.getBatteryData().getBatteryPercentage());
     }
 
     /**

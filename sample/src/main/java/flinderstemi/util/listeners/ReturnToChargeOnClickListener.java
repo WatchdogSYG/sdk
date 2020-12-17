@@ -56,7 +56,7 @@ public class ReturnToChargeOnClickListener implements View.OnClickListener {
         main.updateThought(GlobalVariables.resources.getString(R.string.t_returning));
 
         //start a LocationListener so we know when we reach the home base
-        ReturnToChargeLocationListener l = new ReturnToChargeLocationListener(robot, main, stateMachine, startButton, mp);
+        ReturnToChargeLocationListener l = new ReturnToChargeLocationListener(main, robot, stateMachine, startButton, mp);
         robot.addOnGoToLocationStatusChangedListener(l);
         Log.d(GlobalVariables.LISTENER, "Added new ReturnToChargeLocationListener implements OnGoToLocationStatusChangedListener: " + l.toString());
 
