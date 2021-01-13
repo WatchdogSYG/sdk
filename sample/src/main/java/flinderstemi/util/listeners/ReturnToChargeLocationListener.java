@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import flinderstemi.StateMachine;
-import flinderstemi.util.GlobalVariables;
+import flinderstemi.GlobalVariables;
 
 /**
  * This Listener should be applied to a button that has been pressed to send the robot back to the base for charging.

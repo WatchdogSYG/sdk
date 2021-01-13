@@ -24,7 +24,7 @@ import com.robotemi.sdk.navigation.model.SpeedLevel;
 import org.jetbrains.annotations.Nullable;
 
 import flinderstemi.StateMachine;
-import flinderstemi.util.GlobalVariables;
+import flinderstemi.GlobalVariables;
 import flinderstemi.util.RobotLogUtil;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.listeners.BatteryStateListener;

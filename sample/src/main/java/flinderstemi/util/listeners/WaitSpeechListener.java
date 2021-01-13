@@ -15,7 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import flinderstemi.StateMachine;
-import flinderstemi.util.GlobalVariables;
+import flinderstemi.GlobalVariables;
 
 /**
  * //TODO JavaDoc

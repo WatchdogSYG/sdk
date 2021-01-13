@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorTemi">#22ce99</color>
-    <color name="colorPrimaryDark">#263238</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryDark">#58595b</color>
+    <color name="colorAccent">#ffc72a</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="pink">#cb007c</color>
+    <color name="blue">#5fb4e5</color>
+    <color name="purple">#8332a7</color>
+    <color name="red">#cf102d</color>
+    <color name="green">#b5be00</color>
     <color name="alert">#BF1111</color>
 </resources>

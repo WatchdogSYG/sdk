@@ -13,7 +13,8 @@ import com.robotemi.sdk.sample.R;
 import org.jetbrains.annotations.Nullable;
 
 import flinderstemi.StateMachine;
-import flinderstemi.util.GlobalVariables;
+import flinderstemi.GlobalVariables;
+import flinderstemi.util.TemiListener;
 
 //TODO Define a new textview that this listener should display to that does not require a SetTextViewCallback.
 
@@ -21,7 +22,7 @@ import flinderstemi.util.GlobalVariables;
  * This listener should be activated when the state machine declares a low SOC.
  * It checks the battery SOC as an int 0<SOC<=100 and prints it to a TextView.
  */
-public class BatteryStateListener implements OnBatteryStatusChangedListener {
+public class BatteryStateListener extends TemiListener implements OnBatteryStatusChangedListener {
 
     /*******************************************************************************************
      *                                       Definitions                                       *
