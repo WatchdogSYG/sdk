@@ -7,6 +7,7 @@ package flinderstemi;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.media.MediaRecorder;
 import android.util.Log;
 
 import com.robotemi.sdk.Robot;
@@ -14,6 +15,8 @@ import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.sample.MainActivity;
 import com.robotemi.sdk.sample.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,6 +69,9 @@ public class StateMachine implements Runnable {
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
     private boolean completePatrolSub;
+
+    //DEBUG
+    MediaRecorder mr;
 
     /*******************************************************************************************
      *                                   Controlled Listeners                                  *
@@ -210,6 +216,29 @@ public class StateMachine implements Runnable {
         Log.v(GlobalVariables.LISTENER, "Added TTSSequenceListener: " + sl.toString());
 
         Log.d(GlobalVariables.SEQUENCE, "Completed Constructing StateMachine(Robot robot, MainActivity main)");
+
+        //DEBUG
+
+
+        try {
+            mr = new MediaRecorder();
+
+            mr.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mr.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mr.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+
+            String s = "rec.3gp";
+            File f = new File(c.getFilesDir() + File.separator + s);
+
+            mr.setOutputFile(c.getFilesDir() + File.separator + s);
+            Log.v(GlobalVariables.SYSTEM, c.getFilesDir() + File.separator + s);
+            mr.prepare();
+            mr.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /*******************************************************************************************
@@ -372,6 +401,10 @@ public class StateMachine implements Runnable {
                     completeSpeechSub = true; //this will remove the ttsstatuslistener on the main thread once this goes into the waiting state
                     Log.v(GlobalVariables.STATE, "completeSpeechSub\t=\ttrue");
                     setState(PATROLLING);
+
+                    //debug
+                    mr.stop();
+                    mr.release();
                 }
                 break;
             case PATROLLING:

@@ -11,63 +11,74 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:onClick="debugArea"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:weightSum="100">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="85">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_weight="58"
+            android:padding="80dp">
 
             <TextView
+                android:id="@+id/thoughtTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/pink"
+
+                android:clickable="false"
+
+                android:cursorVisible="false"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center|left"
+                android:text="@string/startPrompt"
+                android:textAlignment="center"
+                android:textSize="30sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="42"
+            android:background="@color/blue"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnCustom"
+                android:layout_width="220dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:background="@color/red"
+                android:onClick="startStateMachine"
+                android:text="Start Patrol"
+                android:textSize="18sp" />
+
+            <androidx.emoji.widget.EmojiTextView
                 android:id="@+id/face"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="70dp"
                 android:gravity="center"
                 android:minHeight="120dp"
-                android:text=":)"
+                android:text="&#128522;"
                 android:textColor="@color/colorWhite"
-                android:textSize="210sp" />
-
-            <TextView
-                android:id="@+id/thoughtTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/face"
-                android:background="@color/pink"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center|left"
-                android:minHeight="80dp"
-                android:text="@string/startPrompt"
-                android:textAlignment="center"
-                android:textSize="30sp" />
+                android:textSize="170sp" />
 
             <Button
-                android:id="@+id/btnCustom"
-                android:layout_width="220dp"
-                android:layout_height="150dp"
-                android:layout_below="@id/thoughtTextView"
-                android:layout_alignParentLeft="true"
-                android:layout_marginHorizontal="536dp"
-                android:layout_marginTop="50dp"
-                android:background="@color/colorAccent"
-                android:onClick="startStateMachine"
-                android:text="Start Patrol"
-                android:textSize="18sp" />
-        </RelativeLayout>
+                android:id="@+id/menu"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
 
-        <Button
-            android:id="@+id/menu"
-            android:layout_width="120dp"
-            android:layout_height="0dp"
-            android:layout_gravity="end"
-            android:layout_weight="15"
-            android:background="@color/colorPrimaryDark"
-            android:longClickable="true" />
-
+                android:background="@color/colorPrimaryDark"
+                android:longClickable="true" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -85,7 +96,6 @@
             android:text="@string/opMenuHeader"
             android:textColor="@color/colorWhite"
             android:textSize="70sp"></TextView>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"

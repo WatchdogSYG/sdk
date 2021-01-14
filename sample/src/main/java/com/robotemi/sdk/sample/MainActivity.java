@@ -1,5 +1,6 @@
 package com.robotemi.sdk.sample;
 
+import android.Manifest;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -12,6 +13,10 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.provider.FontRequest;
+import androidx.emoji.text.EmojiCompat;
+import androidx.emoji.text.FontRequestEmojiCompatConfig;
 
 import com.robotemi.sdk.BatteryData;
 import com.robotemi.sdk.Robot;
@@ -23,8 +28,8 @@ import com.robotemi.sdk.navigation.model.SpeedLevel;
 
 import org.jetbrains.annotations.Nullable;
 
-import flinderstemi.StateMachine;
 import flinderstemi.GlobalVariables;
+import flinderstemi.StateMachine;
 import flinderstemi.util.RobotLogUtil;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.listeners.BatteryStateListener;
@@ -68,9 +73,11 @@ public class MainActivity extends AppCompatActivity implements
     public TextView getTextViewVariable() {
         return textViewVariable;
     }
+
     public Button getStartButton() {
         return startButton;
     }
+
     public MediaPlayer getMediaPlayer() {
         return mp;
     }
@@ -213,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * Called on Temi Android software initialisation.
      * Places this application in the top bar for a quick access shortcut.
+     *
      * @param isReady
      */
     @Override
@@ -240,16 +248,49 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         //get Global Parameters for use in the app
         new GlobalVariables(this, robot);//call GP constr to get values from /res
         new RobotLogUtil(robot);
 
+        FontRequest fontRequest = new FontRequest(
+                "com.google.android.gms.fonts",
+                "com.google.android.gms",
+                "emoji compat Font Query",
+                R.array.com_google_android_gms_fonts_certs);
+        EmojiCompat.Config config = new FontRequestEmojiCompatConfig(this, fontRequest);
+        config.registerInitCallback(new EmojiCompat.InitCallback() {
+
+        });
+        EmojiCompat.init(config);
+        Log.v(GlobalVariables.SYSTEM, Integer.toString(EmojiCompat.get().getLoadState()));
+
+        setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
         //Verify permissions here
-        //do not need storage permissions for this app, maybe later to have some persistent options
+        //do not need storage permissions for this app, maybe later to have some persistent options or debug
         //verifyStoragePermissions(this);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Log.d(GlobalVariables.SYSTEM, "READ_EXTERNAL_STORAGE GRANTED");
+        } else {
+            Log.d(GlobalVariables.SYSTEM, "READ_EXTERNAL_STORAGE REQUESTING");
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Log.d(GlobalVariables.SYSTEM, "WRITE_EXTERNAL_STORAGE GRANTED");
+        } else {
+            Log.d(GlobalVariables.SYSTEM, "WRITE__EXTERNAL_STORAGE REQUESTING");
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            Log.d(GlobalVariables.SYSTEM, "CAPTURE_AUDIO_OUTPUT GRANTED");
+        } else {
+            Log.d(GlobalVariables.SYSTEM, "CAPTURE_AUDIO_OUTPUT REQUESTING");
+            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+        }
 
         // get an instance of the robot in order to begin using its features.
         robot = Robot.getInstance();
@@ -352,7 +393,8 @@ public class MainActivity extends AppCompatActivity implements
         //mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
         //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
         mp.setLooping(true);
-        mp.setVolume(0.5f, 0.5f);
+        //mp.setVolume(0.5f, 0.5f);
+        mp.setVolume(0f, 0f);
         mp.start();
         Log.d(GlobalVariables.STATE, "mp.start()");
         //mp.pause();
