@@ -15,6 +15,8 @@ import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.sample.MainActivity;
 import com.robotemi.sdk.sample.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import java.util.List;
 
 import flinderstemi.util.listeners.BatteryStateListener;
 import flinderstemi.util.listeners.DetectionListener;
+import flinderstemi.util.listeners.IdleSpeechListener;
 import flinderstemi.util.listeners.PatrolLocationListener;
 import flinderstemi.util.listeners.ReturnToChargeLocationListener;
 import flinderstemi.util.listeners.TTSSequenceListener;
@@ -80,6 +83,7 @@ public class StateMachine implements Runnable {
     private DetectionListener dl;//the positioning of this variable allows adding and removing of a DetectionListener when we want so we can avoid interrupting TTS when looking for a user interaction
     private PatrolLocationListener pll;//The location listener when patrolling that can be added and removed when temi diverges from the patrolling information
     private BatteryStateListener bsl;
+    private IdleSpeechListener isl;
 
     /*******************************************************************************************
      *                                    Other Variables                                      *
@@ -145,6 +149,19 @@ public class StateMachine implements Runnable {
         Log.v(GlobalVariables.LISTENER, "Removed BatteryStateListener extends OnBatteryStatusChangedListener: " + batteryStateListener.toString());
     }
 
+    //no args since isl should be singleton
+    public void setISL() {
+        robot.addTtsListener(isl);
+        Log.d(GlobalVariables.LISTENER, "Set IdleSpeechListener");
+        Log.v(GlobalVariables.LISTENER, "Set IdleSpeechListener extends TtsListener: " + isl.toString());
+    }
+
+    public void removeISL() {
+        robot.removeTtsListener(isl);
+        Log.d(GlobalVariables.LISTENER, "Removed IdleSpeechListener");
+        Log.v(GlobalVariables.LISTENER, "Removed IdleSpeechListener extends TtsListener: " + isl.toString());
+    }
+
     public void setState(int s) {
         int r = state;
         state = s;
@@ -159,7 +176,7 @@ public class StateMachine implements Runnable {
      * @param robot
      * @param main
      */
-    public StateMachine(Robot robot, MainActivity main) {
+    public StateMachine(@NotNull Robot robot, @NotNull MainActivity main) {
         Log.d(GlobalVariables.SEQUENCE, "Constructing State Machine");
         Log.v(GlobalVariables.SEQUENCE,
                 "Constructing StateMachine(Robot robot, MainActivity main)\n" +
@@ -206,6 +223,7 @@ public class StateMachine implements Runnable {
         Log.v(GlobalVariables.LOCATION, "Locations = " + locations.toString());
 
         dl = new DetectionListener(robot, this);
+        isl = new IdleSpeechListener(robot);
 
         Robot.TtsListener sl = new TTSSequenceListener(robot, this);
         Log.d(GlobalVariables.LISTENER, "Instantiated new TTSSequenceListener(robot, this) implements TtsListener");
@@ -223,7 +241,7 @@ public class StateMachine implements Runnable {
         try {
             mr = new MediaRecorder();
 
-            mr.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mr.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
             mr.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
             mr.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
 
@@ -264,7 +282,7 @@ public class StateMachine implements Runnable {
     }
 
     //TODO move this to a global context
-    private void speak(TtsRequest ttsRequest) {
+    private void speak(@NotNull TtsRequest ttsRequest) {
         Log.v(GlobalVariables.SPEECH, "TtsRequest UUID = " + ttsRequest.getId().toString());
         Log.d(GlobalVariables.SPEECH, "robot.speak( \"" + ttsRequest.getSpeech() + "\" )");
         robot.speak(ttsRequest);
@@ -419,7 +437,7 @@ public class StateMachine implements Runnable {
                         "locationIndex\t=\t" + locationIndex + "\n" +
                         "name\t\t\t=\t" + locations.get(locationIndex));
                 robot.goTo(locations.get(locationIndex));
-
+                setISL();
                 //if there are no more loops to be done, go to next state. The equality operator allows for a maxPatrolLoops of -1 to result in infinite looping until manual termination.
                 if (locationLoopIndex == maxPatrolLoops) {
                     Log.d(GlobalVariables.SEQUENCE, "Completed all loops, returning to HB.");

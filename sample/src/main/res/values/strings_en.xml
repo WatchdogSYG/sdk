@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--> This string resource file should contain the ENGLISH (en-au) speech and text strings with appropriate HTML and Rich Text formatting that the application will use. <-->
 <resources>
     <!--> SPEECH <-->
-    <string name="greeting1">Starting custom routine. Beep boop. Recording audio. Hi there. Excuse me. Beep Beep Coming through. Watch out. Going to the next waypoint. Pardon.</string>
+    <string name="greeting1">Starting custom routine. Beep boop.</string>
     <string name="greeting2">I will start my patrol.</string>
     <string name="waitSpeech1">I will wait here for</string><!--> int seconds <-->
     <string name="waitSpeech2">seconds. Please, feel free to use my hand sanitiser dispenser.</string>

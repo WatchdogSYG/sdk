@@ -32,6 +32,7 @@ public class PatrolLocationListener implements OnGoToLocationStatusChangedListen
                 case OnGoToLocationStatusChangedListener.COMPLETE:
                     System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify");
                     stateMachine.setWakeCondition(new String[]{"LOCATION", "COMPLETE"});
+                    stateMachine.removeISL();
                     stateMachine.notify();
                     //if the patrol routine is complete, remove the listener
                     if (stateMachine.isCompletePatrolSub()) {

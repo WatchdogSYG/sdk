@@ -377,7 +377,8 @@ public class MainActivity extends AppCompatActivity implements
      *
      */
     public StateMachine startRoutineFresh() {
-        startButton.setVisibility(View.GONE);
+        startButton.setVisibility(View.INVISIBLE);
+        startButton.setEnabled(false);
         stopButton.setEnabled(true);
         returnButton.setEnabled(true);
         textViewVariable.setPadding(200, 0, 0, 0);
@@ -389,7 +390,8 @@ public class MainActivity extends AppCompatActivity implements
             new Thread(routine).start();
         }
         //TODO set the correct file for music
-        mp = MediaPlayer.create(this, R.raw.twiceicsm);
+        mp = MediaPlayer.create(this, R.raw.rec);
+        //mp = MediaPlayer.create(this, R.raw.twiceicsm);
         //mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
         //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
         mp.setLooping(true);
