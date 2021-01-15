@@ -30,6 +30,7 @@ public class PatrolLocationListener implements OnGoToLocationStatusChangedListen
         synchronized (stateMachine) {
             switch (status) {
                 case OnGoToLocationStatusChangedListener.COMPLETE:
+                    stateMachine.removeISL();
                     System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify");
                     stateMachine.setWakeCondition(new String[]{"LOCATION", "COMPLETE"});
                     stateMachine.removeISL();
@@ -45,6 +46,7 @@ public class PatrolLocationListener implements OnGoToLocationStatusChangedListen
                     }
                     break;
                 case OnGoToLocationStatusChangedListener.ABORT:
+                    stateMachine.removeISL();
                     robot.speak(TtsRequest.create("Abort", false));
                     stateMachine.setWakeCondition(new String[]{"LOCATION", "ABORT"});
                     stateMachine.notify();

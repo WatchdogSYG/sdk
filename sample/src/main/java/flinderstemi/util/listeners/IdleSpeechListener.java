@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
+import com.robotemi.sdk.sample.MainActivity;
+import com.robotemi.sdk.sample.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -11,6 +13,7 @@ import java.util.UUID;
 
 import flinderstemi.GlobalVariables;
 
+//TODO JDoc
 public class IdleSpeechListener implements Robot.TtsListener {
 
     //references
@@ -23,13 +26,13 @@ public class IdleSpeechListener implements Robot.TtsListener {
     //content
     String[] s;
 
-    public IdleSpeechListener(Robot robot) {
+    public IdleSpeechListener(Robot robot, MainActivity main) {
         Log.d(GlobalVariables.SEQUENCE, "Constructing IdleSpeechListener");
         this.robot = robot;
 
         index = 0;
-        s = new String[]{"Watch out", "Beep beep coming through", "i like donuts"};
-        TtsRequest tts = TtsRequest.create(s[index], false);
+        s = main.getResources().getStringArray(R.array.ambientSpeech);
+        TtsRequest tts = TtsRequest.create(s[0], false);
         uuid = tts.getId();
 
 
@@ -40,36 +43,36 @@ public class IdleSpeechListener implements Robot.TtsListener {
         //listen for the specific tts.
         switch (ttsRequest.getStatus()) {
             case COMPLETED:
-                //uuid = speakNext();
-                Log.v(GlobalVariables.STATE, ttsRequest.getStatus().toString());
-                uuid = speakRandom();
-                break;
             case NOT_ALLOWED:
-                break;
-            case PROCESSING:
-                break;
             case ERROR:
+                //uuid = speakNext();
+                uuid = speakRandom();
+                break;/*
+            case PROCESSING:
                 break;
             case STARTED:
                 break;
             case PENDING:
-                break;
+                break;*/
         }
         Log.d(GlobalVariables.LISTENER, "IdleSpeechListener onTtsStatusChanged\n" + ttsRequest.toString());
     }
 
     //speaks a random line in the array and returns the TtsRequest UUID
+    @NotNull
     private UUID speakRandom() {
         double d = Math.random();
         d = d * s.length;
         int i = (int) d;
         Log.v(GlobalVariables.STATE, Integer.toString(i));
-        TtsRequest tts = TtsRequest.create(s[i], false);
+        TtsRequest tts = TtsRequest.create(s[i] + "...", false);
         robot.speak(tts);
         return tts.getId();
     }
 
+    /*
     //speaks the next line in the array and returns the TtsRequest UUID.
+    @NotNull
     private UUID speakNext() {
         if (index == s.length - 1) {
             index = 0;
@@ -79,5 +82,5 @@ public class IdleSpeechListener implements Robot.TtsListener {
         TtsRequest tts = TtsRequest.create(s[index], false);
         robot.speak(tts);
         return tts.getId();
-    }
+    }*/
 }

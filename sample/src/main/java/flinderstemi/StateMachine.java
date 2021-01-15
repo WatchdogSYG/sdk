@@ -223,7 +223,7 @@ public class StateMachine implements Runnable {
         Log.v(GlobalVariables.LOCATION, "Locations = " + locations.toString());
 
         dl = new DetectionListener(robot, this);
-        isl = new IdleSpeechListener(robot);
+        isl = new IdleSpeechListener(robot, main);
 
         Robot.TtsListener sl = new TTSSequenceListener(robot, this);
         Log.d(GlobalVariables.LISTENER, "Instantiated new TTSSequenceListener(robot, this) implements TtsListener");
@@ -236,8 +236,6 @@ public class StateMachine implements Runnable {
         Log.d(GlobalVariables.SEQUENCE, "Completed Constructing StateMachine(Robot robot, MainActivity main)");
 
         //DEBUG
-
-
         try {
             mr = new MediaRecorder();
 

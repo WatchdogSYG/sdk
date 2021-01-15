@@ -9,8 +9,8 @@ import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.sample.MainActivity;
 import com.robotemi.sdk.sample.R;
 
-import flinderstemi.StateMachine;
 import flinderstemi.GlobalVariables;
+import flinderstemi.StateMachine;
 
 /**
  * This listener should be used after the user is offered the choice to manually send the robot back to the home base.
@@ -68,5 +68,8 @@ public class ReturnToChargeOnClickListener implements View.OnClickListener {
         String s = this.toString();//is this needed? does an OnclickListener's toString() return value change when removed from a View?
         startButton.setOnClickListener(null);
         Log.d(GlobalVariables.LISTENER, "Removed OnClickListener from startButton: " + s.toString());
+
+        //start idle speech
+        stateMachine.setISL();
     }
 }

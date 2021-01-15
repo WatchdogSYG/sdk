@@ -5,7 +5,18 @@
     <string name="greeting2">I will start my patrol.</string>
     <string name="waitSpeech1">I will wait here for</string><!--> int seconds <-->
     <string name="waitSpeech2">seconds. Please, feel free to use my hand sanitiser dispenser.</string>
+
+    <string-array name="ambientSpeech">
+        <item>Excuse me</item>
+        <item>Pardon</item>
+        <item>Beep beep coming through</item>
+        <item>On my way</item>
+        <item>I love you</item>
+    </string-array>
+
     <!--> TEXT <-->
+    <string name="en_prompt">Take a moment to clean your hands</string>
+
     <string name="t_waitText">Waiting...</string>
     <string name="b_turnOnAutoStart">Turn ON Patrol Auto-Start</string>
     <string name="b_turnOffAutoStart">Turn OFF Patrol Auto-Start</string>
