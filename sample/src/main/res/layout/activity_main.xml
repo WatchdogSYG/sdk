@@ -11,74 +11,147 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:onClick="debugArea"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="100">
 
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorAccent"
-            android:layout_weight="58"
-            android:padding="80dp">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50">
 
             <TextView
                 android:id="@+id/thoughtTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/pink"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:background="@color/blue"
 
                 android:clickable="false"
 
                 android:cursorVisible="false"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="@font/sansation"
                 android:gravity="center|left"
-                android:text="@string/startPrompt"
+                android:text="@string/cn_prompt"
                 android:textAlignment="center"
-                android:textSize="30sp" />
+                android:textSize="50sp" />
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="42"
-            android:background="@color/blue"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnCustom"
-                android:layout_width="220dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:background="@color/red"
-                android:onClick="startStateMachine"
-                android:text="Start Patrol"
-                android:textSize="18sp" />
+            <ImageView
+                android:layout_width="215dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="0dp"
+                android:layout_marginLeft="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/thrfg_logo_vrf"></ImageView>
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="0dp"
+                android:layout_marginLeft="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/f_v_cmyk"></ImageView>
 
             <androidx.emoji.widget.EmojiTextView
                 android:id="@+id/face"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="70dp"
-                android:gravity="center"
-                android:minHeight="120dp"
-                android:text="&#x1F637;"
-                android:textColor="@color/colorWhite"
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginVertical="20dp"
+                android:layout_marginLeft="90dp"
+                android:gravity="center_horizontal"
+                android:minHeight="0dp"
+                android:text="@string/eGrinningSmiling"
                 android:textSize="170sp" />
+
+
+            <Button
+                android:id="@+id/btnCustom"
+                android:layout_width="256px"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="70dp"
+                android:background="@color/red"
+                android:onClick="startStateMachine"
+                android:fontFamily="@font/roboto"
+                android:text="Start Patrol"
+                android:visibility="visible"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:orientation="horizontal"
+            android:weightSum="100">
 
             <Button
                 android:id="@+id/menu"
-                android:layout_width="120dp"
-                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="right"
-
+                android:layout_weight="10"
                 android:background="@color/colorPrimaryDark"
                 android:longClickable="true" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="40"></ImageView>
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@drawable/en"
+
+                android:layout_margin="8dp"></ImageButton>
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@drawable/cn"
+
+                android:layout_margin="8dp"></ImageButton>
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@drawable/el"
+
+                android:layout_margin="8dp"></ImageButton>
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@drawable/it"
+
+                android:layout_margin="8dp"></ImageButton>
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@drawable/vi"
+
+                android:layout_margin="8dp"></ImageButton>
+
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -96,6 +169,7 @@
             android:text="@string/opMenuHeader"
             android:textColor="@color/colorWhite"
             android:textSize="70sp"></TextView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
