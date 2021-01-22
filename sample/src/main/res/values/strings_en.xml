@@ -4,12 +4,14 @@
     <string name="greeting1">Starting custom routine. Beep boop.</string>
     <string name="greeting2">I will start my patrol.</string>
     <string name="waitSpeech1">I will wait here for</string><!--> int seconds <-->
-    <string name="waitSpeech2">seconds. Please, take a moment to wash your hands.</string>
+    <string name="waitSpeech2">seconds. Please take a moment to wash your hands.</string>
 
     <string-array name="ambientSpeech">
         <item>Excuse me</item>
         <item>Pardon</item>
+        <item>Pardon me</item>
         <item>Beep beep coming through</item>
+        <item>Coming through</item>
         <item>On my way</item>
         <item>I love you</item>
     </string-array>

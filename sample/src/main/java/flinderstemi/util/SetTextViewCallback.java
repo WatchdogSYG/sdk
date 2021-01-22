@@ -1,5 +1,5 @@
 package flinderstemi.util;
 
 public interface SetTextViewCallback {
-    void updateThought(String string);
+    void updateThought(String string, String emoji);
 }

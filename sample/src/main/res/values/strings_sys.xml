@@ -20,4 +20,9 @@
 
     <string name="eMask">&#x1F637;</string>
     <string name="eGrinningSmiling">&#x1F604;</string>
+    <string name="eWorried">&#x1F61F;</string>
+    <string name="eSleeping">&#x1F634;</string>
+    <string name="eThinking">&#x1F914;</string>
+    <string name="eTear">&#x1F622;</string>
+    <string name="eRobot">&#x1F916;</string>
 </resources>

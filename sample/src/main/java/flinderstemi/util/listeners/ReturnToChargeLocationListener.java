@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import flinderstemi.StateMachine;
-import flinderstemi.GlobalVariables;
 
 /**
  * This Listener should be applied to a button that has been pressed to send the robot back to the base for charging.
@@ -41,14 +40,12 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
      * @param robot        The singleton robot instance
      * @param stateMachine The stateMachine that initiated the return to base routine
      * @param startButton  The main input button to be formatted
-     * @param mp           The MediaPlayer that plays the ambient music
      */
-    public ReturnToChargeLocationListener(MainActivity main, Robot robot, StateMachine stateMachine, Button startButton, MediaPlayer mp) {
+    public ReturnToChargeLocationListener(MainActivity main, Robot robot, StateMachine stateMachine, Button startButton) {
         this.main = main;
         this.robot = robot;
         this.stateMachine = stateMachine;
         this.startButton = startButton;
-        this.mp = mp;
 
         rtcl = new ReturnToChargeListener();
         robot.addOnBatteryStatusChangedListener(rtcl);
@@ -78,12 +75,6 @@ public class ReturnToChargeLocationListener implements OnGoToLocationStatusChang
         stateMachine.setBSL(new BatteryStateListener(robot, main, stateMachine, startButton));
         //enable button and set to next function: Cancel autostart
         Log.d("LOCATION", "Reached Charging Station");
-
-        if (mp.isPlaying()) {
-            Log.d(GlobalVariables.STATE, "mp isPlaying, mp.pause()");
-            mp.pause();
-        }
-        Log.d(GlobalVariables.STATE, "mp isPlaying false");
 
         robot.removeOnBatteryStatusChangedListener(rtcl);
         robot.removeOnGoToLocationStatusChangedListener(this);

@@ -12,9 +12,8 @@ import com.robotemi.sdk.sample.R;
 
 import org.jetbrains.annotations.Nullable;
 
+import flinderstemi.Global;
 import flinderstemi.StateMachine;
-import flinderstemi.GlobalVariables;
-import flinderstemi.util.TemiListener;
 
 //TODO Define a new textview that this listener should display to that does not require a SetTextViewCallback.
 
@@ -22,7 +21,7 @@ import flinderstemi.util.TemiListener;
  * This listener should be activated when the state machine declares a low SOC.
  * It checks the battery SOC as an int 0<SOC<=100 and prints it to a TextView.
  */
-public class BatteryStateListener extends TemiListener implements OnBatteryStatusChangedListener {
+public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
     /*******************************************************************************************
      *                                       Definitions                                       *
@@ -82,21 +81,21 @@ public class BatteryStateListener extends TemiListener implements OnBatteryStatu
         BatteryData bd = robot.getBatteryData();
         boolean charging = bd.isCharging();
         SOC = bd.getBatteryPercentage();
-        Log.v(GlobalVariables.STATE, "BatteryStateListener:\n" +
+        Log.v(Global.STATE, "BatteryStateListener:\n" +
                 "autoStart\t=\ttrue\n" +
                 "charging\t=\t" + charging + "\n" +
                 "soc\t\t=\t" + SOC);
 
         //move logs to constructors
         lowListener = new ChargingLowOnClickListener(this);
-        Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingLowOnClickListener");
-        Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingLowOnClickListener(BatteryStateListener bsl) implements OnClickListener" + lowListener.toString());
+        Log.d(Global.LISTENER, "Instantiated new ChargingLowOnClickListener");
+        Log.v(Global.LISTENER, "Instantiated new ChargingLowOnClickListener(BatteryStateListener bsl) implements OnClickListener" + lowListener.toString());
         highListener = new ChargingHighOnClickListener(this);
-        Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingHighOnClickListener");
-        Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingHighOnClickListener(BatteryStateListener bsl) implements OnClickListener: " + highListener.toString());
+        Log.d(Global.LISTENER, "Instantiated new ChargingHighOnClickListener");
+        Log.v(Global.LISTENER, "Instantiated new ChargingHighOnClickListener(BatteryStateListener bsl) implements OnClickListener: " + highListener.toString());
         fullListener = new ChargingFullOnClickListener(this);
-        Log.d(GlobalVariables.LISTENER, "Instantiated new ChargingFullOnClickListener");
-        Log.v(GlobalVariables.LISTENER, "Instantiated new ChargingFullOnClickListener(BatteryStateListener bsl) implements OnClickListener" + fullListener.toString());
+        Log.d(Global.LISTENER, "Instantiated new ChargingFullOnClickListener");
+        Log.v(Global.LISTENER, "Instantiated new ChargingFullOnClickListener(BatteryStateListener bsl) implements OnClickListener" + fullListener.toString());
 
         formatLowSOCStartButton();
     }
@@ -115,13 +114,13 @@ public class BatteryStateListener extends TemiListener implements OnBatteryStatu
      * @return an integer describing the state of charge as defined in <code>BatteryStateListener</code>
      */
     public static int batteryState(int soc) {
-        if (soc >= GlobalVariables.SOC_HIGH) {
+        if (soc >= Global.SOC_HIGH) {
             Log.d("BATTERY", "batteryState(" + soc + ") = 3 [FULL]");
             return BatteryStateListener.FULL;
-        } else if (soc >= GlobalVariables.SOC_LOW + GlobalVariables.SOC_BUFFER) {
+        } else if (soc >= Global.SOC_LOW + Global.SOC_BUFFER) {
             Log.d("BATTERY", "batteryState(" + soc + ") = 2 [HIGH]");
             return BatteryStateListener.HIGH;
-        } else if (soc >= GlobalVariables.SOC_LOW) {
+        } else if (soc >= Global.SOC_LOW) {
             Log.d("BATTERY", "batteryState(" + soc + ") = 1 [BUFFER]");
             return BatteryStateListener.BUFFER;
         } else {
@@ -136,76 +135,76 @@ public class BatteryStateListener extends TemiListener implements OnBatteryStatu
     public void toggleAutoStart() {
         if (autoStart) {
             autoStart = false;
-            Log.d(GlobalVariables.STATE, "autoStart = false");
+            Log.d(Global.STATE, "autoStart = false");
 
             //format button to be in the false state
-            String s = GlobalVariables.resources.getString(R.string.t_chargingASOff);
-            startButton.setText(GlobalVariables.resources.getText(R.string.b_turnOnAutoStart));
-            main.updateThought(String.format(s) + SOC);
+            String s = Global.resources.getString(R.string.t_chargingASOff);
+            startButton.setText(Global.resources.getText(R.string.b_turnOnAutoStart));
+            main.updateThought(String.format(s) + SOC, Global.Emoji.eNull);
 //
-            Log.d(GlobalVariables.UI, "startButton.setText( \"" + s + "\" )");
+            Log.d(Global.UI, "startButton.setText( \"" + s + "\" )");
             Log.i("BATTERY", "Patrol auto-start disabled.");
         } else {
             autoStart = true;
-            Log.d(GlobalVariables.STATE, "autoStart = true");
+            Log.d(Global.STATE, "autoStart = true");
 
             //format button to be in the true state
-            String s = GlobalVariables.resources.getString(R.string.t_chargingASOn);
-            startButton.setText(GlobalVariables.resources.getText(R.string.b_turnOffAutoStart));
-            main.updateThought(String.format(s) + SOC);
+            String s = Global.resources.getString(R.string.t_chargingASOn);
+            startButton.setText(Global.resources.getText(R.string.b_turnOffAutoStart));
+            main.updateThought(String.format(s) + SOC, Global.Emoji.eNull);
 
-            Log.d(GlobalVariables.UI, "startButton.setText( \"" + s + "\" )");
+            Log.d(Global.UI, "startButton.setText( \"" + s + "\" )");
             Log.i("BATTERY", "Patrol auto-start enabled.");
         }
     }
 
     private void formatLowSOCStartButton() {
-        Log.i(GlobalVariables.BATTERY, "Battery SOC = LOW");
-        Log.d(GlobalVariables.BATTERY, "formatLowSOCStartButton");
+        Log.i(Global.BATTERY, "Battery SOC = LOW");
+        Log.d(Global.BATTERY, "formatLowSOCStartButton");
         //initially, when the robot is returning, the button is disabled
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
 
         //TODO format strings with vars properly
-        Log.i(GlobalVariables.SEQUENCE, "autoStart = " + isAutoStart());
+        Log.i(Global.SEQUENCE, "autoStart = " + isAutoStart());
         if (isAutoStart()) {
             //format button to be in the true state
-            String s = GlobalVariables.resources.getString(R.string.t_chargingASOn);
-            startButton.setText(GlobalVariables.resources.getText(R.string.b_turnOffAutoStart));
-            main.updateThought(String.format(s) + SOC);
+            String s = Global.resources.getString(R.string.t_chargingASOn);
+            startButton.setText(Global.resources.getText(R.string.b_turnOffAutoStart));
+            main.updateThought(String.format(s) + SOC, Global.Emoji.eNull);
 
-            Log.d(GlobalVariables.UI, "startButton.setText( \"" + s + "\" )");
+            Log.d(Global.UI, "startButton.setText( \"" + s + "\" )");
             Log.i("BATTERY", "Patrol auto-start enabled.");
         } else {
             //format button to be in the false state
-            String s = GlobalVariables.resources.getString(R.string.t_chargingASOff);
-            startButton.setText(GlobalVariables.resources.getText(R.string.b_turnOnAutoStart));
-            main.updateThought(String.format(s) + SOC);
+            String s = Global.resources.getString(R.string.t_chargingASOff);
+            startButton.setText(Global.resources.getText(R.string.b_turnOnAutoStart));
+            main.updateThought(String.format(s) + SOC, Global.Emoji.eNull);
 //
-            Log.d(GlobalVariables.UI, "startButton.setText( \"" + s + "\" )");
+            Log.d(Global.UI, "startButton.setText( \"" + s + "\" )");
             Log.i("BATTERY", "Patrol auto-start disabled.");
         }
 
-        Log.i(GlobalVariables.LISTENER, "Start Button OnClickListener = lowListener");
+        Log.i(Global.LISTENER, "Start Button OnClickListener = lowListener");
         startButton.setOnClickListener(lowListener);
     }
 
     private void formatHighSOCStartButton() {
-        Log.i(GlobalVariables.BATTERY, "Battery SOC = HIGH");
-        Log.d(GlobalVariables.BATTERY, "formatHighSOCStartButton");
+        Log.i(Global.BATTERY, "Battery SOC = HIGH");
+        Log.d(Global.BATTERY, "formatHighSOCStartButton");
 
         startButton.setText("Force Start Patrol Now");
-        main.updateThought("Charging " + SOC + "%. Auto-start patrol when full battery. Tap the button to start the patrol now." + Boolean.toString(autoStart));
+        main.updateThought("Charging " + SOC + "%. Auto-start patrol when full battery. Tap the button to start the patrol now." + Boolean.toString(autoStart), Global.Emoji.eSleeping);
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
 
-        Log.i(GlobalVariables.LISTENER, "Start Button OnClickListener = highListener");
+        Log.i(Global.LISTENER, "Start Button OnClickListener = highListener");
         startButton.setOnClickListener(highListener);
     }
 
     private void formatFullSOCStartButton() {
-        Log.i(GlobalVariables.BATTERY, "Battery SOC = FULL");
-        Log.d(GlobalVariables.BATTERY, "formatFULLSOCStartButton");
+        Log.i(Global.BATTERY, "Battery SOC = FULL");
+        Log.d(Global.BATTERY, "formatFULLSOCStartButton");
 
         //if the statemachine doesnt exist at startup, the ChargingFullOnClickListener will never have a @NonNull member variable for stateMachine, and therefore will never be able to call fullWakeStateMachine from its OnClick method.
         //we need to set one
@@ -220,7 +219,7 @@ public class BatteryStateListener extends TemiListener implements OnBatteryStatu
         } else {
             startButton.setVisibility(View.VISIBLE);
             startButton.setText("Start Patrol");
-            main.updateThought("Ready to Start Patrol");
+            main.updateThought("Ready to Start Patrol", Global.Emoji.eRobot);
             Log.i("LISTENER", "Start Button OnClickListener = highListener");
             startButton.setOnClickListener(fullListener);
         }
@@ -232,10 +231,10 @@ public class BatteryStateListener extends TemiListener implements OnBatteryStatu
     public void fullWakeStateMachine() {
         if (stateMachine != null) {
             //sm does exist, notify it
-            Log.d(GlobalVariables.SEQUENCE, "StateMachine exists. notify()");
+            Log.d(Global.SEQUENCE, "StateMachine exists. notify()");
             synchronized (stateMachine) {
                 stateMachine.setWakeCondition(new String[]{"BATTERYWAKE"});
-                Log.v(GlobalVariables.SEQUENCE, stateMachine.toString() + " notify()");
+                Log.v(Global.SEQUENCE, stateMachine.toString() + " notify()");
                 stateMachine.notify();
             }
         } else {

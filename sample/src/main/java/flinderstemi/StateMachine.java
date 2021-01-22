@@ -7,7 +7,6 @@ package flinderstemi;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.media.MediaRecorder;
 import android.util.Log;
 
 import com.robotemi.sdk.Robot;
@@ -17,8 +16,6 @@ import com.robotemi.sdk.sample.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,15 +63,15 @@ public class StateMachine implements Runnable {
     private int speechIndex;
     private int locationIndex;
     private int locationLoopIndex;
-    final int maxPatrolLoops = GlobalVariables.MAX_PATROL_LOOPS;
-    final int initialState = GREETING;
+    final int maxPatrolLoops = Global.MAX_PATROL_LOOPS;
+    private int initialState;
 
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
     private boolean completePatrolSub;
 
-    //DEBUG
-    MediaRecorder mr;
+
+    private boolean greeted = false;
 
     /*******************************************************************************************
      *                                   Controlled Listeners                                  *
@@ -84,6 +81,8 @@ public class StateMachine implements Runnable {
     private PatrolLocationListener pll;//The location listener when patrolling that can be added and removed when temi diverges from the patrolling information
     private BatteryStateListener bsl;
     private IdleSpeechListener isl;
+
+    private Robot.TtsListener sl;
 
     /*******************************************************************************************
      *                                    Other Variables                                      *
@@ -111,61 +110,61 @@ public class StateMachine implements Runnable {
 
     public void addDetectionListener() {
         robot.addOnDetectionStateChangedListener(dl);
-        Log.d(GlobalVariables.LISTENER, "Added DetectionListener implements OnDetectionStateChangedListener");
-        Log.v(GlobalVariables.LISTENER, "Added DetectionListener: " + dl.toString());
+        Log.d(Global.LISTENER, "Added DetectionListener implements OnDetectionStateChangedListener");
+        Log.v(Global.LISTENER, "Added DetectionListener: " + dl.toString());
     }
 
     public void removeDetectionListener() {
         robot.removeOnDetectionStateChangedListener(dl);
-        Log.d(GlobalVariables.LISTENER, "Removed DetectionListener");
-        Log.v(GlobalVariables.LISTENER, "Removed DetectionListener implements OnDetectionStateChangedListener: " + dl.toString());
+        Log.d(Global.LISTENER, "Removed DetectionListener");
+        Log.v(Global.LISTENER, "Removed DetectionListener implements OnDetectionStateChangedListener: " + dl.toString());
     }
 
     //TODO move pll management to this context only
     public void setPLL(PatrolLocationListener pll) {
         this.pll = pll;
         robot.addOnGoToLocationStatusChangedListener(pll);
-        Log.d(GlobalVariables.LISTENER, "Added PatrolLocationListener");
-        Log.v(GlobalVariables.LISTENER, "Added PatrolLocationListener extends OnGoToLocationStatusChangedListener: " + pll.toString());
+        Log.d(Global.LISTENER, "Added PatrolLocationListener");
+        Log.v(Global.LISTENER, "Added PatrolLocationListener extends OnGoToLocationStatusChangedListener: " + pll.toString());
 
     }
 
     public void removePLL() {
         robot.removeOnGoToLocationStatusChangedListener(pll);
-        Log.d(GlobalVariables.LISTENER, "Removed PatrolLocationListener");
-        Log.v(GlobalVariables.LISTENER, "Removed PatrolLocationListener extends OnGoToLocationStatusChangedListener: " + pll.toString());
+        Log.d(Global.LISTENER, "Removed PatrolLocationListener");
+        Log.v(Global.LISTENER, "Removed PatrolLocationListener extends OnGoToLocationStatusChangedListener: " + pll.toString());
     }
 
     public void setBSL(BatteryStateListener bsl) {
         this.bsl = bsl;
         robot.addOnBatteryStatusChangedListener(bsl);
-        Log.d(GlobalVariables.LISTENER, "Added BatteryStateListener");
-        Log.v(GlobalVariables.LISTENER, "Added BatteryStateListener extends OnBatteryStatusChangedListener: " + bsl.toString());
+        Log.d(Global.LISTENER, "Added BatteryStateListener");
+        Log.v(Global.LISTENER, "Added BatteryStateListener extends OnBatteryStatusChangedListener: " + bsl.toString());
     }
 
     public void removeBSL(BatteryStateListener batteryStateListener) {
         robot.removeOnBatteryStatusChangedListener(batteryStateListener);
-        Log.d(GlobalVariables.LISTENER, "Removed BatteryStateListener");
-        Log.v(GlobalVariables.LISTENER, "Removed BatteryStateListener extends OnBatteryStatusChangedListener: " + batteryStateListener.toString());
+        Log.d(Global.LISTENER, "Removed BatteryStateListener");
+        Log.v(Global.LISTENER, "Removed BatteryStateListener extends OnBatteryStatusChangedListener: " + batteryStateListener.toString());
     }
 
     //no args since isl should be singleton
     public void setISL() {
         robot.addTtsListener(isl);
-        Log.d(GlobalVariables.LISTENER, "Set IdleSpeechListener");
-        Log.v(GlobalVariables.LISTENER, "Set IdleSpeechListener extends TtsListener: " + isl.toString());
+        Log.d(Global.LISTENER, "Set IdleSpeechListener");
+        Log.v(Global.LISTENER, "Set IdleSpeechListener extends TtsListener: " + isl.toString());
     }
 
     public void removeISL() {
         robot.removeTtsListener(isl);
-        Log.d(GlobalVariables.LISTENER, "Removed IdleSpeechListener");
-        Log.v(GlobalVariables.LISTENER, "Removed IdleSpeechListener extends TtsListener: " + isl.toString());
+        Log.d(Global.LISTENER, "Removed IdleSpeechListener");
+        Log.v(Global.LISTENER, "Removed IdleSpeechListener extends TtsListener: " + isl.toString());
     }
 
     public void setState(int s) {
         int r = state;
         state = s;
-        Log.v(GlobalVariables.STATE, "Changed state from " + r + " to " + s);
+        Log.v(Global.STATE, "Changed state from " + r + " to " + s);
     }
 
     /*******************************************************************************************
@@ -176,9 +175,9 @@ public class StateMachine implements Runnable {
      * @param robot
      * @param main
      */
-    public StateMachine(@NotNull Robot robot, @NotNull MainActivity main) {
-        Log.d(GlobalVariables.SEQUENCE, "Constructing State Machine");
-        Log.v(GlobalVariables.SEQUENCE,
+    public StateMachine(@NotNull Robot robot, @NotNull MainActivity main, int initialState) {
+        Log.d(Global.SEQUENCE, "Constructing State Machine");
+        Log.v(Global.SEQUENCE,
                 "Constructing StateMachine(Robot robot, MainActivity main)\n" +
                         "StateMachine\t=\t" + this.toString() + "\n" +
                         "robot\t=\t" + robot.toString() + "\n" +
@@ -186,13 +185,14 @@ public class StateMachine implements Runnable {
 
         this.main = main;
         this.robot = robot;
+        this.initialState = initialState;
         //robot instanceof  ? (() robot) : null;
 
-        Log.v(GlobalVariables.STATE, "StateMachine getApplicationContext(), getResources()");
+        Log.v(Global.STATE, "StateMachine getApplicationContext(), getResources()");
         c = main.getApplicationContext();
         r = c.getResources();
 
-        main.updateThought(r.getString(R.string.constructingStateMachine));
+        main.updateThought(r.getString(R.string.constructingStateMachine), Global.Emoji.eRobot);
 
         //initialise variables
         completeSpeechSub = false;
@@ -203,8 +203,8 @@ public class StateMachine implements Runnable {
         speechIndex = 0;
         locationIndex = 1;//not homebase at 0
         locationLoopIndex = 0;
-        Log.d(GlobalVariables.STATE, "Set Initial Conditions");
-        Log.v(GlobalVariables.STATE,
+        Log.d(Global.STATE, "Set Initial Conditions");
+        Log.v(Global.STATE,
                 "ICL\n" +
                         "state\t\t\t=\t" + state + "\n" +
                         "speechIndex\t\t=\t" + speechIndex + "\n" +
@@ -215,46 +215,21 @@ public class StateMachine implements Runnable {
         speechQueue = new ArrayList<TtsRequest>();
         speechQueue.add(TtsRequest.create(r.getString(R.string.greeting1), false));
         speechQueue.add(TtsRequest.create(r.getString(R.string.greeting2), false));
-        Log.d(GlobalVariables.SPEECH, "Populated initial speechQueue");
-        Log.v(GlobalVariables.SPEECH, speechQueue.toString());
+        Log.d(Global.SPEECH, "Populated initial speechQueue");
+        Log.v(Global.SPEECH, speechQueue.toString());
 
         locations = robot.getLocations();
-        Log.d(GlobalVariables.LOCATION, "robot.getLocations()");
-        Log.v(GlobalVariables.LOCATION, "Locations = " + locations.toString());
+        Log.d(Global.LOCATION, "robot.getLocations()");
+        Log.v(Global.LOCATION, "Locations = " + locations.toString());
 
         dl = new DetectionListener(robot, this);
         isl = new IdleSpeechListener(robot, main);
 
-        Robot.TtsListener sl = new TTSSequenceListener(robot, this);
-        Log.d(GlobalVariables.LISTENER, "Instantiated new TTSSequenceListener(robot, this) implements TtsListener");
-        Log.v(GlobalVariables.LISTENER, "Instantiated new TTSSequenceListener: " + sl.toString());
+        sl = new TTSSequenceListener(robot, this);
+        Log.d(Global.LISTENER, "Instantiated new TTSSequenceListener(robot, this) implements TtsListener");
+        Log.v(Global.LISTENER, "Instantiated new TTSSequenceListener: " + sl.toString());
 
-        robot.addTtsListener(sl);
-        Log.d(GlobalVariables.LISTENER, "Added TTSSequenceListener implements TtsListener");
-        Log.v(GlobalVariables.LISTENER, "Added TTSSequenceListener: " + sl.toString());
-
-        Log.d(GlobalVariables.SEQUENCE, "Completed Constructing StateMachine(Robot robot, MainActivity main)");
-
-        //DEBUG
-        try {
-            mr = new MediaRecorder();
-
-            mr.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
-            mr.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mr.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-
-            String s = "rec.3gp";
-            File f = new File(c.getFilesDir() + File.separator + s);
-
-            mr.setOutputFile(c.getFilesDir() + File.separator + s);
-            Log.v(GlobalVariables.SYSTEM, c.getFilesDir() + File.separator + s);
-            mr.prepare();
-            mr.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        Log.d(Global.SEQUENCE, "Completed Constructing StateMachine(Robot robot, MainActivity main)");
     }
 
     /*******************************************************************************************
@@ -265,7 +240,7 @@ public class StateMachine implements Runnable {
      * Sets the state to StateMachine.TERMINATED and notify()s the State thread.
      */
     public void stop() {
-        Log.i(GlobalVariables.SEQUENCE, "Stopping robot movement");
+        Log.i(Global.SEQUENCE, "Stopping robot movement");
         robot.stopMovement();
         synchronized (this) {
             setState(TERMINATED);
@@ -275,14 +250,14 @@ public class StateMachine implements Runnable {
 
     //Speaks the request in speechQueue at the specified index.
     private void speakSpeechQueue(int i) {
-        Log.v(GlobalVariables.SPEECH, "speechQueue index\t=\t" + i);
+        Log.v(Global.SPEECH, "speechQueue index\t=\t" + i);
         speak(speechQueue.get(i));
     }
 
     //TODO move this to a global context
     private void speak(@NotNull TtsRequest ttsRequest) {
-        Log.v(GlobalVariables.SPEECH, "TtsRequest UUID = " + ttsRequest.getId().toString());
-        Log.d(GlobalVariables.SPEECH, "robot.speak( \"" + ttsRequest.getSpeech() + "\" )");
+        Log.v(Global.SPEECH, "TtsRequest UUID = " + ttsRequest.getId().toString());
+        Log.d(Global.SPEECH, "robot.speak( \"" + ttsRequest.getSpeech() + "\" )");
         robot.speak(ttsRequest);
     }
 
@@ -294,13 +269,13 @@ public class StateMachine implements Runnable {
                 //announce that we are going to wait, we will need a listener for this so the waiting can begin after the speech request ends
                 speak(TtsRequest.create(r.getString(R.string.waitSpeech1) + " " + idleTimeDuration / 1000L + " " + r.getString(R.string.waitSpeech2), false));
 
-                Log.d(GlobalVariables.LISTENER, "Instantiating new WaitSpeechListener(millis, main, dl, this, robot)");
+                Log.d(Global.LISTENER, "Instantiating new WaitSpeechListener(millis, main, dl, this, robot)");
                 WaitSpeechListener wsl = new WaitSpeechListener(millis, main, dl, this, robot);
-                Log.v(GlobalVariables.LISTENER, "WaitSpeechListener: " + wsl.toString());
-                Log.d(GlobalVariables.LISTENER, "Adding new WaitSpeechListener: " + wsl.toString());
+                Log.v(Global.LISTENER, "WaitSpeechListener: " + wsl.toString());
+                Log.d(Global.LISTENER, "Adding new WaitSpeechListener: " + wsl.toString());
                 robot.addTtsListener(wsl);
 
-                Log.d(GlobalVariables.SEQUENCE, "synchronised stateMachine.wait(): " + this.toString());
+                Log.d(Global.SEQUENCE, "synchronised stateMachine.wait(): " + this.toString());
                 this.wait();
             } catch (InterruptedException ie) {
                 ie.printStackTrace();
@@ -309,7 +284,7 @@ public class StateMachine implements Runnable {
     }
 
     private void wake() {//TODO define this with a String[] as an arg instead of using a global variable
-        Log.v(GlobalVariables.STATE, "wakeCondition\t=\t" + Arrays.toString(wakeCondition));
+        Log.v(Global.STATE, "wakeCondition\t=\t" + Arrays.toString(wakeCondition));
         switch (state) {
             case GREETING://The listeners active in this state should be only the TTSSequenceListener
                 switch (wakeCondition[1]) {
@@ -361,7 +336,7 @@ public class StateMachine implements Runnable {
                         switch (wakeCondition[1]) {
                             case "IDLE":
                                 //TODO
-                                this.main.updateThought("DetectionState: IDLE");
+                                this.main.updateThought("DetectionState: IDLE", Global.Emoji.eThinking);
                                 break;
                             case "LOST":
                                 //TODO
@@ -386,90 +361,86 @@ public class StateMachine implements Runnable {
                 setState(PATROLLING);
                 removeBSL(bsl);
                 setPLL(pll);
-                try {
-                    Log.d(GlobalVariables.SEQUENCE, "Attempting to start MediaPlayer:\t" + main.getMediaPlayer().toString() + "\t isPlaying=" + main.getMediaPlayer().isPlaying());
-                    if (!main.getMediaPlayer().isPlaying()) {
-                        main.getMediaPlayer().start();
-                    }
-                    Log.d(GlobalVariables.SEQUENCE, "Start()ed MediaPlayer:\t" + main.getMediaPlayer().toString() + "\t isPlaying=" + main.getMediaPlayer().isPlaying());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 break;
         }
         setWakeCondition(null);
     }
 
     private void nextAction() {
-        //don't want to use reflection yet
-        Log.d(GlobalVariables.STATE, "state\t=\t" + state);
+        Log.d(Global.STATE, "state\t=\t" + state);
         switch (state) {
             case GREETING:
-                Log.d(GlobalVariables.SEQUENCE, "switch (state = GREETING = " + GREETING + ")");
+                if (!greeted) {
+                    robot.addTtsListener(sl);
+                    Log.d(Global.LISTENER, "Added TTSSequenceListener implements TtsListener");
+                    Log.v(Global.LISTENER, "Added TTSSequenceListener: " + sl.toString());
+                    greeted = true;
+                }
+                Log.d(Global.SEQUENCE, "switch (state = GREETING = " + GREETING + ")");
 
                 //speak the next line
                 speakSpeechQueue(speechIndex);
-                Log.v(GlobalVariables.STATE, "speechIndex\t=\t" + speechIndex);
+                Log.v(Global.STATE, "speechIndex\t=\t" + speechIndex);
 
                 //check if we are done speaking
                 if (speechIndex >= speechQueue.size() - 1) {
                     //we have reached the end of the ttsrequest queue, start patrolling
                     completeSpeechSub = true; //this will remove the ttsstatuslistener on the main thread once this goes into the waiting state
-                    Log.v(GlobalVariables.STATE, "completeSpeechSub\t=\ttrue");
+                    Log.v(Global.STATE, "completeSpeechSub\t=\ttrue");
                     setState(PATROLLING);
-
-                    //debug
-                    mr.stop();
-                    mr.release();
                 }
                 break;
             case PATROLLING:
-                Log.d(GlobalVariables.SEQUENCE, "switch (state = PATROLLING = " + PATROLLING + ")");
+                Log.d(Global.SEQUENCE, "switch (state = PATROLLING = " + PATROLLING + ")");
                 //TODO print message when no locations are saved as this throws an indexoutofbounds exception
 
-                main.updateThought("Going to the next waypoint ...");
+                main.updateThought("Going to the next waypoint ...", Global.Emoji.eThinking);
                 speak(TtsRequest.create("I'm going to the next waypoint now. Goodbye.", false));
 
-                Log.i(GlobalVariables.LOCATION, "Going to the next location");
-                Log.d(GlobalVariables.LOCATION, "GoToLocation:\n" +
+                Log.i(Global.LOCATION, "Going to the next location");
+                Log.d(Global.LOCATION, "GoToLocation:\n" +
                         "locationIndex\t=\t" + locationIndex + "\n" +
                         "name\t\t\t=\t" + locations.get(locationIndex));
                 robot.goTo(locations.get(locationIndex));
                 setISL();
                 //if there are no more loops to be done, go to next state. The equality operator allows for a maxPatrolLoops of -1 to result in infinite looping until manual termination.
                 if (locationLoopIndex == maxPatrolLoops) {
-                    Log.d(GlobalVariables.SEQUENCE, "Completed all loops, returning to HB.");
-                    main.updateThought("Completed all patrol loops. I will now return to the home base.");
+                    Log.d(Global.SEQUENCE, "Completed all loops, returning to HB.");
+                    main.updateThought("Completed all patrol loops. I will now return to the home base.", Global.Emoji.eRobot);
 
-                    Log.v(GlobalVariables.STATE, "completePatrolSub\t=\ttrue");
+                    Log.v(Global.STATE, "completePatrolSub\t=\ttrue");
                     completePatrolSub = true;
 
                     setState(TERMINATED);
                 }
                 break;
             case TERMINATED:
-                Log.d(GlobalVariables.SEQUENCE, "switch (state = TERMINATED = " + TERMINATED + ")");
+                Log.d(Global.SEQUENCE, "switch (state = TERMINATED = " + TERMINATED + ")");
                 speak(TtsRequest.create("Routine Terminated", true)); //this may overwrite the previous ttsrequest
                 break;
             case STUCK:
-                Log.d(GlobalVariables.SEQUENCE, "switch (state = STUCK = " + STUCK + ")");
+                Log.d(Global.SEQUENCE, "switch (state = STUCK = " + STUCK + ")");
                 speak(TtsRequest.create("Help, I am stuck. Please notify a staff member of this error. Help, I am stuck. Please notify a staff member of this error. Help, I am stuck. Please notify a staff member of this error.", true));
                 setState(TERMINATED);
                 break;
             case RETURNING:
-                Log.d(GlobalVariables.SEQUENCE, "switch (state = RETURNING = " + RETURNING + ")");
-                removePLL();
+                Log.d(Global.SEQUENCE, "switch (state = RETURNING = " + RETURNING + ")");
+
+                if (pll != null) {
+                    removePLL();
+                }
+
                 robot.stopMovement();
-                Log.i(GlobalVariables.LOCATION, "Robot Movement Stopped");
+                Log.i(Global.LOCATION, "Robot Movement Stopped");
 
                 speak(TtsRequest.create("I'm running out of battery so I will return to the home base to charge myself. Goodbye.", true));
 
                 robot.goTo(locations.get(0));
 
-                robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(main, robot, this, main.getStartButton(), main.getMediaPlayer()));//TODO move context?
+                robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(main, robot, this, main.getStartButton()));//TODO move context?
                 break;
             default:
-                Log.d(GlobalVariables.SEQUENCE, "switch (state = DEFAULT)");
+                Log.d(Global.SEQUENCE, "switch (state = DEFAULT)");
                 break;
         }
     }
@@ -483,39 +454,39 @@ public class StateMachine implements Runnable {
      */
     @Override
     public void run() {
-        Log.i(GlobalVariables.SEQUENCE, "StateMachine is now running.");
-        Log.d(GlobalVariables.SEQUENCE, "StateMachine run()");
-        Log.v(GlobalVariables.SEQUENCE, "StateMachine run(): " + this.toString());
+        Log.i(Global.SEQUENCE, "StateMachine is now running.");
+        Log.d(Global.SEQUENCE, "StateMachine run()");
+        Log.v(Global.SEQUENCE, "StateMachine run(): " + this.toString());
 
         while (state != TERMINATED) {
-            Log.v(GlobalVariables.SEQUENCE, "while loop top");
+            Log.v(Global.SEQUENCE, "while loop top");
 
             //TODO check if terminated first otherwise a stuck temi will remain stuck?
             if (BatteryStateListener.batteryState(robot.getBatteryData().getBatteryPercentage()) == BatteryStateListener.LOW) {
-                Log.i(GlobalVariables.SEQUENCE, "Low Battery. Returning to Home Base.");
+                Log.i(Global.SEQUENCE, "Low Battery. Returning to Home Base.");
                 state = RETURNING;
-                Log.d(GlobalVariables.STATE, "state\t=\tRETURNING");
+                Log.d(Global.STATE, "state\t=\tRETURNING");
             }
 
-            Log.d(GlobalVariables.SEQUENCE, "Do action at state\t=\t" + state);
+            Log.d(Global.SEQUENCE, "Do action at state\t=\t" + state);
             nextAction();
-            Log.d(GlobalVariables.SEQUENCE, "Finished action at state\t=\t" + state);
+            Log.d(Global.SEQUENCE, "Finished action at state\t=\t" + state);
 
-            Log.d(GlobalVariables.SEQUENCE, "synchronise routine");
+            Log.d(Global.SEQUENCE, "synchronise routine");
             synchronized (this) {
                 try {
-                    Log.d(GlobalVariables.SEQUENCE, "try wait");
+                    Log.d(Global.SEQUENCE, "try wait");
                     if (state != TERMINATED) {
                         wait();
                     }
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
-                Log.d(GlobalVariables.SEQUENCE, "wake()");
+                Log.d(Global.SEQUENCE, "wake()");
                 wake();
             }
         }
         //TERMINATED
-        Log.d(GlobalVariables.SEQUENCE, "Terminated: Reached end of Routine");
+        Log.d(Global.SEQUENCE, "Terminated: Reached end of Routine");
     }
 }

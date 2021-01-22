@@ -1,9 +1,7 @@
 package com.robotemi.sdk.sample;
 
-import android.Manifest;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.provider.FontRequest;
 import androidx.emoji.text.EmojiCompat;
 import androidx.emoji.text.FontRequestEmojiCompatConfig;
@@ -25,14 +22,16 @@ import com.robotemi.sdk.listeners.OnBatteryStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 import com.robotemi.sdk.navigation.model.SpeedLevel;
+import com.robotemi.sdk.permission.Permission;
 
 import org.jetbrains.annotations.Nullable;
 
-import flinderstemi.GlobalVariables;
+import java.util.ArrayList;
+
+import flinderstemi.Global;
 import flinderstemi.StateMachine;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.listeners.BatteryStateListener;
-import flinderstemi.util.listeners.ReturnToChargeOnClickListener;
 
 /**
  * MainActivity JavaDoc
@@ -54,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements
      *                                    Android Widgets                                      *
      ******************************************************************************************/
 
-    private TextView textViewVariable;
+    private TextView thoughtTextView;
+    private TextView faceTextView;
     private Button operatorMenuButton;
     private Button startButton;
     private Button stopButton;
@@ -63,22 +63,12 @@ public class MainActivity extends AppCompatActivity implements
 
     String thoughtPrefix;
 
-    private MediaPlayer mp;
-
     /*******************************************************************************************
      *                                        Get/Set                                          *
      ******************************************************************************************/
 
-    public TextView getTextViewVariable() {
-        return textViewVariable;
-    }
-
     public Button getStartButton() {
         return startButton;
-    }
-
-    public MediaPlayer getMediaPlayer() {
-        return mp;
     }
 
     /*******************************************************************************************
@@ -103,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * This method is called by the default OnClickListener of the main button: <code>startButton</code>.
-     * It checks if the robot is charging. If it is charging, the robot will notify the user and prompt the user to click the button to alow auto start when battery is full similar to the ChargingHighOnClickListener.
-     * //TODO make this more than cosmetic
+     * It checks if the robot is charging. If it is charging, the robot will notify the user and prompt the user to click the button to allow auto start when battery is full similar to the ChargingHighOnClickListener.
      *
      * @param view The startButton that was clicked.
      */
@@ -114,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements
         int soc = bd.getBatteryPercentage();
         Log.i("BATTERY", Integer.toString(soc));
 
-        if (soc <= GlobalVariables.SOC_LOW) {
+        if (soc <= Global.SOC_LOW) {
             //low battery
             if (robot.getBatteryData().isCharging()) {
                 //tell the user it is charging
@@ -125,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void onClick(View v) {
                         startButton.setText("Cancel Auto-Start");
-                        updateThought("Charging... will auto start");
+                        updateThought("Charging... will auto start", Global.Emoji.eSleeping);
 
                         robot.addOnBatteryStatusChangedListener(new WaitBatteryListener());
                     }
@@ -134,9 +123,13 @@ public class MainActivity extends AppCompatActivity implements
                 //not charging
                 robot.speak(TtsRequest.create("Hello, I am low on battery and also am not connected to a charging source. Please send me back to the home base so I can charge myself. I can do this automatically if you press the button on the screen.", false));
                 //Give feedback to the user that we are returning and disable further input
-                stvc.updateThought("My battery is low and I am not charging...");
+                stvc.updateThought("My battery is low and I am not charging...", Global.Emoji.eWorried);
                 startButton.setText("Tap to send me back to the home base");
-                startButton.setOnClickListener(new ReturnToChargeOnClickListener(this, robot, routine, startButton, mp));
+                routine = new StateMachine(robot, this, StateMachine.RETURNING);
+                synchronized (routine) {
+                    new Thread(routine).start();
+                }
+                //startButton.setOnClickListener(new ReturnToChargeOnClickListener(this, robot, routine, startButton));
             }
             //start a SOCListener to detect when we should change the UI to the next stage
         } else {
@@ -161,19 +154,18 @@ public class MainActivity extends AppCompatActivity implements
      * @param view
      */
     public void stopStateMachine(View view) {
-        updateThought(getResources().getString(R.string.cTermination));
+        updateThought(getResources().getString(R.string.cTermination), Global.Emoji.eTear);
         routine.stop();
         stopButton.setEnabled(false);
         returnButton.setEnabled(false);
         startButton.setVisibility(View.VISIBLE);
-        mp.stop();
     }
 
     /**
      * @param view
      */
     public void ReturnToBase(View view) {
-        updateThought(getResources().getString(R.string.cReturn));
+        updateThought(getResources().getString(R.string.cReturn), Global.Emoji.eRobot);
         //TODO fix null obj ref
         if (routine == null) {
             //is this rigorous enough, can we remove/modify the home base
@@ -189,14 +181,6 @@ public class MainActivity extends AppCompatActivity implements
     public void returnToLauncher(View view) {
         try {
             routine.stop();
-        } catch (NullPointerException npe) {
-            npe.printStackTrace();
-        }
-
-        try {
-            mp.stop();
-        } catch (IllegalStateException ise) {
-            ise.printStackTrace();
         } catch (NullPointerException npe) {
             npe.printStackTrace();
         }
@@ -231,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements
             } catch (PackageManager.NameNotFoundException e) {
                 throw new RuntimeException(e);
             }
+            robot.requestToBeKioskApp();
         }
     }
 
@@ -248,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //get Global Parameters for use in the app
-        new GlobalVariables(this, robot);//call GP constr to get values from /res
+        new Global(this, robot);//call GP constr to get values from /res
 
         FontRequest fontRequest = new FontRequest(
                 "com.google.android.gms.fonts",
@@ -260,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements
 
         });
         EmojiCompat.init(config);
-        Log.v(GlobalVariables.SYSTEM, Integer.toString(EmojiCompat.get().getLoadState()));
+        Log.v(Global.SYSTEM, Integer.toString(EmojiCompat.get().getLoadState()));
 
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -269,30 +254,45 @@ public class MainActivity extends AppCompatActivity implements
         //Verify permissions here
         //do not need storage permissions for this app, maybe later to have some persistent options or debug
         //verifyStoragePermissions(this);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(GlobalVariables.SYSTEM, "READ_EXTERNAL_STORAGE GRANTED");
+        /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Log.d(Global.SYSTEM, "READ_EXTERNAL_STORAGE GRANTED");
         } else {
-            Log.d(GlobalVariables.SYSTEM, "READ_EXTERNAL_STORAGE REQUESTING");
+            Log.d(Global.SYSTEM, "READ_EXTERNAL_STORAGE REQUESTING");
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(GlobalVariables.SYSTEM, "WRITE_EXTERNAL_STORAGE GRANTED");
+            Log.d(Global.SYSTEM, "WRITE_EXTERNAL_STORAGE GRANTED");
         } else {
-            Log.d(GlobalVariables.SYSTEM, "WRITE__EXTERNAL_STORAGE REQUESTING");
+            Log.d(Global.SYSTEM, "WRITE__EXTERNAL_STORAGE REQUESTING");
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(GlobalVariables.SYSTEM, "CAPTURE_AUDIO_OUTPUT GRANTED");
+            Log.d(Global.SYSTEM, "CAPTURE_AUDIO_OUTPUT GRANTED");
         } else {
-            Log.d(GlobalVariables.SYSTEM, "CAPTURE_AUDIO_OUTPUT REQUESTING");
+            Log.d(Global.SYSTEM, "CAPTURE_AUDIO_OUTPUT REQUESTING");
             requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-        }
+        }*/
 
         // get an instance of the robot in order to begin using its features.
         robot = Robot.getInstance();
         stvc = this;
+
+        if (robot.checkSelfPermission(Permission.SETTINGS) == PackageManager.PERMISSION_DENIED) {
+            Log.d(Global.SYSTEM, "SETTINGS PERMISSION DENIED");
+            ArrayList<Permission> p = new ArrayList<Permission>();
+            p.add(Permission.SETTINGS);
+            robot.requestPermissions(p, 0);
+        }
+        //settings
+        robot.setDetectionModeOn(true, 2.0f);
+        robot.setGoToSpeed(SpeedLevel.SLOW);
+        robot.hideTopBar();
+        robot.setPrivacyMode(true);
+        robot.toggleNavigationBillboard(true);
+        robot.setTopBadgeEnabled(false);
+        robot.toggleWakeup(true);
 
         //initialise Views in UI
         initViews();
@@ -312,14 +312,6 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnRobotReadyListener(this);
         robot.addOnConstraintBeWithStatusChangedListener(this);
 
-        robot.setDetectionModeOn(true, 2.0f);
-        robot.setGoToSpeed(SpeedLevel.SLOW);
-
-        //demo speak
-        robot.hideTopBar();
-        robot.setPrivacyMode(true);
-        robot.toggleNavigationBillboard(false);
-
         thoughtPrefix = getResources().getString(R.string.cPrefix);
     }
 
@@ -332,12 +324,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStop() {
         super.onStop();
-        try {
-            mp.stop();
-        } catch (NullPointerException npe) {
-            //TODO replace with E log
-            npe.printStackTrace();
-        }
+
         ///remember to remove all listeners
         robot.removeOnRobotReadyListener(this);
         robot.removeOnConstraintBeWithStatusChangedListener(this);
@@ -353,7 +340,8 @@ public class MainActivity extends AppCompatActivity implements
      * Initialises views based on starting SOC and stored options.
      */
     public void initViews() {
-        textViewVariable = findViewById(R.id.thoughtTextView);
+        thoughtTextView = findViewById(R.id.thoughtTextView);
+        faceTextView = findViewById(R.id.face);
         startButton = findViewById(R.id.btnCustom);
         stopButton = findViewById(R.id.btnStop);
         returnButton = findViewById(R.id.btnRet);
@@ -379,31 +367,14 @@ public class MainActivity extends AppCompatActivity implements
         startButton.setEnabled(false);
         stopButton.setEnabled(true);
         returnButton.setEnabled(true);
-        textViewVariable.setPadding(200, 0, 0, 0);
-        textViewVariable.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-        routine = new StateMachine(robot, this);
+        thoughtTextView.setPadding(200, 0, 0, 0);
+        thoughtTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        routine = new StateMachine(robot, this, StateMachine.GREETING);
         System.out.println("FLINTEMI: Create Initialisation Routine");
-        updateThought(getResources().getString(R.string.cInit));
+        updateThought(getResources().getString(R.string.cInit), Global.Emoji.eThinking);
         synchronized (routine) {
             new Thread(routine).start();
         }
-        //TODO set the correct file for music
-        mp = MediaPlayer.create(this, R.raw.rec);
-        //mp = MediaPlayer.create(this, R.raw.twiceicsm);
-        //mp = MediaPlayer.create(this, R.raw.dragonforcettfaf);
-        //mp = MediaPlayer.create(this, R.raw.bensound_theelevatorbossanova);
-        mp.setLooping(true);
-        //mp.setVolume(0.5f, 0.5f);
-        mp.setVolume(0f, 0f);
-        mp.start();
-        Log.d(GlobalVariables.STATE, "mp.start()");
-        //mp.pause();
-        //Log.d(GlobalVariables.STATE,"mp.pause()");
-        //mp.start();
-        //Log.d(GlobalVariables.STATE,"mp.start()");
-        //mp.stop();
-        //Log.d(GlobalVariables.STATE,"mp.stop()");
-
         return routine;
     }
 
@@ -413,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onConstraintBeWithStatusChanged(boolean isConstraint) {
-        Log.d(GlobalVariables.STATE, "ConstraintBeWithStatus\t=\t" + isConstraint);
+        Log.d(Global.STATE, "ConstraintBeWithStatus\t=\t" + isConstraint);
     }
 
     /*******************************************************************************************
@@ -426,13 +397,16 @@ public class MainActivity extends AppCompatActivity implements
      * @param string The text string that is to be displayed after the prefix.
      */
     @Override
-    public void updateThought(final String string) {
+    public void updateThought(final String string, final String emoji) {
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //TODO use string res with placeholders
-                Log.d(GlobalVariables.UI, "Thought\t=\t\"" + string + "\"");
-                textViewVariable.setText(thoughtPrefix + string);
+                //TODO remove Thoughtprefix
+                Log.d(Global.UI, "Thought\t=\t\"" + string + "\"");
+                thoughtTextView.setText(string);
+                faceTextView.setText(emoji);
+
             }
         });
     }

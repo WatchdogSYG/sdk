@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-import flinderstemi.GlobalVariables;
+import flinderstemi.Global;
 
 //TODO JDoc
 public class IdleSpeechListener implements Robot.TtsListener {
@@ -27,7 +27,7 @@ public class IdleSpeechListener implements Robot.TtsListener {
     String[] s;
 
     public IdleSpeechListener(Robot robot, MainActivity main) {
-        Log.d(GlobalVariables.SEQUENCE, "Constructing IdleSpeechListener");
+        Log.d(Global.SEQUENCE, "Constructing IdleSpeechListener");
         this.robot = robot;
 
         index = 0;
@@ -55,7 +55,7 @@ public class IdleSpeechListener implements Robot.TtsListener {
             case PENDING:
                 break;*/
         }
-        Log.d(GlobalVariables.LISTENER, "IdleSpeechListener onTtsStatusChanged\n" + ttsRequest.toString());
+        Log.d(Global.LISTENER, "IdleSpeechListener onTtsStatusChanged\n" + ttsRequest.toString());
     }
 
     //speaks a random line in the array and returns the TtsRequest UUID
@@ -64,8 +64,8 @@ public class IdleSpeechListener implements Robot.TtsListener {
         double d = Math.random();
         d = d * s.length;
         int i = (int) d;
-        Log.v(GlobalVariables.STATE, Integer.toString(i));
-        TtsRequest tts = TtsRequest.create(s[i] + "...", false);
+        Log.v(Global.STATE, Integer.toString(i));
+        TtsRequest tts = TtsRequest.create(s[i] + "... ...", false);
         robot.speak(tts);
         return tts.getId();
     }

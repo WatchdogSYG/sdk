@@ -14,8 +14,8 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import flinderstemi.Global;
 import flinderstemi.StateMachine;
-import flinderstemi.GlobalVariables;
 
 /**
  * //TODO JavaDoc
@@ -59,13 +59,13 @@ public class WaitSpeechListener implements Robot.TtsListener {
             public void run() {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date();
-                Log.v(GlobalVariables.SEQUENCE, "TimerTask doneWaiting run() triggered at " + formatter.format(date));
-                Log.d(GlobalVariables.SEQUENCE, "Waiting Completed");
+                Log.v(Global.SEQUENCE, "TimerTask doneWaiting run() triggered at " + formatter.format(date));
+                Log.d(Global.SEQUENCE, "Waiting Completed");
 
                 sm.removeDetectionListener();
 
                 synchronized (sm) {
-                    Log.d(GlobalVariables.SEQUENCE, "synchronized " + sm.toString() + " notify()");
+                    Log.d(Global.SEQUENCE, "synchronized " + sm.toString() + " notify()");
                     sm.notify();
                 }
             }
@@ -81,11 +81,11 @@ public class WaitSpeechListener implements Robot.TtsListener {
         if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
             //TODO handle the cases where the TTSRequest fails into the NOT_ALLOWED or ERROR statuses
 
-            Log.v(GlobalVariables.LISTENER, "TtsRequest\n" +
+            Log.v(Global.LISTENER, "TtsRequest\n" +
                     "UUID\t=\t" + ttsRequest.getId() + "\n" +
                     "String\t=\t" + ttsRequest.getSpeech() + "\n" +
                     "Status\t=\tCOMPLETED");
-            Log.d(GlobalVariables.LISTENER, "TTSStatus changed to COMPLETED.");
+            Log.d(Global.LISTENER, "TTSStatus changed to COMPLETED.");
 
             //schedule the task to be completed after the waiting period ends
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -93,17 +93,17 @@ public class WaitSpeechListener implements Robot.TtsListener {
 
 
             //this is actually called on the UI thread so it doesn't freak out
-            this.main.updateThought(main.getApplicationContext().getResources().getString(R.string.t_waitText));
+            this.main.updateThought(main.getApplicationContext().getResources().getString(R.string.t_waitText), Global.Emoji.eGrinning);
             //schedule it
-            Log.d(GlobalVariables.SEQUENCE, "Waiting for " + duration + "ms starting: " + formatter.format(date));
+            Log.d(Global.SEQUENCE, "Waiting for " + duration + "ms starting: " + formatter.format(date));
             t.schedule(doneWaiting, duration);
 
             //since we are on the UI thread already, we can activate the Detection listener now. The bot has already finished talking so this will not cause an interruption
             sm.addDetectionListener();
 
             robot.removeTtsListener(this);
-            Log.d(GlobalVariables.LISTENER, "Removed WaitSpeechListener implements TtsListener");
-            Log.v(GlobalVariables.LISTENER, "Removed WaitSpeechListener: " + this.toString());
+            Log.d(Global.LISTENER, "Removed WaitSpeechListener implements TtsListener");
+            Log.v(Global.LISTENER, "Removed WaitSpeechListener: " + this.toString());
         }
     }
 }

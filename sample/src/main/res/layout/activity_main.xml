@@ -4,8 +4,8 @@
     android:id="@+id/vf"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,8 +24,8 @@
                 android:id="@+id/thoughtTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="80dp"
                 android:layout_marginLeft="80dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginRight="80dp"
                 android:background="@color/blue"
 
@@ -44,23 +44,32 @@
             android:layout_height="0dp"
             android:layout_weight="40"
             android:background="@color/colorPrimaryDark"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="215dp"
                 android:layout_height="match_parent"
-                android:layout_marginVertical="0dp"
-                android:layout_marginLeft="0dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/thrfg_logo_vrf"></ImageView>
+                android:orientation="vertical"
+                android:layout_marginLeft="80dp">
 
-            <ImageView
-                android:layout_width="110dp"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="0dp"
-                android:layout_marginLeft="30dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/f_v_cmyk"></ImageView>
+                <ImageView
+                    android:layout_width="215dp"
+                    android:layout_height="150dp"
+                    android:layout_marginVertical="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/thrfg_logo_vrf"></ImageView>
+
+                <ImageView
+                    android:layout_width="175dp"
+                    android:layout_height="150dp"
+                    android:layout_marginVertical="0dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/f_h_cmyk_white"></ImageView>
+
+            </LinearLayout>
 
             <androidx.emoji.widget.EmojiTextView
                 android:id="@+id/face"
@@ -68,11 +77,12 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginVertical="20dp"
-                android:layout_marginLeft="90dp"
+                android:layout_marginLeft="170dp"
                 android:gravity="center_horizontal"
                 android:minHeight="0dp"
                 android:text="@string/eGrinningSmiling"
                 android:textSize="170sp" />
+
             <Button
                 android:id="@+id/btnCustom"
                 android:layout_width="256px"
@@ -80,11 +90,11 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="70dp"
                 android:background="@color/red"
-                android:onClick="startStateMachine"
                 android:fontFamily="@font/roboto"
+                android:onClick="startStateMachine"
                 android:text="Start Patrol"
-                android:visibility="visible"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -112,42 +122,42 @@
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:layout_weight="10"
-                android:background="@drawable/en"
 
-                android:layout_margin="8dp"></ImageButton>
+                android:background="@drawable/en"></ImageButton>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:layout_weight="10"
-                android:background="@drawable/cn"
 
-                android:layout_margin="8dp"></ImageButton>
+                android:background="@drawable/cn"></ImageButton>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:layout_weight="10"
-                android:background="@drawable/el"
 
-                android:layout_margin="8dp"></ImageButton>
+                android:background="@drawable/el"></ImageButton>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:layout_weight="10"
-                android:background="@drawable/it"
 
-                android:layout_margin="8dp"></ImageButton>
+                android:background="@drawable/it"></ImageButton>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:layout_weight="10"
-                android:background="@drawable/vi"
 
-                android:layout_margin="8dp"></ImageButton>
+                android:background="@drawable/vi"></ImageButton>
 
         </LinearLayout>
 

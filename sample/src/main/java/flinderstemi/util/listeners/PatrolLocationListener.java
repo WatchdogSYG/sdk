@@ -8,7 +8,7 @@ import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import flinderstemi.GlobalVariables;
+import flinderstemi.Global;
 import flinderstemi.StateMachine;
 
 public class PatrolLocationListener implements OnGoToLocationStatusChangedListener {
@@ -16,14 +16,14 @@ public class PatrolLocationListener implements OnGoToLocationStatusChangedListen
     Robot robot;
 
     public PatrolLocationListener(Robot r, StateMachine stateMachine) {
-        Log.d(GlobalVariables.LISTENER, "Constructing patrolLocationListener");
+        Log.d(Global.LISTENER, "Constructing patrolLocationListener");
         this.stateMachine = stateMachine;
         this.robot = r;
     }
 
     @Override
     public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
-        Log.v(GlobalVariables.LOCATION, "onGoToLocationStatusChanged:\n" +
+        Log.v(Global.LOCATION, "onGoToLocationStatusChanged:\n" +
                 "location\t=\t" + location + "\n" +
                 "status\t\t=\t" + status + "\n" +
                 "description\t=\t" + description);
