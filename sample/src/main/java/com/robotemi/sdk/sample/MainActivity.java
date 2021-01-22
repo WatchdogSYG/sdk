@@ -30,7 +30,6 @@ import org.jetbrains.annotations.Nullable;
 
 import flinderstemi.GlobalVariables;
 import flinderstemi.StateMachine;
-import flinderstemi.util.RobotLogUtil;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.listeners.BatteryStateListener;
 import flinderstemi.util.listeners.ReturnToChargeOnClickListener;
@@ -250,7 +249,6 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         //get Global Parameters for use in the app
         new GlobalVariables(this, robot);//call GP constr to get values from /res
-        new RobotLogUtil(robot);
 
         FontRequest fontRequest = new FontRequest(
                 "com.google.android.gms.fonts",

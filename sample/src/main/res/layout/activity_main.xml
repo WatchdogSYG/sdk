@@ -4,7 +4,8 @@
     android:id="@+id/vf"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/colorPrimaryDark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,8 +73,6 @@
                 android:minHeight="0dp"
                 android:text="@string/eGrinningSmiling"
                 android:textSize="170sp" />
-
-
             <Button
                 android:id="@+id/btnCustom"
                 android:layout_width="256px"
@@ -290,6 +289,7 @@
                 android:text="@string/btn_returnToMain"></Button>
         </LinearLayout>
     </LinearLayout>
+
 </ViewFlipper>
 
 
