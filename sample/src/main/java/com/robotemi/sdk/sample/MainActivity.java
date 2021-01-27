@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 
 import flinderstemi.Global;
+import flinderstemi.LanguageID;
 import flinderstemi.StateMachine;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.listeners.BatteryStateListener;
@@ -64,11 +65,20 @@ public class MainActivity extends AppCompatActivity implements
     String thoughtPrefix;
 
     /*******************************************************************************************
+     *                                         State                                           *
+     ******************************************************************************************/
+    private int lang;
+
+    /*******************************************************************************************
      *                                        Get/Set                                          *
      ******************************************************************************************/
 
     public Button getStartButton() {
         return startButton;
+    }
+
+    public int getLang() {
+        return lang;
     }
 
     /*******************************************************************************************
@@ -246,7 +256,8 @@ public class MainActivity extends AppCompatActivity implements
         });
         EmojiCompat.init(config);
         Log.v(Global.SYSTEM, Integer.toString(EmojiCompat.get().getLoadState()));
-
+        //TODO locale?
+        lang = LanguageID.EN;
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -285,14 +296,7 @@ public class MainActivity extends AppCompatActivity implements
             p.add(Permission.SETTINGS);
             robot.requestPermissions(p, 0);
         }
-        //settings
-        robot.setDetectionModeOn(true, 2.0f);
-        robot.setGoToSpeed(SpeedLevel.SLOW);
-        robot.hideTopBar();
-        robot.setPrivacyMode(true);
-        robot.toggleNavigationBillboard(true);
-        robot.setTopBadgeEnabled(false);
-        robot.toggleWakeup(true);
+
 
         //initialise Views in UI
         initViews();
@@ -311,6 +315,15 @@ public class MainActivity extends AppCompatActivity implements
         super.onStart();
         robot.addOnRobotReadyListener(this);
         robot.addOnConstraintBeWithStatusChangedListener(this);
+
+        //settings
+        robot.setDetectionModeOn(true, 2.0f);
+        robot.setGoToSpeed(SpeedLevel.SLOW);
+        robot.hideTopBar();
+        robot.setPrivacyMode(true);
+        robot.toggleNavigationBillboard(false);
+        robot.setTopBadgeEnabled(false);
+        robot.toggleWakeup(true);
 
         thoughtPrefix = getResources().getString(R.string.cPrefix);
     }
@@ -376,6 +389,11 @@ public class MainActivity extends AppCompatActivity implements
             new Thread(routine).start();
         }
         return routine;
+    }
+
+    private void setEn() {
+        lang = LanguageID.EN;
+        updateThought(getApplicationContext().getResources().getString(R.string.en_prompt), Global.Emoji.eGrinning);
     }
 
     /*******************************************************************************************

@@ -34,7 +34,7 @@ public class StateMachine implements Runnable {
      *                                        Calibration                                      *
      ******************************************************************************************/
 
-    private final long idleTimeDuration = 15000L;
+    private long idleTimeDuration;
     Context c;
     Resources r;
 
@@ -195,6 +195,7 @@ public class StateMachine implements Runnable {
         main.updateThought(r.getString(R.string.constructingStateMachine), Global.Emoji.eRobot);
 
         //initialise variables
+        idleTimeDuration = r.getInteger(R.integer.wait_ms);
         completeSpeechSub = false;
         completePatrolSub = false;
 
@@ -360,6 +361,9 @@ public class StateMachine implements Runnable {
             case RETURNING:
                 setState(PATROLLING);
                 removeBSL(bsl);
+                if (pll == null) {
+                    setPLL(new PatrolLocationListener(robot, this));
+                }
                 setPLL(pll);
                 break;
         }
@@ -402,6 +406,7 @@ public class StateMachine implements Runnable {
                         "locationIndex\t=\t" + locationIndex + "\n" +
                         "name\t\t\t=\t" + locations.get(locationIndex));
                 robot.goTo(locations.get(locationIndex));
+                Log.v(Global.SYSTEM, Boolean.toString(robot.isNavigationBillboardDisabled()));
                 setISL();
                 //if there are no more loops to be done, go to next state. The equality operator allows for a maxPatrolLoops of -1 to result in infinite looping until manual termination.
                 if (locationLoopIndex == maxPatrolLoops) {

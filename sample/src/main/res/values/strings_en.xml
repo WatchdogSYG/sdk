@@ -19,7 +19,7 @@
     <!--> TEXT <-->
     <string name="en_prompt">Take a moment to clean your hands</string>
 
-    <string name="t_waitText">Waiting...</string>
+    <string name="t_waitText">Waiting&#8230;</string>
     <string name="b_turnOnAutoStart">Turn ON Patrol Auto-Start</string>
     <string name="b_turnOffAutoStart">Turn OFF Patrol Auto-Start</string>
     <string name="t_chargingASOn">I am charging: %% I will start patrolling again automatically when I am fully charged.</string>

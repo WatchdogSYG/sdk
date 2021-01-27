@@ -65,7 +65,7 @@ public class IdleSpeechListener implements Robot.TtsListener {
         d = d * s.length;
         int i = (int) d;
         Log.v(Global.STATE, Integer.toString(i));
-        TtsRequest tts = TtsRequest.create(s[i] + "... ...", false);
+        TtsRequest tts = TtsRequest.create(s[i] + "...", false);
         robot.speak(tts);
         return tts.getId();
     }
