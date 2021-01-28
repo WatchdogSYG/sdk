@@ -9,6 +9,6 @@
     <integer name="SOCBuffer">1
     </integer><!-->The buffer that is implemented when charging. When charging, Temi will not be able to return to patrolling manually until the SOC has reached above SOCL+  SOCBuffer.<-->
 
-    <integer name="wait_ms">10000
+    <integer name="wait_ms">12345
     </integer><!-->The number of milliseconds that Temi will wait at a waypoint.<-->
 </resources>

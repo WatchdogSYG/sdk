@@ -42,57 +42,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="40"
+            android:layout_weight="25"
             android:background="@color/colorPrimaryDark"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:gravity="left"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="215dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="80dp">
-
-                <ImageView
-                    android:layout_width="215dp"
-                    android:layout_height="150dp"
-                    android:layout_marginVertical="0dp"
-                    android:layout_marginLeft="0dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/thrfg_logo_vrf"></ImageView>
-
-                <ImageView
-                    android:layout_width="175dp"
-                    android:layout_height="150dp"
-                    android:layout_marginVertical="0dp"
-                    android:layout_gravity="center"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/f_h_cmyk_white"></ImageView>
-
-            </LinearLayout>
 
             <androidx.emoji.widget.EmojiTextView
                 android:id="@+id/face"
-                android:layout_width="350dp"
-                android:layout_height="match_parent"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginVertical="20dp"
-                android:layout_marginLeft="170dp"
+                android:layout_marginLeft="540dp"
                 android:gravity="center_horizontal"
-                android:minHeight="0dp"
                 android:text="@string/eGrinningSmiling"
-                android:textSize="170sp" />
+                android:textSize="120sp" />
 
             <Button
                 android:id="@+id/btnCustom"
                 android:layout_width="256px"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="70dp"
+                android:layout_marginLeft="110dp"
                 android:background="@color/red"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/sansation_bold"
                 android:onClick="startStateMachine"
-                android:text="Start Patrol"
+                android:text="Start Routine"
                 android:textSize="18sp"
                 android:visibility="visible" />
 
@@ -101,63 +76,90 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="25"
+            android:gravity="bottom"
             android:orientation="horizontal"
+            android:padding="8dp"
             android:weightSum="100">
 
             <Button
                 android:id="@+id/menu"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:layout_weight="10"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
                 android:background="@color/colorPrimaryDark"
                 android:longClickable="true" />
 
-            <ImageView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="40"></ImageView>
+                android:layout_marginLeft="20dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
 
-            <ImageButton
-                android:layout_width="0dp"
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="150dp"
+                    android:layout_marginVertical="0dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/thrfg_logo_vrf"></ImageView>
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="30dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/f_h_cmyk_white"></ImageView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:layout_weight="10"
+                android:layout_marginLeft="220dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
 
-                android:background="@drawable/en"></ImageButton>
+                <Button
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="@font/sansation"
+                    android:textAllCaps="false"
+                    android:textSize="30sp"
+                    android:text="i"
+                    android:onClick="toAbout"></Button>
 
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:layout_weight="10"
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginLeft="32dp"
+                    android:background="@drawable/flag_iconfinder_onesel_en"></ImageButton>
 
-                android:background="@drawable/cn"></ImageButton>
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/flag_iconfinder_onesel_cn"></ImageButton>
 
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:layout_weight="10"
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/flag_iconfinder_mrhopnguyen_el"></ImageButton>
 
-                android:background="@drawable/el"></ImageButton>
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/flag_iconfinder_hopnguyen_it"></ImageButton>
 
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:layout_weight="10"
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/flag_iconfinder_hopnguyenl_vi"></ImageButton>
+            </LinearLayout>
 
-                android:background="@drawable/it"></ImageButton>
-
-            <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:layout_weight="10"
-
-                android:background="@drawable/vi"></ImageButton>
 
         </LinearLayout>
 

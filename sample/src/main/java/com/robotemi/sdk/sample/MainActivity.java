@@ -67,7 +67,9 @@ public class MainActivity extends AppCompatActivity implements
     /*******************************************************************************************
      *                                         State                                           *
      ******************************************************************************************/
+
     private int lang;
+    private int vfid;
 
     /*******************************************************************************************
      *                                        Get/Set                                          *
@@ -89,7 +91,13 @@ public class MainActivity extends AppCompatActivity implements
      * ViewFlipper Button to Operator Menu
      */
     private void toOpMenu() {
-        vf.showNext();
+        if (vfid == 1) {
+            vf.showNext();
+            vfid = 2;
+        } else if (vfid == 3) {
+            vf.showPrevious();
+            vfid = 2;
+        }
     }
 
     /**
@@ -98,7 +106,27 @@ public class MainActivity extends AppCompatActivity implements
      * @param view
      */
     public void toMainMenu(View view) {
-        vf.showPrevious();
+        if (vfid == 2) {
+            vf.showPrevious();
+            vfid = 1;
+        } else if (vfid == 3) {
+            vf.showPrevious();
+            vfid = 2;
+            vf.showPrevious();
+            vfid = 1;
+        }
+    }
+
+    public void toAbout(View view) {
+        if (vfid == 1) {
+            vf.showNext();
+            vfid = 2;
+            vf.showNext();
+            vfid = 3;
+        } else if (vfid == 2) {
+            vf.showNext();
+            vfid = 3;
+        }
     }
 
     /**
@@ -358,6 +386,7 @@ public class MainActivity extends AppCompatActivity implements
         startButton = findViewById(R.id.btnCustom);
         stopButton = findViewById(R.id.btnStop);
         returnButton = findViewById(R.id.btnRet);
+        vfid = 1;
         vf = findViewById(R.id.vf);
         operatorMenuButton = findViewById(R.id.menu);
         operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -367,7 +396,6 @@ public class MainActivity extends AppCompatActivity implements
                 return true;
             }
         });
-
     }
 
     //TODO javadoc
