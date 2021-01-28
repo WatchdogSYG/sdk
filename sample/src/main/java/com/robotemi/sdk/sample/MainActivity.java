@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements
      ******************************************************************************************/
 
     private int lang;
-    private int vfid;
 
     /*******************************************************************************************
      *                                        Get/Set                                          *
@@ -88,45 +87,28 @@ public class MainActivity extends AppCompatActivity implements
      ******************************************************************************************/
 
     /**
-     * ViewFlipper Button to Operator Menu
-     */
-    private void toOpMenu() {
-        if (vfid == 1) {
-            vf.showNext();
-            vfid = 2;
-        } else if (vfid == 3) {
-            vf.showPrevious();
-            vfid = 2;
-        }
-    }
-
-    /**
      * ViewFlipper Button to Main Menu.
      *
      * @param view
      */
     public void toMainMenu(View view) {
-        if (vfid == 2) {
-            vf.showPrevious();
-            vfid = 1;
-        } else if (vfid == 3) {
-            vf.showPrevious();
-            vfid = 2;
-            vf.showPrevious();
-            vfid = 1;
-        }
+        vf.setDisplayedChild(0);
     }
 
+    /**
+     * ViewFlipper Button to Operator Menu
+     */
+    private void toOpMenu() {
+        vf.setDisplayedChild(1);
+    }
+
+    /**
+     * ViewFlipper Button to "About" screen.
+     *
+     * @param view
+     */
     public void toAbout(View view) {
-        if (vfid == 1) {
-            vf.showNext();
-            vfid = 2;
-            vf.showNext();
-            vfid = 3;
-        } else if (vfid == 2) {
-            vf.showNext();
-            vfid = 3;
-        }
+        vf.setDisplayedChild(2);
     }
 
     /**
@@ -206,10 +188,10 @@ public class MainActivity extends AppCompatActivity implements
         updateThought(getResources().getString(R.string.cReturn), Global.Emoji.eRobot);
         //TODO fix null obj ref
         if (routine == null) {
-            //is this rigorous enough, can we remove/modify the home base
             robot.goTo("home base");
         } else {
             robot.goTo("home base");
+            routine = null;
         }
     }
 
@@ -386,7 +368,6 @@ public class MainActivity extends AppCompatActivity implements
         startButton = findViewById(R.id.btnCustom);
         stopButton = findViewById(R.id.btnStop);
         returnButton = findViewById(R.id.btnRet);
-        vfid = 1;
         vf = findViewById(R.id.vf);
         operatorMenuButton = findViewById(R.id.menu);
         operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {

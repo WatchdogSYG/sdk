@@ -18,6 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/colorPrimaryDark"
             android:layout_weight="50">
 
             <TextView
@@ -79,6 +80,7 @@
             android:layout_weight="25"
             android:gravity="bottom"
             android:orientation="horizontal"
+            android:background="@color/colorPrimaryDark"
             android:padding="8dp"
             android:weightSum="100">
 
@@ -123,11 +125,12 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="bottom"
+                    android:background="@color/colorAccent"
                     android:fontFamily="@font/sansation"
-                    android:textAllCaps="false"
-                    android:textSize="30sp"
+                    android:onClick="toAbout"
                     android:text="i"
-                    android:onClick="toAbout"></Button>
+                    android:textAllCaps="false"
+                    android:textSize="30sp"></Button>
 
                 <ImageButton
                     android:layout_width="64dp"
@@ -175,17 +178,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="20"
+            android:layout_weight="15"
             android:gravity="center"
+            android:background="@color/colorPrimaryDark"
             android:text="@string/opMenuHeader"
+            android:fontFamily="@font/sansation_bold"
             android:textColor="@color/colorWhite"
-            android:textSize="70sp"></TextView>
+            android:textSize="50sp"></TextView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="70"
+            android:layout_weight="75"
             android:orientation="vertical"
+            android:background="@color/colorPrimaryDark"
             android:padding="6dp">
 
             <LinearLayout
@@ -242,20 +248,7 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
-                        <Button
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:text="DOWN"></Button>
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:paddingTop="0dp"></TextView>
-
-                        <Button
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:text="UP"></Button>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -290,16 +283,72 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10"
+            android:background="@color/colorPrimaryDark"
             android:padding="6dp">
 
             <Button
                 android:id="@+id/btnReturnToMain"
                 android:layout_width="215dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorTemi"
+                android:background="@color/blue"
                 android:onClick="toMainMenu"
+                android:textSize="20sp"
+                android:fontFamily="@font/calibri_regular"
+                android:textAllCaps="false"
                 android:text="@string/btn_returnToMain"></Button>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryDark"
+        android:weightSum="100">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="15"
+            android:fontFamily="@font/sansation_bold"
+            android:paddingTop="40dp"
+            android:text="Licences &amp; About Temi"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="50sp"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:fontFamily="@font/calibri_regular"
+            android:paddingHorizontal="80dp"
+            android:text="@string/l_ccby"
+            android:textColor="@color/colorWhite"
+            android:textSize="28sp"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="67"
+            android:fontFamily="@font/calibri_regular"
+            android:paddingHorizontal="80dp"
+            android:paddingTop="20dp"
+            android:text="@string/l_ccby_items"
+            android:textColor="@color/colorWhite"
+            android:textSize="19sp"></TextView>
+
+        <Button
+            android:layout_width="128dp"
+            android:layout_height="0dp"
+            android:layout_gravity="right"
+            android:layout_margin="8dp"
+            android:layout_weight="10"
+            android:background="@color/colorAccent"
+            android:onClick="toMainMenu"
+            android:text="Back"
+            android:textAllCaps="false"
+            android:textSize="30sp"></Button>
     </LinearLayout>
 
 </ViewFlipper>

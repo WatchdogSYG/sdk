@@ -6,9 +6,9 @@
     <string name="btn_stop">Stop</string>
     <string name="btn_return">Stop and return to the home base</string>
     <string name="btn_returnToLauncher">Restart this app</string>
-    <string name="btn_returnToMain">Resume normal operation</string>
+    <string name="btn_returnToMain">Return to Main Menu</string>
     <string name="help">This is where I would display system diagnostics, state or help info&#8230;\n\nYou can get Temi to follow you by tapping it on the top of the head. It will stop following you if it can\'t find you, or if you tap it on the top of the head again.\n\nTo manage LOCATIONS, terminate this app and return to the Launcher. Go to the apps menu [icon] and click on "Locations". From there you can tap the ... to edit saved locations.\n\nReminder: Temi will patrol by cycling through all saved locations in order, except for the home base. Please do not delete the home base location.</string>
-    <string name="caption_qr">Scan the QR code with your device to access the Online User Manual.</string>
+    <string name="caption_qr">Scan the QR code with your device to access the Online User Manual on GitHub.</string>
     <string name="cPrefix">Current Action:\u0020</string>
     <string name="cInit">Initialisation&#8230;</string>
     <string name="cTermination">Routine Terminated.</string>
@@ -26,11 +26,16 @@
     <string name="eTear">&#x1F622;</string>
     <string name="eRobot">&#x1F916;</string>
 
-    <string name="l_ccby">Creative Commons Attribution 3.0 Unported (CC BY 3.0) at https://creativecommons.org/licenses/by/3.0/</string>
-    <string name="l_ccby_link">at https://creativecommons.org/licenses/by/3.0/</string>
-    <string name="l_ccby_items">Creators:\nOnEsel: https://www.iconfinder.com\nMr Hopnguyen: https://www.iconfinder.com/Mr.hopnguyen\n\n"Kingdom, uk, united icon" by OnEsel on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original 512px\n
-			"Flag, peoples, republic icon"  by OnEsel on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original 512px\n
-			"Ensign, flag, nation, vietnam icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original\n
-			"Ensign, flag, greece, nation icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original\n
-			"Ensign, flag, italy, nation icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original</string>
+    <string name="l_ccby">Creative Commons Attribution 3.0 Unported (CC BY 3.0)\n
+        at https://creativecommons.org/licenses/by/3.0/</string>
+    <string name="l_ccby_items">Creators:\n
+        \tOnEsel: https://www.iconfinder.com\n
+        \tMr Hopnguyen: https://www.iconfinder.com/Mr.hopnguyen\n
+        \n
+        Assets:\n
+        \t"Kingdom, uk, united icon" by OnEsel on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original 512px\n
+        \t"Flag, peoples, republic icon" by OnEsel on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original 512px\n
+        \t"Ensign, flag, nation, vietnam icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original\n
+        \t"Ensign, flag, greece, nation icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original\n
+        \t"Ensign, flag, italy, nation icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original</string>
 </resources>
