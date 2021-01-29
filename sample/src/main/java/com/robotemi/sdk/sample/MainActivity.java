@@ -34,6 +34,8 @@ import flinderstemi.StateMachine;
 import flinderstemi.util.SetTextViewCallback;
 import flinderstemi.util.listeners.BatteryStateListener;
 
+import static flinderstemi.LanguageID.EN;
+
 /**
  * MainActivity JavaDoc
  */
@@ -235,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements
             } catch (PackageManager.NameNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            robot.requestToBeKioskApp();
         }
     }
 
@@ -267,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements
         EmojiCompat.init(config);
         Log.v(Global.SYSTEM, Integer.toString(EmojiCompat.get().getLoadState()));
         //TODO locale?
-        lang = LanguageID.EN;
+        lang = EN;
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -300,14 +301,6 @@ public class MainActivity extends AppCompatActivity implements
         robot = Robot.getInstance();
         stvc = this;
 
-        if (robot.checkSelfPermission(Permission.SETTINGS) == PackageManager.PERMISSION_DENIED) {
-            Log.d(Global.SYSTEM, "SETTINGS PERMISSION DENIED");
-            ArrayList<Permission> p = new ArrayList<Permission>();
-            p.add(Permission.SETTINGS);
-            robot.requestPermissions(p, 0);
-        }
-
-
         //initialise Views in UI
         initViews();
     }
@@ -326,6 +319,17 @@ public class MainActivity extends AppCompatActivity implements
         robot.addOnRobotReadyListener(this);
         robot.addOnConstraintBeWithStatusChangedListener(this);
 
+        ArrayList<Permission> p = new ArrayList<Permission>();
+        p.add(Permission.SETTINGS);
+        robot.requestPermissions(p, 0);
+
+        if (robot.checkSelfPermission(Permission.SETTINGS) == PackageManager.PERMISSION_DENIED) {
+            Log.d(Global.SYSTEM, "SETTINGS PERMISSION DENIED");
+
+        } else {
+            Log.d(Global.SYSTEM, "SETTINGS PERMISSION GRANTED");
+        }
+
         //settings
         robot.setDetectionModeOn(true, 2.0f);
         robot.setGoToSpeed(SpeedLevel.SLOW);
@@ -334,7 +338,15 @@ public class MainActivity extends AppCompatActivity implements
         robot.toggleNavigationBillboard(false);
         robot.setTopBadgeEnabled(false);
         robot.toggleWakeup(true);
+        robot.requestToBeKioskApp();
 
+        Log.v(Global.SYSTEM, "Settings:\n" +
+                "\tDetectionMode\t=\t" + robot.isDetectionModeOn() +
+                "\n\tSpeed\t\t\t=\t" + robot.getGoToSpeed() +
+                "\n\tTop Badge\t\t=\t" + robot.isTopBadgeEnabled() +
+                "\n\tNavBillboard\t=\t" + robot.isNavigationBillboardDisabled() +
+                "\n\tWakeup\t\t\t=\t" + robot.isWakeupDisabled() +
+                "\n\tKioskApp\t\t=\t" + robot.isSelectedKioskApp());
         thoughtPrefix = getResources().getString(R.string.cPrefix);
     }
 
@@ -389,8 +401,6 @@ public class MainActivity extends AppCompatActivity implements
         startButton.setEnabled(false);
         stopButton.setEnabled(true);
         returnButton.setEnabled(true);
-        thoughtTextView.setPadding(200, 0, 0, 0);
-        thoughtTextView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         routine = new StateMachine(robot, this, StateMachine.GREETING);
         System.out.println("FLINTEMI: Create Initialisation Routine");
         updateThought(getResources().getString(R.string.cInit), Global.Emoji.eThinking);
@@ -400,9 +410,54 @@ public class MainActivity extends AppCompatActivity implements
         return routine;
     }
 
-    private void setEn() {
+    public void langEN(View view) {
+        Log.d(Global.SYSTEM, "Prompt language changed to EN");
         lang = LanguageID.EN;
-        updateThought(getApplicationContext().getResources().getString(R.string.en_prompt), Global.Emoji.eGrinning);
+        showPrompt();
+    }
+
+    public void langCN(View view) {
+        Log.d(Global.SYSTEM, "Prompt language changed to CN");
+        lang = LanguageID.CN;
+        showPrompt();
+    }
+
+    public void langEL(View view) {
+        Log.d(Global.SYSTEM, "Prompt language changed to EL");
+        lang = LanguageID.EL;
+        showPrompt();
+    }
+
+    public void langIT(View view) {
+        Log.d(Global.SYSTEM, "Prompt language changed to IT");
+        lang = LanguageID.IT;
+        showPrompt();
+    }
+
+    public void langVI(View view) {
+        Log.d(Global.SYSTEM, "Prompt language changed to VIN");
+        lang = LanguageID.VI;
+        showPrompt();
+    }
+
+    public void showPrompt() {
+        switch (lang) {
+            case LanguageID.EN:
+                updateThought(getApplicationContext().getResources().getString(R.string.en_prompt), Global.Emoji.eGrinning);
+                break;
+            case LanguageID.CN:
+                updateThought(getApplicationContext().getResources().getString(R.string.cn_prompt), Global.Emoji.eGrinning);
+                break;
+            case LanguageID.EL:
+                updateThought(getApplicationContext().getResources().getString(R.string.el_prompt), Global.Emoji.eGrinning);
+                break;
+            case LanguageID.IT:
+                updateThought(getApplicationContext().getResources().getString(R.string.it_prompt), Global.Emoji.eGrinning);
+                break;
+            case LanguageID.VI:
+                updateThought(getApplicationContext().getResources().getString(R.string.vi_prompt), Global.Emoji.eGrinning);
+                break;
+        }
     }
 
     /*******************************************************************************************

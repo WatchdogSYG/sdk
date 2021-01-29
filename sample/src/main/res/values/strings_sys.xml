@@ -16,6 +16,8 @@
     <string name="cReturn">Returning to the home base&#8230;</string>
     <string name="sGoingTo">Going to the next waypoint&#8230;</string>
 
+    <string name="cStuck">Help, I am stuck! Please contact staff.</string>
+
     <string name="constructingStateMachine">Constructing State Machine</string>
 
     <string name="eMask">&#x1F637;</string>

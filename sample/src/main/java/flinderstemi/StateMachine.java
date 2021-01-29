@@ -421,10 +421,11 @@ public class StateMachine implements Runnable {
                 break;
             case TERMINATED:
                 Log.d(Global.SEQUENCE, "switch (state = TERMINATED = " + TERMINATED + ")");
-                speak(TtsRequest.create("Routine Terminated", true)); //this may overwrite the previous ttsrequest
+                //speak(TtsRequest.create("Routine Terminated", true)); //this may overwrite the previous ttsrequest
                 break;
             case STUCK:
                 Log.d(Global.SEQUENCE, "switch (state = STUCK = " + STUCK + ")");
+                main.updateThought(r.getString(R.string.cStuck), Global.Emoji.eTear);
                 speak(TtsRequest.create("Help, I am stuck. Please notify a staff member of this error. Help, I am stuck. Please notify a staff member of this error. Help, I am stuck. Please notify a staff member of this error.", true));
                 setState(TERMINATED);
                 break;

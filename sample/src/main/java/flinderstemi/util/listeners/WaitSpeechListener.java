@@ -5,7 +5,6 @@ import android.util.Log;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.sample.MainActivity;
-import com.robotemi.sdk.sample.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -93,7 +92,7 @@ public class WaitSpeechListener implements Robot.TtsListener {
 
 
             //this is actually called on the UI thread so it doesn't freak out
-            this.main.updateThought(main.getApplicationContext().getResources().getString(R.string.en_prompt), Global.Emoji.eGrinning);
+            this.main.showPrompt();
             //schedule it
             Log.d(Global.SEQUENCE, "Waiting for " + duration + "ms starting: " + formatter.format(date));
             t.schedule(doneWaiting, duration);
@@ -105,13 +104,5 @@ public class WaitSpeechListener implements Robot.TtsListener {
             Log.d(Global.LISTENER, "Removed WaitSpeechListener implements TtsListener");
             Log.v(Global.LISTENER, "Removed WaitSpeechListener: " + this.toString());
         }
-    }
-
-    private String getPrompt() {
-        String s = "temp";
-        switch (main.getLang()) {
-
-        }
-        return s;
     }
 }

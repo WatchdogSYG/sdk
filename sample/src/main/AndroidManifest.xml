@@ -14,20 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/SkillTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <!--this meta-data tells the laucnher which Nlp context we are in.-->
+        <meta-data
+            android:name="com.robotemi.sdk.metadata.CONTEXTS"
+            android:value="
+                radio,
+                media" />
 
         <!--Adding this meta-data is required in order to
             display this app in temi's launcher app-->
         <meta-data
             android:name="com.robotemi.sdk.metadata.SKILL"
             android:value="@string/app_name" />
-
-        <!--this meta-data tells the laucnher which Nlp context we are in.-->
-
-        <meta-data
-            android:name="com.robotemi.sdk.metadata.CONTEXTS"
-            android:value="
-                radio,
-                media" />
 
         <meta-data
             android:name="@string/metadata_kiosk"
@@ -60,5 +58,4 @@
             android:screenOrientation="landscape"></activity>
 
     </application>
-
 </manifest>

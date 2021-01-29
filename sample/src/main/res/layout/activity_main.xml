@@ -35,7 +35,7 @@
                 android:cursorVisible="false"
                 android:fontFamily="@font/sansation"
                 android:gravity="center|left"
-                android:text="@string/cn_prompt"
+                android:text="@string/en_prompt"
                 android:textAlignment="center"
                 android:textSize="50sp" />
         </RelativeLayout>
@@ -136,30 +136,35 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="32dp"
+                    android:onClick="langEN"
                     android:background="@drawable/flag_iconfinder_onesel_en"></ImageButton>
 
                 <ImageButton
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
+                    android:onClick="langCN"
                     android:background="@drawable/flag_iconfinder_onesel_cn"></ImageButton>
 
                 <ImageButton
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
+                    android:onClick="langEL"
                     android:background="@drawable/flag_iconfinder_mrhopnguyen_el"></ImageButton>
 
                 <ImageButton
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
+                    android:onClick="langIT"
                     android:background="@drawable/flag_iconfinder_hopnguyen_it"></ImageButton>
 
                 <ImageButton
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
+                    android:onClick="langVI"
                     android:background="@drawable/flag_iconfinder_hopnguyenl_vi"></ImageButton>
             </LinearLayout>
 
