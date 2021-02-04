@@ -21,7 +21,6 @@ import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnBatteryStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
-import com.robotemi.sdk.navigation.model.SpeedLevel;
 import com.robotemi.sdk.permission.Permission;
 
 import org.jetbrains.annotations.Nullable;
@@ -331,14 +330,14 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         //settings
-        robot.setDetectionModeOn(true, 2.0f);
-        robot.setGoToSpeed(SpeedLevel.SLOW);
-        robot.hideTopBar();
-        robot.setPrivacyMode(true);
-        robot.toggleNavigationBillboard(false);
-        robot.setTopBadgeEnabled(false);
-        robot.toggleWakeup(true);
-        robot.requestToBeKioskApp();
+        //robot.setDetectionModeOn(true, 2.0f);
+        //robot.setGoToSpeed(SpeedLevel.SLOW);
+        //robot.hideTopBar();
+        //robot.setPrivacyMode(true);
+        //robot.toggleNavigationBillboard(false);
+        //robot.setTopBadgeEnabled(false);
+        //robot.toggleWakeup(true);
+        //robot.requestToBeKioskApp();
 
         Log.v(Global.SYSTEM, "Settings:\n" +
                 "\tDetectionMode\t=\t" + robot.isDetectionModeOn() +

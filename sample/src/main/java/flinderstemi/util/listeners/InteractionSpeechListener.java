@@ -32,7 +32,7 @@ public class InteractionSpeechListener implements Robot.TtsListener {
         switch (ttsRequest.getStatus()) {
             case COMPLETED:
                 Log.d("Interaction", "COMPLETED");
-                //robot.removeTtsListener(this);
+                robot.removeTtsListener(this);
                 //robot.addOnDetectionStateChangedListener(dl);
                 break;
             case ERROR:

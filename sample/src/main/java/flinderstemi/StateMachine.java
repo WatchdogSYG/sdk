@@ -150,6 +150,7 @@ public class StateMachine implements Runnable {
 
     //no args since isl should be singleton
     public void setISL() {
+        isl = new IdleSpeechListener(robot, main);
         robot.addTtsListener(isl);
         Log.d(Global.LISTENER, "Set IdleSpeechListener");
         Log.v(Global.LISTENER, "Set IdleSpeechListener extends TtsListener: " + isl.toString());
@@ -224,7 +225,6 @@ public class StateMachine implements Runnable {
         Log.v(Global.LOCATION, "Locations = " + locations.toString());
 
         dl = new DetectionListener(robot, this);
-        isl = new IdleSpeechListener(robot, main);
 
         sl = new TTSSequenceListener(robot, this);
         Log.d(Global.LISTENER, "Instantiated new TTSSequenceListener(robot, this) implements TtsListener");
@@ -268,7 +268,6 @@ public class StateMachine implements Runnable {
         synchronized (this) {
             try {
                 //announce that we are going to wait, we will need a listener for this so the waiting can begin after the speech request ends
-                speak(TtsRequest.create(r.getString(R.string.waitSpeech1) + " " + idleTimeDuration / 1000L + " " + r.getString(R.string.waitSpeech2), false));
 
                 Log.d(Global.LISTENER, "Instantiating new WaitSpeechListener(millis, main, dl, this, robot)");
                 WaitSpeechListener wsl = new WaitSpeechListener(millis, main, dl, this, robot);
@@ -399,7 +398,7 @@ public class StateMachine implements Runnable {
                 //TODO print message when no locations are saved as this throws an indexoutofbounds exception
 
                 main.updateThought("Going to the next waypoint ...", Global.Emoji.eThinking);
-                speak(TtsRequest.create("I'm going to the next waypoint now. Goodbye.", false));
+                //speak(TtsRequest.create("I'm going to the next waypoint now. Goodbye.", false));
 
                 Log.i(Global.LOCATION, "Going to the next location");
                 Log.d(Global.LOCATION, "GoToLocation:\n" +

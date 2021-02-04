@@ -229,6 +229,8 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
      *
      */
     public void fullWakeStateMachine() {
+        startButton.setVisibility(View.INVISIBLE);
+        startButton.setEnabled(false);
         if (stateMachine != null) {
             //sm does exist, notify it
             Log.d(Global.SEQUENCE, "StateMachine exists. notify()");

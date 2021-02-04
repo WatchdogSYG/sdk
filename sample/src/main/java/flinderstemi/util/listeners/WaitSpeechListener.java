@@ -5,6 +5,7 @@ import android.util.Log;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.sample.MainActivity;
+import com.robotemi.sdk.sample.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import flinderstemi.Global;
 import flinderstemi.StateMachine;
@@ -32,6 +34,7 @@ public class WaitSpeechListener implements Robot.TtsListener {
     //members
     Timer t;
     TimerTask doneWaiting;
+    UUID uuid;
 
     /**
      * Initialises members and defines a TimerTask that will fire upon completion of the Timer.
@@ -69,40 +72,45 @@ public class WaitSpeechListener implements Robot.TtsListener {
                 }
             }
         };
+
+        TtsRequest tts = TtsRequest.create(main.getApplicationContext().getResources().getString(R.string.waitSpeech1) + " " + duration / 1000L + " " + main.getApplicationContext().getResources().getString(R.string.waitSpeech2), false);
+        uuid = tts.getId();
+        robot.speak(tts);
     }
 
     @Override
     public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
 
         //if the status of the current ttsrequest changes to COMPLETED, start waiting. Actually, this is not too important so we can just wait even if it fails
-        //TODO move this back to the statemachine and make it wait for any trigger of an idle case
 
-        if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
-            //TODO handle the cases where the TTSRequest fails into the NOT_ALLOWED or ERROR statuses
+        if (uuid.compareTo(ttsRequest.getId()) == 0) {
+            if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
+                //TODO handle the cases where the TTSRequest fails into the NOT_ALLOWED or ERROR statuses
 
-            Log.v(Global.LISTENER, "TtsRequest\n" +
-                    "UUID\t=\t" + ttsRequest.getId() + "\n" +
-                    "String\t=\t" + ttsRequest.getSpeech() + "\n" +
-                    "Status\t=\tCOMPLETED");
-            Log.d(Global.LISTENER, "TTSStatus changed to COMPLETED.");
+                Log.v(Global.LISTENER, "TtsRequest\n" +
+                        "UUID\t=\t" + ttsRequest.getId() + "\n" +
+                        "String\t=\t" + ttsRequest.getSpeech() + "\n" +
+                        "Status\t=\tCOMPLETED");
+                Log.d(Global.LISTENER, "TTSStatus changed to COMPLETED.");
 
-            //schedule the task to be completed after the waiting period ends
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
+                //schedule the task to be completed after the waiting period ends
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
 
 
-            //this is actually called on the UI thread so it doesn't freak out
-            this.main.showPrompt();
-            //schedule it
-            Log.d(Global.SEQUENCE, "Waiting for " + duration + "ms starting: " + formatter.format(date));
-            t.schedule(doneWaiting, duration);
+                //this is actually called on the UI thread so it doesn't freak out
+                this.main.showPrompt();
+                //schedule it
+                Log.d(Global.SEQUENCE, "Waiting for " + duration + "ms starting: " + formatter.format(date));
+                t.schedule(doneWaiting, duration);
 
-            //since we are on the UI thread already, we can activate the Detection listener now. The bot has already finished talking so this will not cause an interruption
-            sm.addDetectionListener();
+                //since we are on the UI thread already, we can activate the Detection listener now. The bot has already finished talking so this will not cause an interruption
+                sm.addDetectionListener();
 
-            robot.removeTtsListener(this);
-            Log.d(Global.LISTENER, "Removed WaitSpeechListener implements TtsListener");
-            Log.v(Global.LISTENER, "Removed WaitSpeechListener: " + this.toString());
+                robot.removeTtsListener(this);
+                Log.d(Global.LISTENER, "Removed WaitSpeechListener implements TtsListener");
+                Log.v(Global.LISTENER, "Removed WaitSpeechListener: " + this.toString());
+            }
         }
     }
 }

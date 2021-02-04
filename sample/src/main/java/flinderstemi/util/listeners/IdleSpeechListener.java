@@ -32,29 +32,32 @@ public class IdleSpeechListener implements Robot.TtsListener {
 
         index = 0;
         s = main.getResources().getStringArray(R.array.ambientSpeech);
-        TtsRequest tts = TtsRequest.create(s[0], false);
+        TtsRequest tts = TtsRequest.create("I'm going to the next waypoint now. Goodbye.", false);
         uuid = tts.getId();
-
+        robot.speak(tts);
 
     }
 
     @Override
     public void onTtsStatusChanged(@NotNull TtsRequest ttsRequest) {
         //listen for the specific tts.
-        switch (ttsRequest.getStatus()) {
-            case COMPLETED:
-            case NOT_ALLOWED:
-            case ERROR:
-                //uuid = speakNext();
-                uuid = speakRandom();
-                break;/*
+        Log.v(Global.LISTENER, "IdleSpeechListener \n\tCheck UUID\t=\t" + uuid.toString() + "\n\tTTSR.ID\t=\t" + ttsRequest.getId() + "\nbool\t=\t" + (uuid.compareTo(ttsRequest.getId()) == 0));
+        if (uuid.compareTo(ttsRequest.getId()) == 0)
+            switch (ttsRequest.getStatus()) {
+                case COMPLETED:
+                case NOT_ALLOWED:
+                case ERROR:
+                    //uuid = speakNext();
+                    uuid = speakRandom();
+                    Log.d(Global.SEQUENCE, "Speak random");
+                    break;/*
             case PROCESSING:
                 break;
             case STARTED:
                 break;
             case PENDING:
                 break;*/
-        }
+            }
         Log.d(Global.LISTENER, "IdleSpeechListener onTtsStatusChanged\n" + ttsRequest.toString());
     }
 
