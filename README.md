@@ -1,6 +1,5 @@
 temi SDK
 ========
-
 ![temi](temi.jpg)
 
 For more information please see [the website][1].
@@ -56,5 +55,5 @@ License
 [5]: https://github.com/robotemi/sdk/wiki/Home_chn
 [snap]: https://oss.sonatype.org/content/repositories/snapshots/
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTM3NTM1NDk0M119
+eyJoaXN0b3J5IjpbLTEyMjAzNDU2NDcsMTM3NTM1NDk0M119
 -->
