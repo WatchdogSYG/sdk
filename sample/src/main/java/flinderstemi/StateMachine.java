@@ -226,7 +226,7 @@ public class StateMachine implements Runnable {
 
         dl = new DetectionListener(robot, this);
 
-        sl = new TTSSequenceListener(robot, this);
+        sl = new TTSSequenceListener(robot, this, main);
         Log.d(Global.LISTENER, "Instantiated new TTSSequenceListener(robot, this) implements TtsListener");
         Log.v(Global.LISTENER, "Instantiated new TTSSequenceListener: " + sl.toString());
 
@@ -361,7 +361,7 @@ public class StateMachine implements Runnable {
                 setState(PATROLLING);
                 removeBSL(bsl);
                 if (pll == null) {
-                    setPLL(new PatrolLocationListener(robot, this));
+                    setPLL(new PatrolLocationListener(robot, this, main));
                 }
                 setPLL(pll);
                 break;
@@ -404,6 +404,14 @@ public class StateMachine implements Runnable {
                 Log.d(Global.LOCATION, "GoToLocation:\n" +
                         "locationIndex\t=\t" + locationIndex + "\n" +
                         "name\t\t\t=\t" + locations.get(locationIndex));
+
+                main.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        main.disableLanguageSwitching();
+                    }
+                });
+
                 robot.goTo(locations.get(locationIndex));
                 Log.v(Global.SYSTEM, Boolean.toString(robot.isNavigationBillboardDisabled()));
                 setISL();

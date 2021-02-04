@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -21,11 +22,13 @@ import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnBatteryStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
+import com.robotemi.sdk.navigation.model.SpeedLevel;
 import com.robotemi.sdk.permission.Permission;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import flinderstemi.Global;
 import flinderstemi.LanguageID;
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements
      ******************************************************************************************/
 
     private int lang;
+    List<ImageButton> langButtons;
 
     /*******************************************************************************************
      *                                        Get/Set                                          *
@@ -77,10 +81,6 @@ public class MainActivity extends AppCompatActivity implements
 
     public Button getStartButton() {
         return startButton;
-    }
-
-    public int getLang() {
-        return lang;
     }
 
     /*******************************************************************************************
@@ -237,6 +237,36 @@ public class MainActivity extends AppCompatActivity implements
                 throw new RuntimeException(e);
             }
         }
+
+        ArrayList<Permission> p = new ArrayList<Permission>();
+        p.add(Permission.SETTINGS);
+        robot.requestPermissions(p, 0);
+
+        if (robot.checkSelfPermission(Permission.SETTINGS) == PackageManager.PERMISSION_DENIED) {
+            Log.d(Global.SYSTEM, "SETTINGS PERMISSION DENIED");
+
+        } else {
+            Log.d(Global.SYSTEM, "SETTINGS PERMISSION GRANTED");
+        }
+
+        //settings
+        robot.setDetectionModeOn(true, 2.0f);
+        robot.setGoToSpeed(SpeedLevel.SLOW);
+        robot.hideTopBar();
+        robot.setPrivacyMode(true);
+        robot.toggleNavigationBillboard(true);
+        robot.setTopBadgeEnabled(false);
+        robot.toggleWakeup(true);
+        robot.requestToBeKioskApp();
+
+        Log.v(Global.SYSTEM, "Settings:\n" +
+                "\tDetectionMode\t=\t" + robot.isDetectionModeOn() +
+                "\n\tSpeed\t\t\t=\t" + robot.getGoToSpeed() +
+                "\n\tTop Badge\t\t=\t" + robot.isTopBadgeEnabled() +
+                "\n\tNavBillboard\t=\t" + robot.isNavigationBillboardDisabled() +
+                "\n\tWakeup\t\t\t=\t" + robot.isWakeupDisabled() +
+                "\n\tKioskApp\t\t=\t" + robot.isSelectedKioskApp());
+        thoughtPrefix = getResources().getString(R.string.cPrefix);
     }
 
     /**
@@ -317,36 +347,6 @@ public class MainActivity extends AppCompatActivity implements
         super.onStart();
         robot.addOnRobotReadyListener(this);
         robot.addOnConstraintBeWithStatusChangedListener(this);
-
-        ArrayList<Permission> p = new ArrayList<Permission>();
-        p.add(Permission.SETTINGS);
-        robot.requestPermissions(p, 0);
-
-        if (robot.checkSelfPermission(Permission.SETTINGS) == PackageManager.PERMISSION_DENIED) {
-            Log.d(Global.SYSTEM, "SETTINGS PERMISSION DENIED");
-
-        } else {
-            Log.d(Global.SYSTEM, "SETTINGS PERMISSION GRANTED");
-        }
-
-        //settings
-        //robot.setDetectionModeOn(true, 2.0f);
-        //robot.setGoToSpeed(SpeedLevel.SLOW);
-        //robot.hideTopBar();
-        //robot.setPrivacyMode(true);
-        //robot.toggleNavigationBillboard(false);
-        //robot.setTopBadgeEnabled(false);
-        //robot.toggleWakeup(true);
-        //robot.requestToBeKioskApp();
-
-        Log.v(Global.SYSTEM, "Settings:\n" +
-                "\tDetectionMode\t=\t" + robot.isDetectionModeOn() +
-                "\n\tSpeed\t\t\t=\t" + robot.getGoToSpeed() +
-                "\n\tTop Badge\t\t=\t" + robot.isTopBadgeEnabled() +
-                "\n\tNavBillboard\t=\t" + robot.isNavigationBillboardDisabled() +
-                "\n\tWakeup\t\t\t=\t" + robot.isWakeupDisabled() +
-                "\n\tKioskApp\t\t=\t" + robot.isSelectedKioskApp());
-        thoughtPrefix = getResources().getString(R.string.cPrefix);
     }
 
     /**
@@ -379,6 +379,13 @@ public class MainActivity extends AppCompatActivity implements
         startButton = findViewById(R.id.btnCustom);
         stopButton = findViewById(R.id.btnStop);
         returnButton = findViewById(R.id.btnRet);
+        langButtons = new ArrayList<>();
+        langButtons.add((ImageButton) findViewById(R.id.btn_en));
+        langButtons.add((ImageButton) findViewById(R.id.btn_cn));
+        langButtons.add((ImageButton) findViewById(R.id.btn_el));
+        langButtons.add((ImageButton) findViewById(R.id.btn_it));
+        langButtons.add((ImageButton) findViewById(R.id.btn_vi));
+
         vf = findViewById(R.id.vf);
         operatorMenuButton = findViewById(R.id.menu);
         operatorMenuButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -456,6 +463,20 @@ public class MainActivity extends AppCompatActivity implements
             case LanguageID.VI:
                 updateThought(getApplicationContext().getResources().getString(R.string.vi_prompt), Global.Emoji.eGrinning);
                 break;
+        }
+    }
+
+    public void enableLanguageSwitching() {
+        Log.d(Global.SYSTEM, "Language buttons enabled");
+        for (int i = 0; i < langButtons.size(); i++) {
+            langButtons.get(i).setEnabled(true);
+        }
+    }
+
+    public void disableLanguageSwitching() {
+        Log.d(Global.SYSTEM, "Language buttons disabled");
+        for (int i = 0; i < langButtons.size(); i++) {
+            langButtons.get(i).setEnabled(false);
         }
     }
 

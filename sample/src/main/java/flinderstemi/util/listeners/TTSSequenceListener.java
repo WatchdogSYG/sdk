@@ -4,6 +4,7 @@ package flinderstemi.util.listeners;
 
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
+import com.robotemi.sdk.sample.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -12,11 +13,13 @@ import flinderstemi.StateMachine;
 public class TTSSequenceListener implements Robot.TtsListener {
     StateMachine stateMachine;
     Robot robot;
+    MainActivity main;
 
-    public TTSSequenceListener(Robot robot, StateMachine stateMachine) {
+    public TTSSequenceListener(Robot robot, StateMachine stateMachine, MainActivity main) {
         System.out.println("FLINTEMI: Construct TTSSequenceListener");
         this.stateMachine = stateMachine;
         this.robot = robot;
+        this.main = main;
     }
 
     //TODO move the synchronised block to the StateMachine class, keep this one simple
@@ -36,7 +39,7 @@ public class TTSSequenceListener implements Robot.TtsListener {
                         System.out.println("FLINTEMI: ttsRequestStatus=COMPLETED,stateMachine.isCompleteSub=true,notify");
                         stateMachine.notify();
                         System.out.println("FLINTEMI: addOnGoToLocationStatusChangedListener");
-                        stateMachine.setPLL(new PatrolLocationListener(robot, stateMachine));
+                        stateMachine.setPLL(new PatrolLocationListener(robot, stateMachine, main));
                         robot.removeTtsListener(this);
                         System.out.println("FLINTEMI: ttsListenerRemoved");
                     }

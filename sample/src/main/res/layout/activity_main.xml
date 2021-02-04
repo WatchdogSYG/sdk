@@ -137,6 +137,7 @@
                     android:layout_height="64dp"
                     android:layout_marginLeft="32dp"
                     android:onClick="langEN"
+                    android:id="@+id/btn_en"
                     android:background="@drawable/flag_iconfinder_onesel_en"></ImageButton>
 
                 <ImageButton
@@ -144,6 +145,7 @@
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
                     android:onClick="langCN"
+                    android:id="@+id/btn_cn"
                     android:background="@drawable/flag_iconfinder_onesel_cn"></ImageButton>
 
                 <ImageButton
@@ -151,6 +153,7 @@
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
                     android:onClick="langEL"
+                    android:id="@+id/btn_el"
                     android:background="@drawable/flag_iconfinder_mrhopnguyen_el"></ImageButton>
 
                 <ImageButton
@@ -158,6 +161,7 @@
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
                     android:onClick="langIT"
+                    android:id="@+id/btn_it"
                     android:background="@drawable/flag_iconfinder_hopnguyen_it"></ImageButton>
 
                 <ImageButton
@@ -165,6 +169,7 @@
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
                     android:onClick="langVI"
+                    android:id="@+id/btn_vi"
                     android:background="@drawable/flag_iconfinder_hopnguyenl_vi"></ImageButton>
             </LinearLayout>
 

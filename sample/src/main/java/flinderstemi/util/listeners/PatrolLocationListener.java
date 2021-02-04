@@ -5,6 +5,7 @@ import android.util.Log;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
+import com.robotemi.sdk.sample.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -14,11 +15,13 @@ import flinderstemi.StateMachine;
 public class PatrolLocationListener implements OnGoToLocationStatusChangedListener {
     StateMachine stateMachine;
     Robot robot;
+    MainActivity main;
 
-    public PatrolLocationListener(Robot r, StateMachine stateMachine) {
+    public PatrolLocationListener(Robot r, StateMachine stateMachine, MainActivity main) {
         Log.d(Global.LISTENER, "Constructing patrolLocationListener");
         this.stateMachine = stateMachine;
         this.robot = r;
+        this.main = main;
     }
 
     @Override
@@ -30,6 +33,7 @@ public class PatrolLocationListener implements OnGoToLocationStatusChangedListen
         synchronized (stateMachine) {
             switch (status) {
                 case OnGoToLocationStatusChangedListener.COMPLETE:
+                    main.enableLanguageSwitching();
                     stateMachine.removeISL();
                     System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify");
                     stateMachine.setWakeCondition(new String[]{"LOCATION", "COMPLETE"});
