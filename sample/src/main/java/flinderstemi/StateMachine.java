@@ -409,11 +409,12 @@ public class StateMachine implements Runnable {
                     @Override
                     public void run() {
                         main.disableLanguageSwitching();
+                        main.toMainMenu();
                     }
                 });
 
                 robot.goTo(locations.get(locationIndex));
-                Log.v(Global.SYSTEM, Boolean.toString(robot.isNavigationBillboardDisabled()));
+                Log.v(Global.SYSTEM, "NavBillboard.isDisabled\t=\t" + robot.isNavigationBillboardDisabled());
                 setISL();
                 //if there are no more loops to be done, go to next state. The equality operator allows for a maxPatrolLoops of -1 to result in infinite looping until manual termination.
                 if (locationLoopIndex == maxPatrolLoops) {
@@ -428,7 +429,6 @@ public class StateMachine implements Runnable {
                 break;
             case TERMINATED:
                 Log.d(Global.SEQUENCE, "switch (state = TERMINATED = " + TERMINATED + ")");
-                //speak(TtsRequest.create("Routine Terminated", true)); //this may overwrite the previous ttsrequest
                 break;
             case STUCK:
                 Log.d(Global.SEQUENCE, "switch (state = STUCK = " + STUCK + ")");

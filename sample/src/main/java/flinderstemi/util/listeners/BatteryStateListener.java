@@ -138,22 +138,20 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             Log.d(Global.STATE, "autoStart = false");
 
             //format button to be in the false state
-            String s = Global.resources.getString(R.string.t_chargingASOff);
             startButton.setText(Global.resources.getText(R.string.b_turnOnAutoStart));
-            main.updateThought(String.format(s) + SOC, Global.Emoji.eSleeping);
+            main.updateThought(Global.resources.getString(R.string.t_chargingASOff), Global.Emoji.eSleeping);
 //
-            Log.d(Global.UI, "startButton.setText( \"" + s + "\" )");
+            Log.d(Global.UI, "startButton.setText( \"" + Global.resources.getString(R.string.t_chargingASOff) + "\" )");
             Log.i("BATTERY", "Patrol auto-start disabled.");
         } else {
             autoStart = true;
             Log.d(Global.STATE, "autoStart = true");
 
             //format button to be in the true state
-            String s = Global.resources.getString(R.string.t_chargingASOn);
             startButton.setText(Global.resources.getText(R.string.b_turnOffAutoStart));
-            main.updateThought(String.format(s) + SOC, Global.Emoji.eSleeping);
+            main.updateThought(Global.resources.getString(R.string.t_chargingASOn), Global.Emoji.eSleeping);
 
-            Log.d(Global.UI, "startButton.setText( \"" + s + "\" )");
+            Log.d(Global.UI, "startButton.setText( \"" + Global.resources.getString(R.string.t_chargingASOn) + "\" )");
             Log.i("BATTERY", "Patrol auto-start enabled.");
         }
     }
@@ -169,19 +167,17 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         Log.i(Global.SEQUENCE, "autoStart = " + isAutoStart());
         if (isAutoStart()) {
             //format button to be in the true state
-            String s = Global.resources.getString(R.string.t_chargingASOn);
             startButton.setText(Global.resources.getText(R.string.b_turnOffAutoStart));
-            main.updateThought(String.format(s) + SOC, Global.Emoji.eSleeping);
+            main.updateThought(Global.resources.getString(R.string.t_chargingASOn), Global.Emoji.eSleeping);
 
-            Log.d(Global.UI, "startButton.setText( \"" + s + "\" )");
+            Log.d(Global.UI, "startButton.setText( \"" + Global.resources.getString(R.string.t_chargingASOn) + "\" )");
             Log.i("BATTERY", "Patrol auto-start enabled.");
         } else {
             //format button to be in the false state
-            String s = Global.resources.getString(R.string.t_chargingASOff);
             startButton.setText(Global.resources.getText(R.string.b_turnOnAutoStart));
-            main.updateThought(String.format(s) + SOC, Global.Emoji.eSleeping);
+            main.updateThought(Global.resources.getString(R.string.t_chargingASOff), Global.Emoji.eSleeping);
 //
-            Log.d(Global.UI, "startButton.setText( \"" + s + "\" )");
+            Log.d(Global.UI, "startButton.setText( \"" + Global.resources.getString(R.string.t_chargingASOff) + "\" )");
             Log.i("BATTERY", "Patrol auto-start disabled.");
         }
 
