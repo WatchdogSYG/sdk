@@ -500,6 +500,15 @@ public class StateMachine implements Runnable {
             }
         }
         //TERMINATED
+        main.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                main.getStopButton().setEnabled(false);
+            }
+        });
+        removeISL();
+        removeDetectionListener();
+        removePLL();
         Log.d(Global.SEQUENCE, "Terminated: Reached end of Routine");
     }
 }

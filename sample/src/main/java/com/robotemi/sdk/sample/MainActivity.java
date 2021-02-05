@@ -1,7 +1,9 @@
 package com.robotemi.sdk.sample;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,10 +23,12 @@ import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.listeners.OnBatteryStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
+import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnRobotReadyListener;
 import com.robotemi.sdk.navigation.model.SpeedLevel;
 import com.robotemi.sdk.permission.Permission;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -66,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements
     private Button returnButton;
     private ViewFlipper vf;
 
-    String thoughtPrefix;
-
     /*******************************************************************************************
      *                                         State                                           *
      ******************************************************************************************/
@@ -75,12 +77,23 @@ public class MainActivity extends AppCompatActivity implements
     private int lang;
     List<ImageButton> langButtons;
 
+    Context c;
+    Resources r;
+
     /*******************************************************************************************
      *                                        Get/Set                                          *
      ******************************************************************************************/
 
     public Button getStartButton() {
         return startButton;
+    }
+
+    public Button getStopButton() {
+        return stopButton;
+    }
+
+    public Button getReturnButton() {
+        return returnButton;
     }
 
     /*******************************************************************************************
@@ -93,6 +106,13 @@ public class MainActivity extends AppCompatActivity implements
      * @param view
      */
     public void toMainMenu(View view) {
+        vf.setDisplayedChild(0);
+    }
+
+    /**
+     *
+     */
+    public void toMainMenu() {
         vf.setDisplayedChild(0);
     }
 
@@ -114,7 +134,9 @@ public class MainActivity extends AppCompatActivity implements
 
     /**
      * This method is called by the default OnClickListener of the main button: <code>startButton</code>.
-     * It checks if the robot is charging. If it is charging, the robot will notify the user and prompt the user to click the button to allow auto start when battery is full similar to the ChargingHighOnClickListener.
+     * It checks if the robot is charging. If it is charging, the robot will notify the user and
+     * prompt the user to click the button to allow auto start when battery is full similar to the
+     * <code>ChargingHighOnClickListener</code>.
      *
      * @param view The startButton that was clicked.
      */
@@ -122,40 +144,38 @@ public class MainActivity extends AppCompatActivity implements
         //check what to initially do based on SOC
         BatteryData bd = robot.getBatteryData();
         int soc = bd.getBatteryPercentage();
-        Log.i("BATTERY", Integer.toString(soc));
+        Log.i(Global.BATTERY, "SOC\t=\t" + soc);
 
         if (soc <= Global.SOC_LOW) {
             //low battery
             if (robot.getBatteryData().isCharging()) {
                 //tell the user it is charging
-                robot.speak(TtsRequest.create("Hello, I am low on battery. Press the button on the screen if you want me to start patrolling when my battery is full.", false));
+                robot.speak(TtsRequest.create(r.getString(R.string.lowCharging), false));
                 //set UI elements
-                startButton.setText("Auto-start patrol when battery is full");
+                startButton.setText(r.getString(R.string.b_turnOnAutoStart));
+                updateThought(r.getString(R.string.t_chargingASOff), Global.Emoji.eSleeping);
                 startButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startButton.setText("Cancel Auto-Start");
-                        updateThought("Charging... will auto start", Global.Emoji.eSleeping);
+                        startButton.setEnabled(false);
+                        startButton.setVisibility(View.INVISIBLE);
+                        updateThought(r.getString(R.string.t_chargingASOn), Global.Emoji.eSleeping);
 
                         robot.addOnBatteryStatusChangedListener(new WaitBatteryListener());
                     }
                 });
             } else {
                 //not charging
-                robot.speak(TtsRequest.create("Hello, I am low on battery and also am not connected to a charging source. Please send me back to the home base so I can charge myself. I can do this automatically if you press the button on the screen.", false));
-                //Give feedback to the user that we are returning and disable further input
-                stvc.updateThought("My battery is low and I am not charging...", Global.Emoji.eWorried);
-                startButton.setText("Tap to send me back to the home base");
+                robot.speak(TtsRequest.create(r.getString(R.string.lowNotCharging), false));
+                stvc.updateThought(r.getString(R.string.lowCharging), Global.Emoji.eWorried);
+                startButton.setText(r.getString(R.string.b_returnRoutine));
                 routine = new StateMachine(robot, this, StateMachine.RETURNING);
                 synchronized (routine) {
                     new Thread(routine).start();
                 }
-                //startButton.setOnClickListener(new ReturnToChargeOnClickListener(this, robot, routine, startButton));
             }
-            //start a SOCListener to detect when we should change the UI to the next stage
         } else {
-            //enough battery
-            //leave at default
+            //enough battery, leave at default
             startRoutineFresh();
         }
     }
@@ -172,41 +192,59 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * @param view
+     * @param view The view that was clicked
      */
     public void stopStateMachine(View view) {
         updateThought(getResources().getString(R.string.cTermination), Global.Emoji.eTear);
-        routine.stop();
+        if (routine != null) {
+            routine.stop();
+            routine = null;
+        }
         stopButton.setEnabled(false);
         returnButton.setEnabled(false);
         startButton.setVisibility(View.VISIBLE);
+        startButton.setEnabled(true);
     }
 
     /**
-     * @param view
+     * @param view The view that was clicked
      */
     public void ReturnToBase(View view) {
         updateThought(getResources().getString(R.string.cReturn), Global.Emoji.eRobot);
-        //TODO fix null obj ref
-        if (routine == null) {
-            robot.goTo("home base");
-        } else {
-            robot.goTo("home base");
+        stopButton.setEnabled(false);
+        routine.setState(StateMachine.TERMINATED);
+
+        if (routine != null) {
+            routine.stop();
             routine = null;
         }
+
+        robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {
+            @Override
+            public void onGoToLocationStatusChanged(@NotNull String location, @NotNull String status, int descriptionId, @NotNull String description) {
+                if ((location == "home base") & (status == COMPLETE)) {
+                    startButton.setVisibility(View.VISIBLE);
+                    startButton.setEnabled(true);
+                    returnButton.setEnabled(false);
+                    updateThought(r.getString(R.string.en_prompt), Global.Emoji.eGrinning);
+                    toMainMenu();
+                    robot.removeOnGoToLocationStatusChangedListener(this);
+                }
+            }
+        });
+
+        robot.goTo("home base");
     }
 
     /**
-     * @param view
+     * Stops the routine and calls finish() on the main Activity.
+     * @param view The view that was clicked
      */
     public void returnToLauncher(View view) {
-        try {
+        if (routine != null) {
             routine.stop();
-        } catch (NullPointerException npe) {
-            npe.printStackTrace();
         }
-
-        System.out.println("FLINTEMI: Calling finish(). Shutting down app immediately.");
+        Log.d(Global.SYSTEM, "finish(). Shutting down app immediately. If Kiosk mode is on, and it is set to this app the app should restart.");
         finish();
     }
 
@@ -214,12 +252,72 @@ public class MainActivity extends AppCompatActivity implements
      * @param view
      */
     public void debugArea(View view) {
-        Log.i("Battery", Integer.toString(robot.getBatteryData().getBatteryPercentage()));
+        Log.i(Global.BATTERY, "SOC\t=\t" + robot.getBatteryData().getBatteryPercentage());
     }
 
     /*******************************************************************************************
      *                               Program Initialisation                                    *
      ******************************************************************************************/
+
+    /**
+     * Called on Activity instantiation.
+     * <p>
+     * Sets <code>GlobalParameters</code> member variables to appropriate /res fields.
+     * Verifies permissions.
+     * Gets TemiSDK's Robot Instance.
+     * Initialises UI View Elements.
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //get Global Parameters for use in the app
+        new Global(this, robot);//call GP constr to get values from /res
+
+        FontRequest fontRequest = new FontRequest(
+                "com.google.android.gms.fonts",
+                "com.google.android.gms",
+                "emoji compat Font Query",
+                R.array.com_google_android_gms_fonts_certs);
+        EmojiCompat.Config config = new FontRequestEmojiCompatConfig(this, fontRequest);
+        config.registerInitCallback(new EmojiCompat.InitCallback() {
+
+        });
+        EmojiCompat.init(config);
+        Log.v(Global.SYSTEM, "EmojiCompat LoadState\t=\t" + Integer.toString(EmojiCompat.get().getLoadState()));
+
+        //This needs Android locale support to be done rubustly. Since we are only changing one line for 5 langs on button press, this is not necessary for this project.
+        lang = EN;
+
+        setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        // get an instance of the robot in order to begin using its features.
+        robot = Robot.getInstance();
+        stvc = this;
+
+        //initialise Views in UI
+        initViews();
+    }
+
+    //TODO initialise based on stored options
+
+    /**
+     * Called on Activity start.
+     * Sets Event Listeners.
+     * Sets TemiSDK.Robot options.
+     * Miscellaneous UI initialisations.
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        robot.addOnRobotReadyListener(this);
+        robot.addOnConstraintBeWithStatusChangedListener(this);
+
+        c = getApplicationContext();
+        r = c.getResources();
+    }
 
     /**
      * Called on Temi Android software initialisation.
@@ -255,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements
         robot.hideTopBar();
         robot.setPrivacyMode(true);
         robot.toggleNavigationBillboard(true);
-        robot.setTopBadgeEnabled(false);
+        robot.setTopBadgeEnabled(true);
         robot.toggleWakeup(true);
         robot.requestToBeKioskApp();
 
@@ -264,89 +362,8 @@ public class MainActivity extends AppCompatActivity implements
                 "\n\tSpeed\t\t\t=\t" + robot.getGoToSpeed() +
                 "\n\tTop Badge\t\t=\t" + robot.isTopBadgeEnabled() +
                 "\n\tNavBillboard\t=\t" + robot.isNavigationBillboardDisabled() +
-                "\n\tWakeup\t\t\t=\t" + robot.isWakeupDisabled() +
+                "\n\tWakeupDisabled\t=\t" + robot.isWakeupDisabled() +
                 "\n\tKioskApp\t\t=\t" + robot.isSelectedKioskApp());
-        thoughtPrefix = getResources().getString(R.string.cPrefix);
-    }
-
-    /**
-     * Called on Activity instantiation.
-     * <p>
-     * Sets <code>GlobalParameters</code> member variables to appropriate /res fields.
-     * Verifies permissions.
-     * Gets TemiSDK's Robot Instance.
-     * Initialises UI View Elements.
-     *
-     * @param savedInstanceState
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //get Global Parameters for use in the app
-        new Global(this, robot);//call GP constr to get values from /res
-
-        FontRequest fontRequest = new FontRequest(
-                "com.google.android.gms.fonts",
-                "com.google.android.gms",
-                "emoji compat Font Query",
-                R.array.com_google_android_gms_fonts_certs);
-        EmojiCompat.Config config = new FontRequestEmojiCompatConfig(this, fontRequest);
-        config.registerInitCallback(new EmojiCompat.InitCallback() {
-
-        });
-        EmojiCompat.init(config);
-        Log.v(Global.SYSTEM, Integer.toString(EmojiCompat.get().getLoadState()));
-        //TODO locale?
-        lang = EN;
-        setContentView(R.layout.activity_main);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-
-        //Verify permissions here
-        //do not need storage permissions for this app, maybe later to have some persistent options or debug
-        //verifyStoragePermissions(this);
-        /*if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(Global.SYSTEM, "READ_EXTERNAL_STORAGE GRANTED");
-        } else {
-            Log.d(Global.SYSTEM, "READ_EXTERNAL_STORAGE REQUESTING");
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(Global.SYSTEM, "WRITE_EXTERNAL_STORAGE GRANTED");
-        } else {
-            Log.d(Global.SYSTEM, "WRITE__EXTERNAL_STORAGE REQUESTING");
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(Global.SYSTEM, "CAPTURE_AUDIO_OUTPUT GRANTED");
-        } else {
-            Log.d(Global.SYSTEM, "CAPTURE_AUDIO_OUTPUT REQUESTING");
-            requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-        }*/
-
-        // get an instance of the robot in order to begin using its features.
-        robot = Robot.getInstance();
-        stvc = this;
-
-        //initialise Views in UI
-        initViews();
-    }
-
-    //TODO initialise based on stored options
-
-    /**
-     * Called on Activity start.
-     * Sets Event Listeners.
-     * Sets TemiSDK.Robot options.
-     * Miscellaneous UI initialisations.
-     */
-    @Override
-    protected void onStart() {
-        super.onStart();
-        robot.addOnRobotReadyListener(this);
-        robot.addOnConstraintBeWithStatusChangedListener(this);
     }
 
     /**
@@ -504,7 +521,6 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void run() {
                 //TODO use string res with placeholders
-                //TODO remove Thoughtprefix
                 Log.d(Global.UI, "Thought\t=\t\"" + string + "\"");
                 thoughtTextView.setText(string);
                 faceTextView.setText(emoji);

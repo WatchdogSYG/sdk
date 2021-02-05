@@ -9,7 +9,6 @@
     <string name="btn_returnToMain">Return to Main Menu</string>
     <string name="help">This is where I would display system diagnostics, state or help info&#8230;\n\nYou can get Temi to follow you by tapping it on the top of the head. It will stop following you if it can\'t find you, or if you tap it on the top of the head again.\n\nTo manage LOCATIONS, terminate this app and return to the Launcher. Go to the apps menu [icon] and click on "Locations". From there you can tap the ... to edit saved locations.\n\nReminder: Temi will patrol by cycling through all saved locations in order, except for the home base. Please do not delete the home base location.</string>
     <string name="caption_qr">Scan the QR code with your device to access the Online User Manual on GitHub.</string>
-    <string name="cPrefix">Current Action:\u0020</string>
     <string name="cInit">Initialisation&#8230;</string>
     <string name="cTermination">Routine Terminated.</string>
     <string name="cWait">I am waiting here. Feel free to use my touch-less hand sanitiser dispenser!</string>
@@ -20,6 +19,7 @@
 
     <string name="constructingStateMachine">Constructing State Machine</string>
 
+
     <string name="eMask">&#x1F637;</string>
     <string name="eGrinningSmiling">&#x1F604;</string>
     <string name="eWorried">&#x1F61F;</string>
@@ -27,6 +27,7 @@
     <string name="eThinking">&#x1F914;</string>
     <string name="eTear">&#x1F622;</string>
     <string name="eRobot">&#x1F916;</string>
+
 
     <string name="l_ccby">Creative Commons Attribution 3.0 Unported (CC BY 3.0)\n
         at https://creativecommons.org/licenses/by/3.0/</string>

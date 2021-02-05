@@ -1,10 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?><!--> This string resource file should contain the ENGLISH (en-au) speech and text strings with appropriate HTML and Rich Text formatting that the application will use. <-->
+<?xml version="1.0" encoding="utf-8"?><!-->
+This string resource file should contain the ENGLISH (en-au) speech and text strings with appropriate HTML and Rich Text formatting that the application will use.
+
+Prefixes:
+    b_  button text
+    t_  thought text
+<-->
+
 <resources>
     <!--> SPEECH <-->
     <string name="greeting1">Starting custom routine. Beep boop.</string>
     <string name="greeting2">I will start my patrol.</string>
     <string name="waitSpeech1">I will wait here for</string><!--> int seconds <-->
-    <string name="waitSpeech2">seconds. Please take a moment to wash your hands.</string>
+    <string name="waitSpeech2">seconds. Please take a moment to clean your hands.</string>
+
+    <string name="lowCharging">Hello, I am low on battery. Press the button on the screen if you want me to start patrolling when I\'ve finished charging.</string>
+    <string name="lowNotCharging">Hello, I am low on battery and also am not connected to a charging source. Please send me back to the home base so I can charge myself. I can do this automatically if you press the button on the screen.</string>
 
     <string-array name="ambientSpeech">
         <item>Excuse me</item>
@@ -13,17 +23,19 @@
         <item>Beep beep coming through</item>
         <item>Coming through</item>
         <item>On my way</item>
-        <item>I love you</item>
     </string-array>
+
 
     <!--> TEXT <-->
     <string name="en_prompt">Take a moment to clean your hands</string>
 
+
     <string name="t_waitText">Waiting&#8230;</string>
     <string name="b_turnOnAutoStart">Turn ON Patrol Auto-Start</string>
     <string name="b_turnOffAutoStart">Turn OFF Patrol Auto-Start</string>
-    <string name="t_chargingASOn">I am charging: %% I will start patrolling again automatically when I am fully charged.</string>
-    <string name="t_chargingASOff">I am charging: %% You\'ll need to manually activate my patrol function again when I am fully charged.</string>
+    <string name="t_chargingASOn">Charging  |  Auto-start mode: on</string>
+    <string name="t_chargingASOff">Charging  |  Auto-start mode: off</string>
+    <string name="b_returnRoutine">Tap to send me back to the home base</string>
 
     <string name="b_returning">Returning to Home Base</string>
     <string name="t_returning">I am going back to the home base to charge.</string>

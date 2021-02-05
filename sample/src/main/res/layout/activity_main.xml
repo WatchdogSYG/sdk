@@ -126,7 +126,7 @@
                     android:layout_height="64dp"
                     android:layout_gravity="bottom"
                     android:background="@color/colorAccent"
-                    android:fontFamily="@font/sansation"
+                    android:fontFamily="@font/abril_fatface"
                     android:onClick="toAbout"
                     android:text="i"
                     android:textAllCaps="false"

@@ -4,7 +4,7 @@
     </integer> <!-->The maximum number of times the robot should patrol each location before stopping. Set to a negative number if you want endless looping.<-->
     <integer name="SOCH">100
     </integer><!-->The battery percentage that Temi will automatically return to patrolling when automatically charging.<-->
-    <integer name="SOCL">90
+    <integer name="SOCL">98
     </integer><!-->The battery percentage at which Temi will automatically return to the Home Base to charge when patrolling. It is also the battery percentage at which Temi will not start patrolling if initialised on the Home Base.<-->
     <integer name="SOCBuffer">1
     </integer><!-->The buffer that is implemented when charging. When charging, Temi will not be able to return to patrolling manually until the SOC has reached above SOCL+  SOCBuffer.<-->
