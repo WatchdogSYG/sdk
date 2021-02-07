@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!-->
 This string resource file should contain the ENGLISH (en-au) speech and text strings with appropriate HTML and Rich Text formatting that the application will use.
 
-Prefixes:
+Text Prefixes:
     b_  button text
     t_  thought text
 <-->
@@ -29,6 +29,7 @@ Prefixes:
     <!--> TEXT <-->
     <string name="en_prompt">Take a moment to clean your hands</string>
 
+    <string name="t_nextWaypoint">Going to the next waypoint&#8230;</string>
 
     <string name="t_waitText">Waiting&#8230;</string>
     <string name="b_turnOnAutoStart">Turn ON Patrol Auto-Start</string>
@@ -36,7 +37,11 @@ Prefixes:
     <string name="t_chargingASOn">Charging  |  Auto-start mode: on</string>
     <string name="t_chargingASOff">Charging  |  Auto-start mode: off</string>
     <string name="b_returnRoutine">Tap to send me back to the home base</string>
+    <string name="b_forceStartCharging">Force Start Patrol Now</string>
+    <string name="t_forceStart">Charging  |  Tap to force start patrol now.\nAuto-start: </string>
+    <string name="t_ready">Ready to start patrol</string>
 
     <string name="b_returning">Returning to Home Base</string>
     <string name="t_returning">I am going back to the home base to charge.</string>
+    <string name="t_finalLoop">Completed all patrol loops. I will now return to the home base.</string>
 </resources>

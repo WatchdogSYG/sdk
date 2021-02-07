@@ -68,7 +68,7 @@
                 android:background="@color/red"
                 android:fontFamily="@font/sansation_bold"
                 android:onClick="startStateMachine"
-                android:text="Start Routine"
+                android:text="@string/start"
                 android:textSize="18sp"
                 android:visibility="visible" />
 

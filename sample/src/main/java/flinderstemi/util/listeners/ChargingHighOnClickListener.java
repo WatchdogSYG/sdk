@@ -3,7 +3,6 @@ package flinderstemi.util.listeners;
 import android.view.View;
 
 //TODO Quality - Check the Auto-start toggleable state on initialisation.
-
 /**
  * This Listener should be set on a button at a time when the robot is on battery and is trying to charge.
  * If the button is pressed, start the patrol regardless of current SOC.

@@ -1,6 +1,8 @@
 package flinderstemi;
 
-//TODO enum?
+/**
+ * This class contains int IDs for the supported languages.
+ */
 public class LanguageID {
     public static final int EN = 0;
     public static final int CN = 1;

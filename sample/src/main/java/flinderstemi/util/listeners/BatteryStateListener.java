@@ -15,8 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import flinderstemi.Global;
 import flinderstemi.StateMachine;
 
-//TODO Define a new textview that this listener should display to that does not require a SetTextViewCallback.
-
 /**
  * This listener should be activated when the state machine declares a low SOC.
  * It checks the battery SOC as an int 0<SOC<=100 and prints it to a TextView.
@@ -38,7 +36,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
 
     Robot robot;
     MainActivity main;
-    StateMachine stateMachine;
+    final StateMachine stateMachine;
     Button startButton;
 
     ChargingLowOnClickListener lowListener;
@@ -65,10 +63,10 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
      ******************************************************************************************/
 
     /**
-     * @param robot
-     * @param main
-     * @param stateMachine
-     * @param startButton
+     * @param robot        The singleton robot instance.
+     * @param main         The MainActivity callback.
+     * @param stateMachine The StateMachine that instantiated this class. (Callback)
+     * @param startButton  The main interactive button
      */
     public BatteryStateListener(Robot robot, MainActivity main, StateMachine stateMachine, Button startButton) {
         Log.d("SEQUENCE", "Constructing BatteryStateListener");
@@ -142,7 +140,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             main.updateThought(Global.resources.getString(R.string.t_chargingASOff), Global.Emoji.eSleeping);
 //
             Log.d(Global.UI, "startButton.setText( \"" + Global.resources.getString(R.string.t_chargingASOff) + "\" )");
-            Log.i("BATTERY", "Patrol auto-start disabled.");
+            Log.i(Global.BATTERY, "Patrol auto-start disabled.");
         } else {
             autoStart = true;
             Log.d(Global.STATE, "autoStart = true");
@@ -152,7 +150,7 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             main.updateThought(Global.resources.getString(R.string.t_chargingASOn), Global.Emoji.eSleeping);
 
             Log.d(Global.UI, "startButton.setText( \"" + Global.resources.getString(R.string.t_chargingASOn) + "\" )");
-            Log.i("BATTERY", "Patrol auto-start enabled.");
+            Log.i(Global.BATTERY, "Patrol auto-start enabled.");
         }
     }
 
@@ -171,14 +169,14 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
             main.updateThought(Global.resources.getString(R.string.t_chargingASOn), Global.Emoji.eSleeping);
 
             Log.d(Global.UI, "startButton.setText( \"" + Global.resources.getString(R.string.t_chargingASOn) + "\" )");
-            Log.i("BATTERY", "Patrol auto-start enabled.");
+            Log.i(Global.BATTERY, "Patrol auto-start enabled.");
         } else {
             //format button to be in the false state
             startButton.setText(Global.resources.getText(R.string.b_turnOnAutoStart));
             main.updateThought(Global.resources.getString(R.string.t_chargingASOff), Global.Emoji.eSleeping);
 //
             Log.d(Global.UI, "startButton.setText( \"" + Global.resources.getString(R.string.t_chargingASOff) + "\" )");
-            Log.i("BATTERY", "Patrol auto-start disabled.");
+            Log.i(Global.BATTERY, "Patrol auto-start disabled.");
         }
 
         Log.i(Global.LISTENER, "Start Button OnClickListener = lowListener");
@@ -189,8 +187,8 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         Log.i(Global.BATTERY, "Battery SOC = HIGH");
         Log.d(Global.BATTERY, "formatHighSOCStartButton");
 
-        startButton.setText("Force Start Patrol Now");
-        main.updateThought("Charging " + SOC + "%. Auto-start patrol when full battery. Tap the button to start the patrol now." + Boolean.toString(autoStart), Global.Emoji.eSleeping);
+        startButton.setText(Global.resources.getString(R.string.b_forceStartCharging));
+        main.updateThought(Global.resources.getString(R.string.t_forceStart) + autoStart, Global.Emoji.eSleeping);
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
 
@@ -202,21 +200,23 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         Log.i(Global.BATTERY, "Battery SOC = FULL");
         Log.d(Global.BATTERY, "formatFULLSOCStartButton");
 
-        //if the statemachine doesnt exist at startup, the ChargingFullOnClickListener will never have a @NonNull member variable for stateMachine, and therefore will never be able to call fullWakeStateMachine from its OnClick method.
+        //if the statemachine doesnt exist at startup, the ChargingFullOnClickListener will never
+        // have a @NonNull member variable for stateMachine, and therefore will never be able to
+        // call fullWakeStateMachine from its OnClick method.
         //we need to set one
 
         //if autostart, start
         //otherwise provide a button
         if (autoStart) {
-            Log.i("SEQUENCE", "Auto-starting");
-            Log.d("SEQUENCE", "autostart = true. fullWakeStateMachine()");
+            Log.i(Global.SEQUENCE, "Auto-starting");
+            Log.d(Global.SEQUENCE, "autostart = true. fullWakeStateMachine()");
             fullWakeStateMachine();
             startButton.setVisibility(View.GONE);
         } else {
             startButton.setVisibility(View.VISIBLE);
-            startButton.setText("Start Patrol");
-            main.updateThought("Ready to Start Patrol", Global.Emoji.eRobot);
-            Log.i("LISTENER", "Start Button OnClickListener = highListener");
+            startButton.setText(Global.resources.getString(R.string.start));
+            main.updateThought(Global.resources.getString(R.string.t_ready), Global.Emoji.eRobot);
+            Log.i(Global.LISTENER, "Start Button OnClickListener = highListener");
             startButton.setOnClickListener(fullListener);
         }
     }
@@ -243,7 +243,8 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
     }
 
     /**
-     * @param batteryData
+     * Sets the BatteryStateListener and relevant Views based on the battery level.
+     * @param batteryData The current battery state
      */
     @Override
     public void onBatteryStatusChanged(@Nullable BatteryData batteryData) {
@@ -251,10 +252,9 @@ public class BatteryStateListener implements OnBatteryStatusChangedListener {
         SOC = batteryData.getBatteryPercentage();
         int bs = batteryState((SOC));
 
-        Log.v("LISTENER", "onBatteryStatusChanged event:\n\tsoc=\t=\t" + SOC +
+        Log.v(Global.LISTENER, "onBatteryStatusChanged event:\n\tsoc=\t=\t" + SOC +
                 "\n\tisCharging\t=\t" + batteryData.isCharging());
 
-        //TODO warn devs about interrupting the sm using the battery soc changed announcement
         //check thresholds
         if ((bs == LOW) || (bs == BUFFER)) {
             formatLowSOCStartButton();

@@ -66,7 +66,7 @@ public class ReturnToChargeOnClickListener implements View.OnClickListener {
         Log.d(Global.LISTENER, "Removed OnClickListener from startButton: " + s.toString());
 
 
-        stateMachine.setISL();
+        stateMachine.setNewISL();
 
     }
 }

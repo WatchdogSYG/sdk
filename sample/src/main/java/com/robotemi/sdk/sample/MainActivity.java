@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //get Global Parameters for use in the app
-        new Global(this, robot);//call GP constr to get values from /res
+        new Global(this);//call GP constr to get values from /res
 
         FontRequest fontRequest = new FontRequest(
                 "com.google.android.gms.fonts",

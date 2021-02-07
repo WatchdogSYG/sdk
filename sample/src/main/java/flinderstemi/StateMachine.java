@@ -1,10 +1,5 @@
 package flinderstemi;
 
-//TODO this javadoc
-/**
- * JDoc
- */
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
@@ -28,15 +23,27 @@ import flinderstemi.util.listeners.ReturnToChargeLocationListener;
 import flinderstemi.util.listeners.TTSSequenceListener;
 import flinderstemi.util.listeners.WaitSpeechListener;
 
+//TODO this javadoc
+
+/**
+ * JDoc
+ */
 public class StateMachine implements Runnable {
 
     /*******************************************************************************************
      *                                        Calibration                                      *
      ******************************************************************************************/
 
-    private long idleTimeDuration;
+    private final long idleTimeDuration;//make this non-final if you plan to add a feature that allows this to be changed
+
     Context c;
     Resources r;
+
+    public static final int GREETING = 0;
+    public static final int PATROLLING = 1;
+    public static final int TERMINATED = 2;
+    public static final int STUCK = 3;
+    public static final int RETURNING = 4;
 
     /*******************************************************************************************
      *                                        Callbacks                                        *
@@ -45,31 +52,23 @@ public class StateMachine implements Runnable {
     MainActivity main;
 
     /*******************************************************************************************
-     *                                        State Vars                                       *
+     *                                          State                                          *
      ******************************************************************************************/
 
     //robot and state variables
     Robot robot;
-
     private int state;
 
-    public static final int GREETING = 0;
-    public static final int PATROLLING = 1;
-    public static final int TERMINATED = 2;
-    public static final int STUCK = 3;
-    public static final int RETURNING = 4;
-
     //state sentinel indices
+    private int initialState;
     private int speechIndex;
     private int locationIndex;
     private int locationLoopIndex;
-    final int maxPatrolLoops = Global.MAX_PATROL_LOOPS;
-    private int initialState;
+    private final int maxPatrolLoops = Global.MAX_PATROL_LOOPS;
 
     //send messages to other thread through these variables
     private boolean completeSpeechSub;
     private boolean completePatrolSub;
-
 
     private boolean greeted = false;
 
@@ -148,8 +147,7 @@ public class StateMachine implements Runnable {
         Log.v(Global.LISTENER, "Removed BatteryStateListener extends OnBatteryStatusChangedListener: " + batteryStateListener.toString());
     }
 
-    //no args since isl should be singleton
-    public void setISL() {
+    public void setNewISL() {
         isl = new IdleSpeechListener(robot, main);
         robot.addTtsListener(isl);
         Log.d(Global.LISTENER, "Set IdleSpeechListener");
@@ -334,10 +332,6 @@ public class StateMachine implements Runnable {
                     case "DETECTION":
                         System.out.println(wakeCondition[1]);
                         switch (wakeCondition[1]) {
-                            case "IDLE":
-                                //TODO
-                                this.main.updateThought("DetectionState: IDLE", Global.Emoji.eThinking);
-                                break;
                             case "LOST":
                                 //TODO
                                 // this.stvc.updateThought("DetectionState: LOST");
@@ -349,7 +343,7 @@ public class StateMachine implements Runnable {
                         }
                         break;
                     default:
-                        System.out.println("FLINTEMI: default wake switch");
+                        Log.e(Global.ABORT, "Patrolling DETECTION default wake switch");
                         break;
                 }
                 break;
@@ -397,8 +391,7 @@ public class StateMachine implements Runnable {
                 Log.d(Global.SEQUENCE, "switch (state = PATROLLING = " + PATROLLING + ")");
                 //TODO print message when no locations are saved as this throws an indexoutofbounds exception
 
-                main.updateThought("Going to the next waypoint ...", Global.Emoji.eThinking);
-                //speak(TtsRequest.create("I'm going to the next waypoint now. Goodbye.", false));
+                main.updateThought(Global.resources.getString(R.string.t_nextWaypoint), Global.Emoji.eThinking);
 
                 Log.i(Global.LOCATION, "Going to the next location");
                 Log.d(Global.LOCATION, "GoToLocation:\n" +
@@ -415,11 +408,11 @@ public class StateMachine implements Runnable {
 
                 robot.goTo(locations.get(locationIndex));
                 Log.v(Global.SYSTEM, "NavBillboard.isDisabled\t=\t" + robot.isNavigationBillboardDisabled());
-                setISL();
+                setNewISL();
                 //if there are no more loops to be done, go to next state. The equality operator allows for a maxPatrolLoops of -1 to result in infinite looping until manual termination.
                 if (locationLoopIndex == maxPatrolLoops) {
                     Log.d(Global.SEQUENCE, "Completed all loops, returning to HB.");
-                    main.updateThought("Completed all patrol loops. I will now return to the home base.", Global.Emoji.eRobot);
+                    main.updateThought(Global.resources.getString(R.string.t_finalLoop), Global.Emoji.eRobot);
 
                     Log.v(Global.STATE, "completePatrolSub\t=\ttrue");
                     completePatrolSub = true;
