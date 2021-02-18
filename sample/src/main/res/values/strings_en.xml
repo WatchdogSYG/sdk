@@ -8,7 +8,7 @@ Text Prefixes:
 
 <resources>
     <!--> SPEECH <-->
-    <string name="greeting1">Starting custom routine. Beep boop.</string>
+    <string name="greeting1">Starting my routine. Beep boop.</string>
     <string name="greeting2">I will start my patrol.</string>
     <string name="waitSpeech1">I will wait here for</string><!--> int seconds <-->
     <string name="waitSpeech2">seconds. Please take a moment to clean your hands.</string>

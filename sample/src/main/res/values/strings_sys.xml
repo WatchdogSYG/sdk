@@ -41,4 +41,11 @@
         \t"Ensign, flag, nation, vietnam icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original\n
         \t"Ensign, flag, greece, nation icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original\n
         \t"Ensign, flag, italy, nation icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original</string>
+
+    <string name="l_apache2">Apache Licence, Version 2.0\nat https://www.apache.org/licenses/LICENSE-2.0.html</string>
+    <string name="l_apache2_items">\tThe Temi SDK and sample code which this application has been built from is licenced under the Apache Licence, Version 2.0.</string>
+
+    <string name="l_ofl">SIL Open Font Licence (OFL)\nat https://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web</string>
+    <string name="l_ofl_items">Fonts:\n
+    \tSansation Font Family</string>
 </resources>

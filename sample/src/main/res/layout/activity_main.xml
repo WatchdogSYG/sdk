@@ -18,8 +18,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/colorPrimaryDark"
-            android:layout_weight="50">
+            android:layout_weight="50"
+            android:background="@color/colorPrimaryDark">
 
             <TextView
                 android:id="@+id/thoughtTextView"
@@ -78,9 +78,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="25"
+            android:background="@color/colorPrimaryDark"
             android:gravity="bottom"
             android:orientation="horizontal"
-            android:background="@color/colorPrimaryDark"
             android:padding="8dp"
             android:weightSum="100">
 
@@ -133,44 +133,44 @@
                     android:textSize="30sp"></Button>
 
                 <ImageButton
+                    android:id="@+id/btn_en"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="32dp"
-                    android:onClick="langEN"
-                    android:id="@+id/btn_en"
-                    android:background="@drawable/flag_iconfinder_onesel_en"></ImageButton>
+                    android:background="@drawable/flag_iconfinder_onesel_en"
+                    android:onClick="langEN"></ImageButton>
 
                 <ImageButton
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginLeft="8dp"
-                    android:onClick="langCN"
                     android:id="@+id/btn_cn"
-                    android:background="@drawable/flag_iconfinder_onesel_cn"></ImageButton>
-
-                <ImageButton
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
-                    android:onClick="langEL"
+                    android:background="@drawable/flag_iconfinder_onesel_cn"
+                    android:onClick="langCN"></ImageButton>
+
+                <ImageButton
                     android:id="@+id/btn_el"
-                    android:background="@drawable/flag_iconfinder_mrhopnguyen_el"></ImageButton>
-
-                <ImageButton
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
-                    android:onClick="langIT"
+                    android:background="@drawable/flag_iconfinder_mrhopnguyen_el"
+                    android:onClick="langEL"></ImageButton>
+
+                <ImageButton
                     android:id="@+id/btn_it"
-                    android:background="@drawable/flag_iconfinder_hopnguyen_it"></ImageButton>
-
-                <ImageButton
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_marginLeft="8dp"
-                    android:onClick="langVI"
+                    android:background="@drawable/flag_iconfinder_hopnguyen_it"
+                    android:onClick="langIT"></ImageButton>
+
+                <ImageButton
                     android:id="@+id/btn_vi"
-                    android:background="@drawable/flag_iconfinder_hopnguyenl_vi"></ImageButton>
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/flag_iconfinder_hopnguyenl_vi"
+                    android:onClick="langVI"></ImageButton>
             </LinearLayout>
 
 
@@ -189,10 +189,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="15"
-            android:gravity="center"
             android:background="@color/colorPrimaryDark"
-            android:text="@string/opMenuHeader"
             android:fontFamily="@font/sansation_bold"
+            android:gravity="center"
+            android:text="@string/opMenuHeader"
             android:textColor="@color/colorWhite"
             android:textSize="50sp"></TextView>
 
@@ -200,8 +200,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="75"
-            android:orientation="vertical"
             android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
             android:padding="6dp">
 
             <LinearLayout
@@ -274,7 +274,7 @@
                         android:layout_height="380dp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:src="@drawable/qr_code_readmemd_teal" />
+                        android:src="@drawable/qr_code_wiki" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -301,19 +301,19 @@
                 android:layout_width="215dp"
                 android:layout_height="match_parent"
                 android:background="@color/blue"
-                android:onClick="toMainMenu"
-                android:textSize="20sp"
                 android:fontFamily="@font/calibri_regular"
+                android:onClick="toMainMenu"
+                android:text="@string/btn_returnToMain"
                 android:textAllCaps="false"
-                android:text="@string/btn_returnToMain"></Button>
+                android:textSize="20sp"></Button>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
         android:weightSum="100">
 
         <TextView
@@ -340,11 +340,53 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="67"
+            android:layout_weight="31"
             android:fontFamily="@font/calibri_regular"
             android:paddingHorizontal="80dp"
             android:paddingTop="20dp"
             android:text="@string/l_ccby_items"
+            android:textColor="@color/colorWhite"
+            android:textSize="19sp"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:fontFamily="@font/calibri_regular"
+            android:paddingHorizontal="80dp"
+            android:text="@string/l_apache2"
+            android:textColor="@color/colorWhite"
+            android:textSize="28sp"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:fontFamily="@font/calibri_regular"
+            android:paddingHorizontal="80dp"
+            android:paddingTop="20dp"
+            android:text="@string/l_apache2_items"
+            android:textColor="@color/colorWhite"
+            android:textSize="19sp"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:fontFamily="@font/calibri_regular"
+            android:paddingHorizontal="80dp"
+            android:text="@string/l_ofl"
+            android:textColor="@color/colorWhite"
+            android:textSize="28sp"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:fontFamily="@font/calibri_regular"
+            android:paddingHorizontal="80dp"
+            android:paddingTop="20dp"
+            android:text="@string/l_ofl_items"
             android:textColor="@color/colorWhite"
             android:textSize="19sp"></TextView>
 
