@@ -4,6 +4,11 @@ temi SDK
 
 For more information please see [the website][1].
 
+FlindersTemi Hospital Patrol App
+--------
+```
+Version 1.0
+```
 
 Download
 --------
