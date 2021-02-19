@@ -155,6 +155,7 @@ public class StateMachine implements Runnable {
     }
 
     public void removeISL() {
+        isl.cancelTimer();
         robot.removeTtsListener(isl);
         Log.d(Global.LISTENER, "Removed IdleSpeechListener");
         Log.v(Global.LISTENER, "Removed IdleSpeechListener extends TtsListener: " + isl.toString());
@@ -424,6 +425,7 @@ public class StateMachine implements Runnable {
                 Log.d(Global.SEQUENCE, "switch (state = TERMINATED = " + TERMINATED + ")");
                 break;
             case STUCK:
+                isl.cancelTimer();
                 Log.d(Global.SEQUENCE, "switch (state = STUCK = " + STUCK + ")");
                 main.updateThought(r.getString(R.string.cStuck), Global.Emoji.eTear);
                 speak(TtsRequest.create("Help, I am stuck. Please notify a staff member of this error. Help, I am stuck. Please notify a staff member of this error. Help, I am stuck. Please notify a staff member of this error.", true));
@@ -435,6 +437,8 @@ public class StateMachine implements Runnable {
                 if (pll != null) {
                     removePLL();
                 }
+
+                isl.cancelTimer();
 
                 robot.stopMovement();
                 Log.i(Global.LOCATION, "Robot Movement Stopped");

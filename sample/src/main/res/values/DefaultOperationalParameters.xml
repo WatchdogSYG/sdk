@@ -9,6 +9,8 @@
     <integer name="SOCBuffer">25
     </integer><!-->The buffer that is implemented when charging. When charging, Temi will not be able to return to patrolling manually until the SOC has reached above SOCL+  SOCBuffer.<-->
 
+    <integer name="pause_ms">1500
+    </integer><!-->The number of milliseconds that Temi will wait after speaking a repeating idle speech line.<-->
     <integer name="wait_ms">15000
     </integer><!-->The number of milliseconds that Temi will wait at a waypoint.<-->
 </resources>

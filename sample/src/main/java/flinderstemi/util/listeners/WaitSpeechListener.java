@@ -85,7 +85,8 @@ public class WaitSpeechListener implements Robot.TtsListener {
 
         if (uuid.compareTo(ttsRequest.getId()) == 0) {
             if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
-                //TODO handle the cases where the TTSRequest fails into the NOT_ALLOWED or ERROR statuses
+                //this has not been observed to occur ever. We do not hav doc about when the NOT_ALLOWED or ERROR cases occur.
+                //NOTTODO handle the cases where the TTSRequest fails into the NOT_ALLOWED or ERROR statuses
 
                 Log.v(Global.LISTENER, "TtsRequest\n" +
                         "UUID\t=\t" + ttsRequest.getId() + "\n" +

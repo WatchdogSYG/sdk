@@ -34,7 +34,6 @@ public class PatrolLocationListener implements OnGoToLocationStatusChangedListen
             switch (status) {
                 case OnGoToLocationStatusChangedListener.COMPLETE:
                     main.enableLanguageSwitching();
-                    stateMachine.removeISL();
                     System.out.println("FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify");
                     stateMachine.setWakeCondition(new String[]{"LOCATION", "COMPLETE"});
                     stateMachine.removeISL();
