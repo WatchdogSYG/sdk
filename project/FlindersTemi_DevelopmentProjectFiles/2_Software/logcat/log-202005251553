@@ -1,0 +1,155 @@
+05-25 15:51:01.060 2930-2930/? I/art: Late-enabling -Xcheck:jni
+05-25 15:51:01.100 2930-2930/com.robotemi.sdk.sample W/System: ClassLoader referenced unknown path: /data/app/com.robotemi.sdk.sample-1/lib/arm
+05-25 15:51:01.113 2930-2930/com.robotemi.sdk.sample D/TemiSdkServiceConnection: startConnection(Context)
+05-25 15:51:01.113 2930-2930/com.robotemi.sdk.sample D/TemiSdkServiceConnection: getSdkServiceIntent()
+05-25 15:51:01.119 2930-2930/com.robotemi.sdk.sample D/TemiSdkServiceConnection: bindServiceUsa=true
+05-25 15:51:01.152 2930-2930/com.robotemi.sdk.sample W/art: Before Android 4.1, method android.graphics.PorterDuffColorFilter androidx.vectordrawable.graphics.drawable.VectorDrawableCompat.updateTintFilter(android.graphics.PorterDuffColorFilter, android.content.res.ColorStateList, android.graphics.PorterDuff$Mode) would have incorrectly overridden the package-private method in android.graphics.drawable.Drawable
+05-25 15:51:01.185 2930-2930/com.robotemi.sdk.sample I/art: Rejecting re-init on previously-failed class java.lang.Class<androidx.core.view.ViewCompat$2>
+05-25 15:51:01.185 2930-2930/com.robotemi.sdk.sample I/art: Rejecting re-init on previously-failed class java.lang.Class<androidx.core.view.ViewCompat$2>
+05-25 15:51:01.285 2930-2946/com.robotemi.sdk.sample D/OpenGLRenderer: Use EGL_SWAP_BEHAVIOR_PRESERVED: true
+05-25 15:51:01.297 2930-2930/com.robotemi.sdk.sample D/TemiSdkServiceConnection: onServiceConnected(ComponentName, IBinder) (name=ComponentInfo{com.roboteam.teamy.usa/com.roboteam.teamy.sdk.SdkService}, service=android.os.BinderProxy@8b37b74, thread=main)
+05-25 15:51:01.344 2930-2946/com.robotemi.sdk.sample I/mali_so: [File] : hardware/arm/maliT760/driver/product/base/src/mali_base_kbase.c; [Line] : 928; [Func] : base_context_deal_with_version_affairs_rk_ext;
+    arm_release_ver of this mali_so is 'r12p0-04rel0', rk_so_ver is '12@0', built at '17:00:15', on 'Aug 16 2016'.
+05-25 15:51:01.344 2930-2946/com.robotemi.sdk.sample I/mali_so: [File] : hardware/arm/maliT760/driver/product/base/src/mali_base_kbase.c; [Line] : 955; [Func] : base_context_deal_with_version_affairs_rk_ext;
+    mali_ver_property has been set to 'r12p0-04rel0-13-12@0', to return.
+05-25 15:51:01.348 2930-2946/com.robotemi.sdk.sample I/OpenGLRenderer: Initialized EGL, version 1.4
+05-25 15:51:01.359 2930-2946/com.robotemi.sdk.sample D/Surface: Surface::final mReqUsage=a00
+05-25 15:51:01.359 2930-2946/com.robotemi.sdk.sample D/mali_winsys: EGLint new_window_surface(egl_winsys_display*, void*, EGLSurface, EGLConfig, egl_winsys_surface**, egl_color_buffer_format*, EGLBoolean) returns 0x3000
+05-25 15:51:01.520 2930-2930/com.robotemi.sdk.sample D/onDetectionStateChanged: state = 0
+05-25 15:51:25.653 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: InitialisationSequence Constructor
+05-25 15:51:25.659 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI Locations=[home base, a, b]
+05-25 15:51:25.659 2930-2930/com.robotemi.sdk.sample I/System.out: End constructor
+05-25 15:51:25.659 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: Create Initialisation Routine
+05-25 15:51:25.660 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: Started
+05-25 15:51:25.660 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: Construct ttsListener
+05-25 15:51:25.660 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: Add new Listener
+05-25 15:51:25.660 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: Added new Listener
+05-25 15:51:25.660 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Run
+05-25 15:51:25.661 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Do action at index=0
+05-25 15:51:25.661 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: speak line at speechIndex=0
+05-25 15:51:25.668 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: speechIndex++
+05-25 15:51:25.668 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: speechIndex=1
+05-25 15:51:25.668 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Finished action at index=0
+05-25 15:51:25.668 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: synchronise routine
+05-25 15:51:25.668 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: try state machine wait
+05-25 15:51:25.674 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:Starting custom routine. Beep boop.
+05-25 15:51:26.515 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: TtsRequest.getStatus()=STARTED:Starting custom routine. Beep boop.
+05-25 15:51:29.471 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:Starting custom routine. Beep boop.
+05-25 15:51:29.471 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+05-25 15:51:29.471 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Do action at index=0
+05-25 15:51:29.471 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: speak line at speechIndex=1
+05-25 15:51:29.477 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: speechIndex++
+05-25 15:51:29.477 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: speechIndex=2
+05-25 15:51:29.477 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: completeSpeechSub set to true
+05-25 15:51:29.477 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Finished action at index=1
+05-25 15:51:29.477 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: synchronise routine
+05-25 15:51:29.477 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: try state machine wait
+05-25 15:51:29.484 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:I will start my patrol.
+05-25 15:51:30.198 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: TtsRequest.getStatus()=STARTED:I will start my patrol.
+05-25 15:51:32.141 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will start my patrol.
+05-25 15:51:32.142 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+05-25 15:51:32.142 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: ttsReqeustStatus=COMPLETED,stateMachine.isCompleteSub=true,notify
+05-25 15:51:32.142 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: addOnGoToLocationStatusChangedListener
+05-25 15:51:32.143 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: Construct patrolLocationListener
+05-25 15:51:32.143 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: ttsListenerRemoved
+05-25 15:51:32.143 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Do action at index=1
+05-25 15:51:32.144 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: going to location=1, name=a
+05-25 15:51:32.146 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Increment locationIndex to locationIndex=2
+05-25 15:51:32.146 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Finished action at index=1
+05-25 15:51:32.146 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: synchronise routine
+05-25 15:51:32.146 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: try state machine wait
+05-25 15:51:32.219 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=0, description=Unknown
+05-25 15:51:32.222 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+05-25 15:51:35.681 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=2001, description=Ground Obstacle
+05-25 15:51:35.681 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+05-25 15:51:56.904 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:51:56.907 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+05-25 15:52:01.311 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=2001, description=Ground Obstacle
+05-25 15:52:01.311 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+05-25 15:52:05.535 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:52:05.537 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+05-25 15:52:10.781 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=2003, description=Lidar Obstacle
+05-25 15:52:10.781 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Lidar Obstacle
+05-25 15:52:11.973 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:52:11.975 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+05-25 15:52:18.610 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=500, description=Unknown
+05-25 15:52:18.612 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+05-25 15:52:18.613 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify
+05-25 15:52:18.613 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Do action at index=1
+05-25 15:52:18.613 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: going to location=2, name=b
+05-25 15:52:18.613 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Reset the location index to 1
+05-25 15:52:18.613 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Loops complete=1
+05-25 15:52:18.613 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Finished action at index=1
+05-25 15:52:18.613 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: synchronise routine
+05-25 15:52:18.613 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: try state machine wait
+05-25 15:52:18.672 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=0, description=Unknown
+05-25 15:52:18.673 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+05-25 15:52:20.512 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:52:20.516 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+05-25 15:52:29.567 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=500, description=Unknown
+05-25 15:52:29.568 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+05-25 15:52:29.568 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify
+05-25 15:52:29.568 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Do action at index=1
+05-25 15:52:29.568 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: going to location=1, name=a
+05-25 15:52:29.569 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Increment locationIndex to locationIndex=2
+05-25 15:52:29.569 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Finished action at index=1
+05-25 15:52:29.569 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: synchronise routine
+05-25 15:52:29.569 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: try state machine wait
+05-25 15:52:29.628 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=0, description=Unknown
+05-25 15:52:29.629 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+05-25 15:52:31.314 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:52:31.317 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+05-25 15:52:42.694 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=500, description=Unknown
+05-25 15:52:42.696 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+05-25 15:52:42.696 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify
+05-25 15:52:42.696 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Do action at index=1
+05-25 15:52:42.696 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: going to location=2, name=b
+05-25 15:52:42.698 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Reset the location index to 1
+05-25 15:52:42.698 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Loops complete=2
+05-25 15:52:42.698 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Finished action at index=1
+05-25 15:52:42.698 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: synchronise routine
+05-25 15:52:42.698 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: try state machine wait
+05-25 15:52:42.798 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=0, description=Unknown
+05-25 15:52:42.799 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+05-25 15:52:44.710 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:52:44.713 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+05-25 15:52:51.463 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=500, description=Unknown
+05-25 15:52:51.465 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+05-25 15:52:51.465 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify
+05-25 15:52:51.465 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Do action at index=1
+05-25 15:52:51.465 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: going to location=1, name=a
+05-25 15:52:51.465 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Increment locationIndex to locationIndex=2
+05-25 15:52:51.465 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Finished action at index=1
+05-25 15:52:51.465 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: synchronise routine
+05-25 15:52:51.465 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: try state machine wait
+05-25 15:52:51.523 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=0, description=Unknown
+05-25 15:52:51.524 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+05-25 15:52:53.100 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:52:53.107 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+05-25 15:52:55.034 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=2002, description=Height Obstacle
+05-25 15:52:55.034 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Height Obstacle
+05-25 15:52:56.044 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:52:56.046 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+05-25 15:53:04.825 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=500, description=Unknown
+05-25 15:53:04.826 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+05-25 15:53:04.827 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,notify
+05-25 15:53:04.827 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Do action at index=1
+05-25 15:53:04.827 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: going to location=2, name=b
+05-25 15:53:04.827 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Reset the location index to 1
+05-25 15:53:04.827 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Loops complete=3
+05-25 15:53:04.827 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Completed all loops
+05-25 15:53:04.827 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: Finished action at index=3
+05-25 15:53:04.827 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: synchronise routine
+05-25 15:53:04.827 2930-2985/com.robotemi.sdk.sample I/System.out: FLINTEMI: try state machine wait
+05-25 15:53:04.924 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=0, description=Unknown
+05-25 15:53:04.925 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+05-25 15:53:04.926 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETED,stateMachine.isCompleteSub=true,notify
+05-25 15:53:04.926 2930-2930/com.robotemi.sdk.sample I/System.out: FLINTEMI: OnGoToLocationStatusChangedListenerRemoved
+05-25 15:53:05.910 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=1060, description=Path Plan
+05-25 15:53:06.986 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=10007, description=Unknown
+05-25 15:53:13.758 2930-2930/com.robotemi.sdk.sample D/GoToStatusChanged: descriptionId=500, description=Unknown
+05-25 15:53:21.292 2930-2930/com.robotemi.sdk.sample D/onDetectionStateChanged: state = 2
+05-25 15:53:21.341 2930-2930/com.robotemi.sdk.sample D/onConstraintBeWith: status = true
+05-25 15:53:21.892 2930-2930/com.robotemi.sdk.sample D/onDetectionStateChanged: state = 1
+05-25 15:53:21.917 2930-2930/com.robotemi.sdk.sample D/onConstraintBeWith: status = false
+05-25 15:53:26.446 2930-2930/com.robotemi.sdk.sample D/onDetectionStateChanged: state = 0

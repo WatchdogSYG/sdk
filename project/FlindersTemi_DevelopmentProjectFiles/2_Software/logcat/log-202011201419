@@ -1,0 +1,92 @@
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=3, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 3
+    FLINTEMI: Loops complete=0
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:20/11/2020 14:14:01
+I/System.out: FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:20/11/2020 14:14:16
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=1, name=c
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=c,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=c,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=c,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:20/11/2020 14:15:03
+    FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:20/11/2020 14:15:18
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=3
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Lidar Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Height Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Height Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Path Plan
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Path Plan
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=abort,description=Unknown
+D/onDetectionStateChanged: state = 2
+D/flinderstemi.util.listeners.DetectionListener: onDetectionState = DETECTED
+D/Interaction: speak greeting line
+D/Interaction: COMPLETED
+D/Interaction: PROCESSING
+D/Surface: Surface::final mReqUsage=a00
+D/mali_winsys: EGLint new_window_surface(egl_winsys_display*, void*, EGLSurface, EGLConfig, egl_winsys_surface**, egl_color_buffer_format*, EGLBoolean) returns 0x3000
+D/Interaction: STARTED
+D/Surface: Surface::final mReqUsage=a00
+D/mali_winsys: EGLint new_window_surface(egl_winsys_display*, void*, EGLSurface, EGLConfig, egl_winsys_surface**, egl_color_buffer_format*, EGLBoolean) returns 0x3000
+I/BATTERY: 97
+D/Interaction: PROCESSING
+D/Interaction: STARTED
+D/LOCATION: home base
+    Going to Charging Station
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=Home Base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=Home Base,status=abort,description=Unknown
+D/Interaction: COMPLETED
+D/Interaction: PROCESSING
+D/Interaction: STARTED
+D/Interaction: COMPLETED

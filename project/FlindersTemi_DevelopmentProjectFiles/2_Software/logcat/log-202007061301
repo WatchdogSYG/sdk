@@ -1,0 +1,1207 @@
+
+07/06 12:59:15: Launching 'sample' on rockchip rk3288.
+$ adb shell am start -n "com.robotemi.sdk.sample/com.robotemi.sdk.sample.MainActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
+Connected to process 3709 on device 'rockchip-rk3288-10.128.4.153:5555'.
+Capturing and displaying logcat messages from application. This behavior can be disabled in the "Logcat output" section of the "Debugger" settings page.
+D/onDetectionStateChanged: state = 2
+D/onConstraintBeWith: status = true
+I/System.out: FLINTEMI: InitialisationSequence Constructor
+I/System.out: FLINTEMI Locations=[home base, b, a, c]
+    End constructor
+    FLINTEMI: Create Initialisation Routine
+I/System.out: FLINTEMI: Started
+I/System.out: FLINTEMI: Construct ttsListener
+    FLINTEMI: Add new Listener
+I/System.out: FLINTEMI: Run
+I/System.out: FLINTEMI: Added new Listener
+I/System.out: FLINTEMI: Do action at state=0
+    FLINTEMI: speak line at speechIndex=0
+I/System.out: FLINTEMI: speechIndex++
+    FLINTEMI: speechIndex=0
+    FLINTEMI: Finished action at state=0
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=STARTED:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+I/System.out: FLINTEMI: Do action at state=0
+    FLINTEMI: speak line at speechIndex=1
+I/System.out: FLINTEMI: speechIndex++
+    FLINTEMI: speechIndex=1
+    FLINTEMI: completeSpeechSub set to true
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:I will start my patrol.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=STARTED:I will start my patrol.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will start my patrol.
+    FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+    FLINTEMI: ttsRequestStatus=COMPLETED,stateMachine.isCompleteSub=true,notify
+    FLINTEMI: addOnGoToLocationStatusChangedListener
+    FLINTEMI: Construct patrolLocationListener
+    FLINTEMI: ttsListenerRemoved
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/onConstraintBeWith: status = false
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=1032, description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+D/GoToStatusChanged: descriptionId=500, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:43
+I/System.out: FLINTEMI: Start timer
+D/onConstraintBeWith: status = true
+D/onConstraintBeWith: status = false
+I/System.out: FLINTEMI: InitialisationSequence Constructor
+I/System.out: FLINTEMI Locations=[home base, b, a, c]
+    End constructor
+    FLINTEMI: Create Initialisation Routine
+I/System.out: FLINTEMI: Started
+    FLINTEMI: Construct ttsListener
+    FLINTEMI: Add new Listener
+    FLINTEMI: Added new Listener
+I/System.out: FLINTEMI: Run
+    FLINTEMI: Do action at state=0
+    FLINTEMI: speak line at speechIndex=0
+I/System.out: FLINTEMI: speechIndex++
+    FLINTEMI: speechIndex=0
+    FLINTEMI: Finished action at state=0
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=STARTED:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:06/07/2020 12:59:53
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:Starting custom routine. Beep boop.
+    FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+I/System.out: FLINTEMI: Do action at state=0
+    FLINTEMI: speak line at speechIndex=1
+I/System.out: FLINTEMI: speechIndex++
+    FLINTEMI: speechIndex=1
+    FLINTEMI: completeSpeechSub set to true
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:Starting
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:Starting
+    FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+    FLINTEMI: ttsRequestStatus=COMPLETED,stateMachine.isCompleteSub=true,notify
+    FLINTEMI: addOnGoToLocationStatusChangedListener
+    FLINTEMI: Construct patrolLocationListener
+    FLINTEMI: ttsListenerRemoved
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+I/System.out: FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+I/System.out: FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=500, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:55
+I/System.out: FLINTEMI: Start timer
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:55
+    FLINTEMI: Start timer
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=500, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 3
+    FLINTEMI: Loops complete=0
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Start timer
+I/System.out: FLINTEMI: Start timer
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=500, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 3
+    FLINTEMI: Loops complete=0
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Start timer
+I/System.out: FLINTEMI: Start timer
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=500, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Start timer
+I/System.out: FLINTEMI: Start timer
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+I/System.out: FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=500, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 3
+    FLINTEMI: Loops complete=1
+    FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Start timer
+I/System.out: FLINTEMI: Start timer
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+I/System.out: FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=3, name=c
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=500, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 3
+    FLINTEMI: Loops complete=1
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Waiting for 10 seconds starting:06/07/2020 12:59:56
+I/System.out: FLINTEMI: Start timer
+I/System.out: FLINTEMI: Start timer
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+I/System.out: FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+I/System.out: FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+    FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=abort,description=Unknown
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: Something went wrong with the movement to a location, try again.
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/GoToStatusChanged: descriptionId=0, description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+    FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+D/onDetectionStateChanged: state = 1
+D/TemiSdkServiceConnection: onServiceDisconnected(ComponentName) (name=ComponentInfo{com.roboteam.teamy.usa/com.roboteam.teamy.sdk.SdkService}, thread=main)
+    forceStop()
+I/Process: Sending signal. PID: 3709 SIG: 9

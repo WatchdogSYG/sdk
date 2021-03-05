@@ -1,0 +1,462 @@
+log_15-05-20
+Must install Anddroid API Level 23 in Android Studio. 
+	Go to Tools > SDK Manager > Appearance and Behaviour > System Settings > Android SDK , select API Lvl23, press ok and install.
+	Go to build.gradle (Module: sample) and change android.defaultConfig.targetSkdVersion to 23.
+	Sync IDE.
+	Wait for indexation.
+	Errors should go away and imports from android.* should work.
+log_25-05-20
+    Patrol function available
+    Restart usually required before starting the custom app again due to unremoved listeners etc.
+    Fabricate mount tomorrow at 2pm.
+    Use clamps from the workshop to fix the mount to the robot frame.
+log_29-05-20
+	Dispenser arrived, measured dimensions and weight (loaded)
+	x=
+	y=
+	z=105mm
+	m=1.8kg
+	bottomClearance>=250mm
+	battery weight=4*~175g=700g
+log_01-06-20
+	Created bugList.xlsx
+	Created Product backlog
+	The documentation on Github lacks the information to determine when ABORT and CANCELLED (variants) statuses will occur. This makes testing hard to do, if not impossible. I will therefore catch all non-progessive states and try the action again. This will occur 3 times before Temi gives up and calls for help. On-screen instructions will tell the user to move Temi back to the home base and restart it.
+	Checked out 1x G-clamp from ENGSERV to be returned by 14-06-20.
+log_04-06-20
+	Trial 1 at RAH C.
+	Left PMMA leg fractured during transportation.
+	Unhandled fatal exception on button press with no internet connection.
+	Range from home base ~30m (no obstructing walls). Otherwise localisation fails (stuttering).
+	Novelty aspect overwhelmingly successful.
+	Close calls with regards to collisions. Need auditory awareness broadcast.
+	Next Steps:
+		Will be given audiovisual assets to be used on UI.
+log_24-06-20
+    Started SRS
+    Created Intro section, context diagrams
+    Completed Functional Requirements list
+log_26-06-20
+    Completed body of SRS
+        State Machine flow diagram
+        Nonfunctional Requirements
+        Security Reqs
+        Performance Reqs
+    SRS needs to be formatted and some parts need fixing.
+log_29-06-20
+    UX Mockups
+    Reading
+        Android JUnit
+        Android Mock Libraries
+        Event Listener Testing
+        Robolectric AndroidX testing
+log_01-07-20
+    Whiteboard planned out state machine
+    Tried implementing robot JUnit test. robot instance is nuoll if run on dev machine! no unit tests involving the robot are possible!
+    Java concurrency
+        https://howtodoinjava.com/java/multi-threading/wait-notify-and-notifyall-methods/
+        https://www.callicoder.com/java-multithreading-thread-and-runnable-tutorial/
+    Software design synth:
+        State thread should be a producer of TTSStrings in a queue
+        Concurrency condition in this case should be if wee have a nonzero number of queue items
+        TTS, location, etc should run off seperate threads that synchronise on themselves
+        The UI thread shall prepare the state thread to act relevantly and then notify() on the state thread when hearing a status change
+        The state thread shall then produce a queue element and notify() the relevant thread
+log_03-07-20
+	In Java fashion, we will try to use objects to represent states
+	This has failed and was reverted
+	Now working on creating a simultaneous state of patrolling and speaking
+	The tts listener and ongotolocationstatus listeners are written with different structures! this means I cant make a generic function to handle them and instead need to do string processing.....
+	Timer is a recurring fn... edit: not, it is fine
+log_06-07-20
+	We want the state machine to do as follows:
+		Start gotolocation
+		print timer start time
+		wait()
+		notify()
+		completed gotolocation
+		waitfor10s
+		wait()
+		notify() (from timer)
+			if not notified from timer, do something else.
+		increment state
+	Robot will wait for some seconds now successfully.
+	Made MainActivity more human readable
+	Added stop button
+	The length of time the robot will wait for will be manually calibrated. This will include the length of time the speedh instruction takes to say. i will not be including a listener for the speech request for simplicity. If we wanted that, we would have to switch case the state every time the state thread is woken up.
+	I will experiment with different sets of TTS listeners until the end of the day, and move on if i have not figured out a solution.
+	Local inner class implementing listener intercafe successfully created to schedule a timer task after a ttsrequest goes through.
+log_07-07-20
+	Created callback interface for setting textview from non-activity appcompat object using source: https://stackoverflow.com/questions/10996479/how-to-update-a-textview-of-an-activity-from-another-class/27939196#27939196
+log_08-07-20
+
+log 09-07-20
+    When trying to run on Pixel 3 Virtual Device:
+
+    07-09 13:22:03.578 1968-2598/system_process I/ActivityManager: Start proc 5633:com.robotemi.sdk.sample/u0a61 for activity com.robotemi.sdk.sample/.MainActivity
+    07-09 13:22:03.665 1968-3619/system_process W/ActivityManager: Unable to start service Intent { cmp=com.roboteam.teamy.usa/com.roboteam.teamy.sdk.SdkService } U=0: not found
+    07-09 13:22:03.666 1968-1979/system_process W/ActivityManager: Unable to start service Intent { cmp=com.roboteam.teamy.china/com.roboteam.teamy.sdk.SdkService } U=0: not found
+
+    SDK service only binds when robot is active?
+
+    Created qr code using https://www.qrcode-monkey.com/ links to .md on github
+
+    Created Operator Menu
+    TODO: vreate viewflipper to switch layouts in one activity
+    TODO: bind buttons to functions
+log_10-07-20
+	Managed enabling and disabling of buttons before/after start.end
+		Next time: check that the last button does change enabled state properly
+	Buttons functional
+	Temi's thoughts are sometimes displayed in the thoughtbox.
+		Issue where calling updateThought from the state thread would throw an exception. Views can only be accessed by the UI thread in this case. Need to call the UI thread to run it. (The UI thread is always active sono need to notify or anything there)
+		Viewflipper was implenmented to switch between views/layouts instead of the two diffrent activities. Having two activities that want to access the statemachine is complicated and uneccesary.
+log_14-07-20
+	Confirmation from devs that we cannot access sensors or camera feed.
+	Confirmation from devs that we cannot manipulate the user detection distance.
+	Fracture inspection of broken leg
+	FEA of base plate
+	Rough sketch of new part
+	Static Analysis of part
+	Need to have Temi's CAD model before continuing
+	Ultimaker 2+ Extended in workshop should be sufficient to PLA print the part(s) since it is 357x342x488mm
+log_16-07-20
+	Meeting about user detection.
+		Ambient sound
+		on go
+		on stop
+		etc
+		User detection
+			Interaction when on detect etc
+		Mount part
+			Triangular slot
+			ABS print 2+ extended
+			keep the 10mm plate
+		Fixes
+			Finite number of tries
+			call for help when stuck
+		Problems
+			Children using it
+			Splashback
+		battery and Closure
+			Monitor battery and act accordingly
+
+log_20-07-20
+	S5 or 2+E
+	S5 UMS5 330 x 240 x 300mm
+	Created rough partRough part is now printing (half symmetry) in 2+ on Lvl1 to check fit
+	Tomorrow, the fill scale one will be sent to CSE EngServ for fabrication in the S5
+	Acquired hardware:
+		6 x M8x60 screws
+		6 x M8 nuts
+log_21-07-20
+	Printing test parts on UM4 and UM8 should be done by tomorrow
+	System.out is not showing on logcat or run:?
+	WaitspeechListener now contains the timer and timertask
+	onGo
+	onStop
+	Interaction when on detect etc
+	Music: https://www.bensound.com
+log_22-07-20
+	Moved slot towards the back of the device
+	Laser cut new plate	made an error and cut ot to 300mm thickness, will need to go in again and trim to 240mm
+	Added 0.5mm printer tolerance for clearance
+	Added holes for mountplate to prevent side-to-side movement
+	
+	Programming features that need to be implemented:
+		Do not interrupt itself when speaking the greeting line.
+		Wait for 30s after any interaction
+		goToLocation after saying goodbye, not during
+		return to base when battery falls to 10%, resume when at 100%
+		
+	Have a listener that activates a method after a timer ends.
+	Listener class must override WaitInterface
+	public interface WaitInterface contains doneWaiting method
+	Listener implements WaitInterface must have access to Robot r and StateMachine sm
+	
+	goToLocation after speech
+	
+	SM Thread wake
+	Set up Listener implements WaitInterface
+	start TTS (from within listener? is this bad practice or something?)
+	wait SM Thread synchronised(sm)
+	TTS completes
+	Listener activates its doneWaiting method
+		doneWaiting(){
+			 synchronised(sm){
+				notify();
+			}
+		}
+	SM thread is notified, iterate while
+	state=PATROLLING
+	goToLocation(next)
+	add Location Listener
+	wait()
+	locationListener completes
+	notify() -> wake()
+	wake(){
+		switchToCorrectBranch(){
+			setUpListener(){
+				
+		}
+log_31-07-20
+	Dissolved PVA supports over the last few days
+	Drilled and filed to size.
+	NOTE: non-stainless (non-galvanised) screws will most likely rust and leave brown residue after dissolving PVA due to resident moisture in holes.
+	NOTE: need to change hole tolerance to 2*printerTolerance, need to increase revolve radius by 1.5mm
+log_05-08-20
+    	Removed dispenser from previous PMMA plate by disolving adhesive with isopropanol. Still some bits left that needs more isporopanol but covered with white tape.
+	Assembled dispenser and mounted using:
+		4x M3 Threaded Screws
+		4x M3 Nuts
+	Drilled mounting holes with a 4mm drill bit.
+	Drill marker tool must be used softly on PMMA.
+	Will use dispenser cap as catching container. No mount yet.
+	Covered tablet in cling film. Temp protection.
+	Total weight is functional but on the high end. A moderate impact to the top of Temi will take it off its front wheels but not topple it.
+	Increased weight means that it no longer safely moves on rough surfaces like synth grass, rugs.
+log_06-08-20
+	Took Temi home to trial on home network and prepare for trial tomorrow.
+log_07-08-20
+	Trial 2: RAH
+	
+	Observations:
+	Does not do well on rugs. More specifically, rug-floor interface. Thin carpet is fine.
+	dentity field when connecting to network capitalises first letter, then the machine is not able to connecting: used mobile data
+	Privacy mode can be turned off easily. Paulo has deleted his Temi app information but picture still remains on the device.
+	People used the static dispensers much more frequently than Temi. Possible causes:
+		Unknown device, do not touch it.
+		Voice interaction not loud enough compared to music volume.
+		Lack of signage
+	Temi has trouble locating itself without obstacles near.
+	New:
+	Spoken language reduced to English only. Continue to prepare strings for translation.
+	Graphic for face instead of :)
+	Increase text size.
+	Music/voice volume sliders.
+	Music choice (seasonal)
+	Need a way of measuring remaining liquid with minimal maintenance and calibration.
+		Strain gauge + Ras.PI wifi/BT shield
+		Bluetooth interface with dispenser directly
+log_14-08-20
+	Trying to get temi to not interrupt itself.
+		When waiting, a detection listener is active.
+		When the detection listener sees a user, it adds a tts listener, removes the detection listener and speaks a line.
+		when the ttsListener hears a completed greeting line, it adds a detectionListener and removes itself.
+	However, irl, the ttsListener immediately hears a COMLPETED when constructed, therefore allowing the user to interrupt.
+		-> it works now but I literally didnt change anything. I am confused.
+
+	TODO: prevent duplicate DetectionListeners
+
+	logcat is having issues displaying Logs and attatching the debugger
+		-> restarted adb server using ".\adb kill-server" and ".\adb start-server"
+
+	battery data and bounds set
+	state turns to RETURNING when below lower bound
+	I got the order wrong so it wait()s forever in RETURNING state
+	Fix next time.
+log_12-11-20
+	Payroll System Activated, Project can now commence again. We shall call this period: Phase 1 Part 2.
+	Dalek2's battery seems faulty. It turns off as soon as delek2 ssteps off the home base. EngServices says it is dead. This may be because the onboard BMS shut it down after an electrical fault? Support requested.
+	Dalek1's functional battery is now in Dalek2.
+	Dalek1 was run for several hours to power cycle and test the current autonomy on the latest version. No problems.
+	New software version allows for viewing of the map and simple map editing, but still no access in the Java code.
+	WBS and time resouce costs come to 70 hours.
+log_13-11-20
+	Development machine needs updating of Windows and drivers...
+	Gantt chart
+		Estimate 6hrs/day
+		12hrs/week
+	UPDATES
+		Merged month old temi/sdk/master branch into Watchdog/FlindersTemi/master
+		New layouts and kt files that are useless remain, not a trivial safe usage delete
+		CONTENT
+			Ability to get mapdata as bitmap
+			Go to coordinate control
+			Limited detection control, can now turn on/off, set range from 0.6f to 2.0f metres
+	Dalek2 user detection was working but not in the FlindersTemi app.
+		Tried turning on the new setUserDetectionOn(bool on, float distance) method but no results.
+		Moved battery into Dalek1 and tried the lates version of the app. Full functionality.
+log_19-11-20
+	SA is in lockdown due to COVID outbreak. Working from home.
+	Home base may be damaged.
+		Temi does not recognise the home bsae after manual or automatic docking.
+		Temi does not charge.
+		I observedf the electrode closer to the back of the base has come loose from its spring that pushes it upwards. I do not know if this is the intended behaviour. Therefore it may be damaged.
+		I put the homebase on an angle so both electrodes would contact Temi. This works for now.
+		Need to inspect D2's charger to compare and repair.
+	Define battery checking logic in flowchart "SOCManagement.*"
+		EDIT: All actions onStart should be triggered by a user input. It may not be user friendly if it runs away as soon as it starts.
+log_20-11-20
+	Moved the initial battery data check to onClick. This is because:
+		getBatteryData() returned null when called in onStart(). Calling bd.getPercentage() threw a NPE.
+		The Robot should react to a user input when it has deviating logical paths. If the app crashes continuously, there is no way for the user to stop the robot continuously trying to speak and run away.
+	Connectivity problems at home. Persistent problem with home router where it disconnects certain devices and asks for admin password (not AES AuthKey). Manual reconnect to AP and restart of router.
+	Note: as locations are defined as strings, the homebase (which is always at location 0 in the List<String> as the result of GetLocations()) string is "home base". The display on the Temi locations menu and the bilboard notif shows "Home Base". It seems that Temi capitalises each word in a location for display. This is not documented in the sdk...
+	Recollect Tasks to do:
+		Set up listener to listen for reaching HB
+		Turn of MP when reaching HB
+		Turn off detectionlistener and other intermediate passive listeners since it could return at any point.
+		Abstract button onClickListeners for startButton and store state.
+	robot.removeDetectionStateChangedListener() is deprecated. Possibly replaced by removeOnDetectionStateChangedListener()
+	Make sure there is only one instance of BatteryStateListener at any time (static?)
+log_25-11-20
+	UI Requirements
+		Face			|	
+		Colour			|	
+		Graphics/Logos	|	
+		Element Styles	|	
+		Music			|	
+		Typography		|	
+		Languages		|	
+		Functionality	|	
+		Animations		|	
+		Other 			|	
+
+Name?
+List of tasks
+send requirements
+send mockup
+
+1200-1245
+log_26-11-20
+	Completed listener framework for listening to battery changes and charging
+	Battery listener testing and debugging
+	Need to push for volume sliders as test should happen next week
+	STill problems with logcat responding, do not know how to get it working
+	Autostart when return automatcally should default to true
+log_27-11-20
+	BatteryListener framework Test1 ready.
+	Need to fix
+		if temi comes off charging while not patrolling, make it ask for charging or return to hb on press.
+			right now it assumes it is on charge and continues listening for battery changes as normal.
+log_30-11-20
+	Working on Monday so I can notify the team of problems in advance of the test so we have the opportunity to postpone.
+	Do I need to try catch finally the null comparisons for robustness?
+	Temi's navigatoin failed and almost tipped itself over. Normal environment geometry. The software subsequently crashed and was stuck in a loop. Had to hard button power off.
+		Need to catch an abort on the gotolocationstatuschanged event.
+		DONE as per logcat-2011201215.txt
+		Next step is to tell the user not to touch the retry button. Is there any way of preventing the "Could not reach location" menu screen from appearing?
+		Next step is to loop the help message.
+		Next step is to either restart or change the UI to suit the stuck state.
+	Note use adb "logcat > log.txt" to log logcat (confusing sentence i know)...
+	Temi gets off the HB when full but makes multiple SMs as per logcat-2011301412.txt
+	BatterySOC changed to soc% fires off a statuschanged when it reaches full and starts a state machine, messing up the initial greeting and thus messes up the sm. Removed line, put warning in JDoc.
+log_4-12-20
+	Test at RAH west(?) main entrance.
+		Small room with glass hallway, restricted glass sliding door, table and other thin obstacles.
+		Temi could not see glass door or glass wall with small sill.
+			Virtual wall option fixes this problem, however it makes the navigation wierd.
+				Temi will not approach within (~30cm) of a wall when completeing a GoTo(). It will however, follow you through it. This makes it possible to set a location close to or beyond the VW boundary. Add user instruction. Needs test.
+		Temi would occasionally get in the way of trolleys.
+		Music got old fast. Should put in a cycling talking feature.
+		Most passerbys would say "oh cool" and proceed on their way without further interacting with Temi. Observed approximately 5% sanitisation rate, 20% interaction rate based on crude human observations.
+		User instructions required
+			Place a virtual wall bounding all glass walls, doors, thin posts, non-reflective surfaces. Leave a 30cm*sf(2) distance between the walls and Temi's intended path. Alternatively, set a path for it to patrol.
+			Avoid pathing or bounding Temi to operate within the middle of the hallway. Keep close to walls for safety, convenience and possibly using it to use as a constant obstacle.
+log_10-12-20
+	Next week is the last week of University before it closes for the holidays.
+	A Temi power cycle fixes logcat. No need to adb connect if using a static ip (which we are).
+	D2's charger arrived. Functional. We now have 3 boxes, 3 charging cables and 2 home bases...
+	Discussed with Paulo that we should leave both Temis on and docked over the break. If the HB has no intelligence, the battery would stay at 1SOC and possibly degrade. If the HB has intelligence, the battery would be cycled. There is no point leaving it off charge.
+	Temi Battery Sequence Testing
+		Sequence was fixed and is functional with memory leak. The problem was simply the incorrect setting of states when returning from a patrol, leading to it always starting PATROLLING and never continuing to a waypoint. Fixes to notify() timings.
+		Memory leak fixed but requires testing for conformation.
+		At the end of the day, D2 would deplete from 100 to 97 and was on charge for about an hour without increasing charge. The charging indicator was on. The device was toggled on/off charge several times to check SOc using the code. No change.
+log_11-12-20
+	D2 was fully charged by today. Continued testing.
+	D2 dropped from 99 to 97 in one patrolCycle.
+	Failed to reach charging station throws abort and stops MP, but no user feedback. FIX.
+Missing Logs
+log_18-12-20
+log_19_12_20
+-----
+log_15_01_21
+	Language
+log_16_01_21
+	UI Rework
+log-21_01_21
+	Testing framework write up
+	Communicated with THRFG+SAH about UI draft
+log_22_01_21
+	Mech test
+	Removed screws (lots of rust, need to replace, maybe use galvanised ones)
+	Print test with high res stl, precise to the order or +-0.1mm
+	Reduce printer tolerance for holes from 0.5mm to 0.2mm
+	Printed hole and slot examples
+
+	Test: Full day autonomous operation with environment changes and people interacting. Battery management activated.
+	Added mounting holes to base plate, added chamfer on bottom corner.
+	Aded chamfer in the base slot
+log_28_01_21
+	TODO today
+		UI Version 2
+		Print testing and submission
+		Find flags
+		Storyboard text
+		Implement text
+
+	Licences
+		Creative Commons Attribution 3.0 Unported (CC BY 3.0) at https://creativecommons.org/licenses/by/3.0/
+			https://www.iconfinder.com/onesel
+			https://www.iconfinder.com/Mr.hopnguyen
+			"Kingdom, uk, united icon" by OnEsel on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original 512px
+			"Flag, peoples, republic icon"  by OnEsel on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original 512px
+			"Ensign, flag, nation, vietnam icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original
+			"Ensign, flag, greece, nation icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original
+			"Ensign, flag, italy, nation icon" by Mr Hopnguyen on www.iconfinder.com licenced under CC BY 3.0 / cropped and resized from original
+
+			Sansation OFL
+
+log_29_01_21
+	New mount printed with adjustments
+		hole tolerance=0.4mm
+		Slot tolerance =0.5mm
+	TODO today
+		Fix lang switcher (not Android locale)
+		Finish test cases
+		Storyboard and implement text
+log_04_02_21
+Use uuid.compareTo instead of equality operator ==
+	Do not set hey alexa command when init since it wants an amazon account
+	Factory Reset
+		HPA is still loaded?
+
+		Steps
+			Initialise
+			Open ADB Port
+			Upload App
+			Remap
+			Set Locations
+			Allow HPA to change settings
+			Tracking mode on
+log_11_02_21
+	Documentation
+log_12_02_21
+	Made gcode for container x3
+	DOCTODO
+		Safety
+		Dispenser assembly pics
+		Links
+	GeneralTODO
+		QR Codes
+		Licencing
+			OFL
+			licence folder delete
+		Final Upload
+		Release Numbers
+log_18_02_21
+	Temi autonomous operation on Lvl 4 for several hours.
+	Request to extend the time between idle speech.
+log_19_02_21
+	Idle Speech Extension
+		Try include multiple elipsies (escaped )
+		String (elipsis character)	res &#8230;
+		String (elipsis character)	res (elipsis character)
+		String (elipsis character) 	res blank
+		String (elipsis character) 	res whitespace
+		String (elipsis character) 	res " . "
+		String (elipsis character) 	res ". "
+
+	Ignore above, used and tested new TimerTask class.
+	PMMA Laser Cut

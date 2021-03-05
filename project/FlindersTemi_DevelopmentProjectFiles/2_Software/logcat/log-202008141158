@@ -1,0 +1,234 @@
+08/14 11:55:31: Launching 'sample' on rockchip rk3288.
+$ adb shell am start -n "com.robotemi.sdk.sample/com.robotemi.sdk.sample.MainActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -D
+Waiting for application to come online: com.robotemi.sdk.sample.test | com.robotemi.sdk.sample
+Connecting to com.robotemi.sdk.sample
+Capturing and displaying logcat messages from application. This behavior can be disabled in the "Logcat output" section of the "Debugger" settings page.
+I/System.out: Sending WAIT chunk
+I/art: Debugger is active
+I/System.out: Debugger has connected
+    waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+Connected to the target VM, address: 'localhost:8600', transport: 'socket'
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: waiting for debugger to settle...
+I/System.out: debugger has settled (1315)
+W/System: ClassLoader referenced unknown path: /data/app/com.robotemi.sdk.sample-1/lib/arm
+D/TemiSdkServiceConnection: startConnection(Context)
+    getSdkServiceIntent()
+D/TemiSdkServiceConnection: bindServiceUsa=true
+W/art: Before Android 4.1, method android.graphics.PorterDuffColorFilter androidx.vectordrawable.graphics.drawable.VectorDrawableCompat.updateTintFilter(android.graphics.PorterDuffColorFilter, android.content.res.ColorStateList, android.graphics.PorterDuff$Mode) would have incorrectly overridden the package-private method in android.graphics.drawable.Drawable
+I/art: Rejecting re-init on previously-failed class java.lang.Class<androidx.core.view.ViewCompat$2>
+    Rejecting re-init on previously-failed class java.lang.Class<androidx.core.view.ViewCompat$2>
+D/OpenGLRenderer: Use EGL_SWAP_BEHAVIOR_PRESERVED: true
+D/TemiSdkServiceConnection: onServiceConnected(ComponentName, IBinder) (name=ComponentInfo{com.roboteam.teamy.usa/com.roboteam.teamy.sdk.SdkService}, service=android.os.BinderProxy@a777277, thread=main)
+I/mali_so: [File] : hardware/arm/maliT760/driver/product/base/src/mali_base_kbase.c; [Line] : 928; [Func] : base_context_deal_with_version_affairs_rk_ext;
+    arm_release_ver of this mali_so is 'r12p0-04rel0', rk_so_ver is '12@0', built at '17:00:15', on 'Aug 16 2016'.
+    [File] : hardware/arm/maliT760/driver/product/base/src/mali_base_kbase.c; [Line] : 955; [Func] : base_context_deal_with_version_affairs_rk_ext;
+    mali_ver_property has been set to 'r12p0-04rel0-13-12@0', to return.
+I/OpenGLRenderer: Initialized EGL, version 1.4
+D/Surface: Surface::final mReqUsage=a00
+D/mali_winsys: EGLint new_window_surface(egl_winsys_display*, void*, EGLSurface, EGLConfig, egl_winsys_surface**, egl_color_buffer_format*, EGLBoolean) returns 0x3000
+D/onDetectionStateChanged: state = 2
+D/com.robotemi.sdk.sample.MainActivity: onDetectionState = DETECTED
+D/onConstraintBeWith: status = true
+I/System.out: FLINTEMI: Constructor StateMachine(Robot robot)
+I/System.out: FLINTEMI: setText to "Constructing State Machine"
+I/System.out: FLINTEMI: Locations = [home base, b, a]
+    FLINTEMI: Construct TTSSequenceListener
+I/System.out: FLINTEMI: Construct DetectionListener
+    FLINTEMI: Add new Listener
+    FLINTEMI: Added new Listener
+I/System.out: End Constructor StateMachine(Robot robot)
+    FLINTEMI: Create Initialisation Routine
+    FLINTEMI: setText to "Initialisation…"
+I/System.out: FLINTEMI: Run
+    FLINTEMI: Started
+    FLINTEMI: Do action at state=0
+I/System.out: FLINTEMI: speak line at speechIndex=0
+I/System.out: FLINTEMI: speechIndex++
+    FLINTEMI: speechIndex=0
+    FLINTEMI: Finished action at state=0
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/MediaPlayer: setSubtitleAnchor in MediaPlayer
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:Hello there, feel free to use my touchless sanitiser dispenser. Maintaining good hand hygiene is an important measure we can take to prevent infectious diseases from spreading.
+I/System.out: FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+I/System.out: FLINTEMI: Do action at state=0
+    FLINTEMI: speak line at speechIndex=1
+I/System.out: FLINTEMI: speechIndex++
+    FLINTEMI: speechIndex=1
+    FLINTEMI: completeSpeechSub set to true
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:Starting custom routine. Beep boop.
+    FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+    FLINTEMI: ttsRequestStatus=COMPLETED,stateMachine.isCompleteSub=true,notify
+    FLINTEMI: addOnGoToLocationStatusChangedListener
+    FLINTEMI: Construct patrolLocationListener
+I/System.out: FLINTEMI: ttsListenerRemoved
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/onConstraintBeWith: status = false
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I'm going to the next waypoint now. Goodbye.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:14/08/2020 11:56:28
+    FLINTEMI: setText to "Waiting ..."
+I/System.out: FLINTEMI: Removed WaitTTSListener
+D/onDetectionStateChanged: state = 1
+I/System.out: 1
+D/onDetectionStateChanged: state = 1
+D/onDetectionStateChanged: state = 0
+I/System.out: 0
+D/onDetectionStateChanged: state = 0
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:14/08/2020 11:56:43
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 2
+    FLINTEMI: Loops complete=0
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+D/onDetectionStateChanged: state = 2
+D/com.robotemi.sdk.sample.MainActivity: onDetectionState = DETECTED
+I/System.out: 2
+D/onDetectionStateChanged: state = 2
+D/flinderstemi.util.listeners.DetectionListener: onDetectionState = DETECTED
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:14/08/2020 11:56:50
+I/System.out: FLINTEMI: setText to "Waiting ..."
+I/System.out: FLINTEMI: Removed WaitTTSListener
+D/onConstraintBeWith: status = true
+D/onConstraintBeWith: status = false
+D/onConstraintBeWith: status = true
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:14/08/2020 11:57:05
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/onConstraintBeWith: status = false
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+D/onDetectionStateChanged: state = 1
+I/System.out: 1
+D/onDetectionStateChanged: state = 1
+D/onDetectionStateChanged: state = 0
+I/System.out: 0
+D/onDetectionStateChanged: state = 0
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:14/08/2020 11:57:20
+I/System.out: FLINTEMI: setText to "Waiting ..."
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:14/08/2020 11:57:35
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/System.out: FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 2
+    FLINTEMI: Loops complete=1
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+D/onDetectionStateChanged: state = 2
+D/com.robotemi.sdk.sample.MainActivity: onDetectionState = DETECTED
+I/System.out: 2
+D/onDetectionStateChanged: state = 2
+D/flinderstemi.util.listeners.DetectionListener: onDetectionState = DETECTED
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:14/08/2020 11:57:42
+    FLINTEMI: setText to "Waiting ..."
+I/System.out: FLINTEMI: Removed WaitTTSListener
+D/onConstraintBeWith: status = true
+D/onConstraintBeWith: status = false
+D/onConstraintBeWith: status = true
+D/onDetectionStateChanged: state = 1
+I/System.out: 1
+D/onDetectionStateChanged: state = 1
+D/onConstraintBeWith: status = false
+D/onDetectionStateChanged: state = 2
+D/com.robotemi.sdk.sample.MainActivity: onDetectionState = DETECTED
+I/System.out: 2
+D/onDetectionStateChanged: state = 2
+D/flinderstemi.util.listeners.DetectionListener: onDetectionState = DETECTED
+D/onConstraintBeWith: status = true
+D/onConstraintBeWith: status = false
+    status = true
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:14/08/2020 11:57:57
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+    FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/onConstraintBeWith: status = false
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+D/onDetectionStateChanged: state = 1
+I/System.out: 1
+D/onDetectionStateChanged: state = 1
+D/onDetectionStateChanged: state = 2
+D/com.robotemi.sdk.sample.MainActivity: onDetectionState = DETECTED
+I/System.out: 2
+D/onDetectionStateChanged: state = 2
+D/flinderstemi.util.listeners.DetectionListener: onDetectionState = DETECTED
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:14/08/2020 11:58:08
+    FLINTEMI: setText to "Waiting ..."
+I/System.out: FLINTEMI: Removed WaitTTSListener
+D/onConstraintBeWith: status = true
+D/onConstraintBeWith: status = false
+D/onConstraintBeWith: status = true
+I/System.out: FLINTEMI: setText to "Routine Terminated."
+D/onConstraintBeWith: status = false
+D/onDetectionStateChanged: state = 1
+I/System.out: 1
+D/onDetectionStateChanged: state = 1
+D/onDetectionStateChanged: state = 0
+I/System.out: 0
+D/onDetectionStateChanged: state = 0
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:14/08/2020 11:58:23
+I/System.out: FLINTEMI: endWait(), notify()

@@ -1,0 +1,870 @@
+
+12/10 11:25:46: Launching 'sample' on <default>.
+$ adb shell am start -n "com.robotemi.sdk.sample/com.robotemi.sdk.sample.MainActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
+Connected to process 2674 on device 'rockchip-rk3288-10.128.4.144:5555'.
+Capturing and displaying logcat messages from application. This behavior can be disabled in the "Logcat output" section of the "Debugger" settings page.
+I/art: Late-enabling -Xcheck:jni
+W/System: ClassLoader referenced unknown path: /data/app/com.robotemi.sdk.sample-2/lib/arm
+D/TemiSdkServiceConnection: startConnection(Context)
+    getSdkServiceIntent()
+D/TemiSdkServiceConnection: bindServiceUsa=true
+W/art: Before Android 4.1, method android.graphics.PorterDuffColorFilter androidx.vectordrawable.graphics.drawable.VectorDrawableCompat.updateTintFilter(android.graphics.PorterDuffColorFilter, android.content.res.ColorStateList, android.graphics.PorterDuff$Mode) would have incorrectly overridden the package-private method in android.graphics.drawable.Drawable
+I/art: Rejecting re-init on previously-failed class java.lang.Class<androidx.core.view.ViewCompat$2>
+I/art: Rejecting re-init on previously-failed class java.lang.Class<androidx.core.view.ViewCompat$2>
+D/OpenGLRenderer: Use EGL_SWAP_BEHAVIOR_PRESERVED: true
+D/TemiSdkServiceConnection: onServiceConnected(ComponentName, IBinder) (name=ComponentInfo{com.roboteam.teamy.usa/com.roboteam.teamy.sdk.SdkService}, service=android.os.BinderProxy@142840e)
+I/mali_so: [File] : hardware/arm/maliT760/driver/product/base/src/mali_base_kbase.c; [Line] : 928; [Func] : base_context_deal_with_version_affairs_rk_ext;
+    arm_release_ver of this mali_so is 'r12p0-04rel0', rk_so_ver is '12@0', built at '17:00:15', on 'Aug 16 2016'.
+    [File] : hardware/arm/maliT760/driver/product/base/src/mali_base_kbase.c; [Line] : 955; [Func] : base_context_deal_with_version_affairs_rk_ext;
+    mali_ver_property has been set to 'r12p0-04rel0-13-12@0', to return.
+I/OpenGLRenderer: Initialized EGL, version 1.4
+D/Surface: Surface::final mReqUsage=a00
+D/mali_winsys: EGLint new_window_surface(egl_winsys_display*, void*, EGLSurface, EGLConfig, egl_winsys_surface**, egl_color_buffer_format*, EGLBoolean) returns 0x3000
+I/BATTERY: 100
+I/FLINTEMI: Contructing StateMachine
+I/System.out: FLINTEMI: setText to "Constructing State Machine"
+D/LOCATION: Locations = [home base, b, a]
+D/LISTENER: TTSSequenceListener(robot, this)
+I/System.out: FLINTEMI: Construct TTSSequenceListener
+    FLINTEMI: Construct DetectionListener
+    FLINTEMI: Add new Listener
+    FLINTEMI: Added new Listener
+I/System.out: End Constructor StateMachine(Robot robot)
+    FLINTEMI: Create Initialisation Routine
+    FLINTEMI: setText to "Initialisation…"
+I/System.out: FLINTEMI: Run
+I/System.out: FLINTEMI: Started
+    FLINTEMI: Do action at state=0
+I/Battery: 100
+I/System.out: FLINTEMI: speak line at speechIndex=0
+I/System.out: FLINTEMI: speechIndex++
+    FLINTEMI: speechIndex=0
+    FLINTEMI: Finished action at state=0
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+D/MediaPlayer: setSubtitleAnchor in MediaPlayer
+I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=STARTED:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:Starting custom routine. Beep boop.
+I/System.out: FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+I/System.out: FLINTEMI: Do action at state=0
+I/Battery: 100
+I/System.out: FLINTEMI: speak line at speechIndex=1
+I/System.out: FLINTEMI: speechIndex++
+    FLINTEMI: speechIndex=1
+    FLINTEMI: completeSpeechSub set to true
+    FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: TtsRequest.getStatus()=PROCESSING:I will start my patrol.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=STARTED:I will start my patrol.
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will start my patrol.
+    FLINTEMI: ttsReqeustStatus=COMPLETED,notify
+    FLINTEMI: ttsRequestStatus=COMPLETED,stateMachine.isCompleteSub=true,notify
+I/System.out: FLINTEMI: addOnGoToLocationStatusChangedListener
+    FLINTEMI: Construct patrolLocationListener
+    FLINTEMI: ttsListenerRemoved
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Lidar Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:27:38
+    FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:27:53
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 2
+    FLINTEMI: Loops complete=0
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:28:15
+I/System.out: FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:28:30
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:28:54
+I/System.out: FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:29:09
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 2
+    FLINTEMI: Loops complete=1
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:29:38
+I/System.out: FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:29:53
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Height Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:30:22
+    FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:30:37
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 2
+    FLINTEMI: Loops complete=2
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I'm going to the next waypoint now. Goodbye.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:30:53
+    FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:31:08
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:31:40
+    FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:31:55
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 2
+I/System.out: FLINTEMI: Loops complete=3
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:32:15
+I/System.out: FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:32:30
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 100
+I/System.out: FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:33:10
+    FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:33:25
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 99
+I/System.out: FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 2
+    FLINTEMI: Loops complete=4
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:33:46
+I/System.out: FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:34:01
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 99
+I/System.out: FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+    FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:34:25
+    FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:34:40
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 99
+I/System.out: FLINTEMI: going to location=2, name=a
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=a,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Reset the location index to 1 from 2
+    FLINTEMI: Loops complete=5
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:35:13
+I/System.out: FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:35:28
+I/System.out: FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 99
+I/System.out: FLINTEMI: going to location=1, name=b
+I/System.out: FLINTEMI: setText to "Going to the next waypoint ..."
+I/System.out: FLINTEMI: Finished action at state=1
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=going,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=b,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Create Timer
+I/System.out: FLINTEMI: wait()
+I/System.out: FLINTEMI: TtsRequest.getStatus()=COMPLETED:I will wait here for 15 seconds. Please, feel free to use my hand sanitiser dispenser.
+I/System.out: FLINTEMI: Waiting for 15000ms starting:10/12/2020 11:35:50
+    FLINTEMI: setText to "Waiting ..."
+D/Detection: addOnDetectionStateChangedListener
+I/System.out: FLINTEMI: Removed WaitTTSListener
+I/System.out: FLINTEMI: Waiting for 10 seconds completed:10/12/2020 11:36:05
+    FLINTEMI: endWait(), notify()
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=calculating,description=Calculating
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=,status=obstacle detected,description=Ground Obstacle
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=going,description=Unknown
+I/System.out: FLINTEMI: setText to "Charging... Auto-start when full battery: ON"
+D/BATTERY: formatLowSOCStartButton
+I/System.out: FLINTEMI: setText to "Charging 98%. Auto-start patrol when full battery true"
+D/LOCATION: Reached Charging Station
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+I/System.out: FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+I/System.out: FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+I/System.out: FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=start,description=Unknown
+I/System.out: FLINTEMI: onGoToLocationStatusChanged:location=home base,status=complete,description=Unknown
+    FLINTEMI: OnGoToLocationStatusChanged=COMPLETE,notify
+I/System.out: FLINTEMI: Do action at state=1
+I/Battery: 98
+I/Logic: Low battery, returning to base and set state=RETURNING
+I/System.out: FLINTEMI: Finished action at state=4
+    FLINTEMI: synchronise routine
+    FLINTEMI: try state machine wait
