@@ -215,8 +215,10 @@ public class MainActivity extends AppCompatActivity implements
         routine.setState(StateMachine.TERMINATED);
 
         if (routine != null) {
-            routine.stop();
-            routine = null;
+            if ((!routine.isStopped())){
+                routine.stop();
+                routine = null;
+            }
         }
 
         robot.addOnGoToLocationStatusChangedListener(new OnGoToLocationStatusChangedListener() {

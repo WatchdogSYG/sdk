@@ -95,6 +95,17 @@ public class StateMachine implements Runnable {
      *                                   Getters & Setters                                     *
      ******************************************************************************************/
 
+    /**
+     * Returns true if the state machine is in the <code>STUCK</code> or <code>TERMINATED</code>m state. Returns <code>false</code> otherwise.
+     * @return is the state machine in a stopped state?
+     */
+    public boolean isStopped(){
+        if ((state == STUCK) || (state == TERMINATED)){
+            return true;
+        }
+        return false;
+    }
+
     public void setWakeCondition(String[] wakeCondition) {
         this.wakeCondition = wakeCondition;
     }
@@ -445,8 +456,10 @@ public class StateMachine implements Runnable {
 
                 speak(TtsRequest.create("I'm running out of battery so I will return to the home base to charge myself. Goodbye.", true));
 
+                Log.d(Global.LOCATION,"GoTo home base");
                 robot.goTo(locations.get(0));
 
+                Log.d(Global.LISTENER,"addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(args))");
                 robot.addOnGoToLocationStatusChangedListener(new ReturnToChargeLocationListener(main, robot, this, main.getStartButton()));//TODO move context?
                 break;
             default:
